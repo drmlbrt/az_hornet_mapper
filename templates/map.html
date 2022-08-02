@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<head>    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_8ee54d70a0383aed2a36fa42b3e5f105 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+            </style>
+        
+    <script src="http://jieter.github.io/Leaflet-semicircle/Semicircle.js"></script>
+</head>
+<body>    
+    
+            <div class="folium-map" id="map_8ee54d70a0383aed2a36fa42b3e5f105" ></div>
+        
+</body>
+<script>    
+    
+            var map_8ee54d70a0383aed2a36fa42b3e5f105 = L.map(
+                "map_8ee54d70a0383aed2a36fa42b3e5f105",
+                {
+                    center: [50.969114, 3.73365],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 16,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_044d24cc24219403cd12a42cf29b03ac = L.tileLayer(
+                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            ).addTo(map_8ee54d70a0383aed2a36fa42b3e5f105);
+        
+    
+            var marker_033a7cac5819c6cfdb50258557680da4 = L.marker(
+                [50.969463, 3.733954],
+                {}
+            ).addTo(map_8ee54d70a0383aed2a36fa42b3e5f105);
+        
+    
+        var popup_28a21af760ce9b34ddc5e17574eb3faa = L.popup({"maxWidth": "100%"});
+
+        
+            var html_da126afdf59b5d3f5741e77af2a9220f = $(`<div id="html_da126afdf59b5d3f5741e77af2a9220f" style="width: 100.0%; height: 100.0%;">JarName:lokpot1  NrSightings:4</div>`)[0];
+            popup_28a21af760ce9b34ddc5e17574eb3faa.setContent(html_da126afdf59b5d3f5741e77af2a9220f);
+        
+
+        marker_033a7cac5819c6cfdb50258557680da4.bindPopup(popup_28a21af760ce9b34ddc5e17574eb3faa)
+        ;
+
+        
+    
+    
+            var circle_22d50d28c8c906abcf94929ea5fdc440 = L.circle(
+                [50.969463, 3.733954],
+                {"bubblingMouseEvents": true, "color": "#3388ff", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#3388ff", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 430, "stroke": true, "weight": 3}
+            ).addTo(map_8ee54d70a0383aed2a36fa42b3e5f105);
+        
+    
+                if (344 || 2) {
+                    var semi_circle_b3aeb59a69476dd3070c5247674c3e0f = L.semiCircle(
+                        [50.969463,3.733954],
+                        {radius:430,
+                        fill: true,
+                        fillColor:'red',
+                        fillOpacity: 0.5,
+                        color: 'red',
+                        opacity: 0.5
+                        }).setDirection(344,2)
+                        .addTo(map_8ee54d70a0383aed2a36fa42b3e5f105);
+                } else if (0 || 0) {
+                    var semi_circle_b3aeb59a69476dd3070c5247674c3e0f = L.semiCircle(
+                        [50.969463,3.733954],
+                        {radius:430,
+                        fill: true,
+                        fillColor:'red',
+                        fillOpacity: 0.5,
+                        color: 'red',
+                        opacity: 0.5,
+                        startAngle:0, 
+                        stopAngle:0
+                        })
+                        .addTo(map_8ee54d70a0383aed2a36fa42b3e5f105);
+                }
+            
+    
+            var marker_445e37a10ee633118c22188770c2effe = L.marker(
+                [50.970416, 3.731723],
+                {}
+            ).addTo(map_8ee54d70a0383aed2a36fa42b3e5f105);
+        
+    
+        var popup_e1f9fd20c4dc58ac057687b077d5b540 = L.popup({"maxWidth": "100%"});
+
+        
+            var html_b2779add23aee7b6b60d25cf93158ebe = $(`<div id="html_b2779add23aee7b6b60d25cf93158ebe" style="width: 100.0%; height: 100.0%;">JarName:lokpot2  NrSightings:1</div>`)[0];
+            popup_e1f9fd20c4dc58ac057687b077d5b540.setContent(html_b2779add23aee7b6b60d25cf93158ebe);
+        
+
+        marker_445e37a10ee633118c22188770c2effe.bindPopup(popup_e1f9fd20c4dc58ac057687b077d5b540)
+        ;
+
+        
+    
+    
+            var circle_25e6b371baf594c0e228003ecdb2d11e = L.circle(
+                [50.970416, 3.731723],
+                {"bubblingMouseEvents": true, "color": "#3388ff", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#3388ff", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 330, "stroke": true, "weight": 3}
+            ).addTo(map_8ee54d70a0383aed2a36fa42b3e5f105);
+        
+    
+                if (10 || 2) {
+                    var semi_circle_569d4a855bdc472d2daf48cd1327925e = L.semiCircle(
+                        [50.970416,3.731723],
+                        {radius:330,
+                        fill: true,
+                        fillColor:'red',
+                        fillOpacity: 0.5,
+                        color: 'red',
+                        opacity: 0.5
+                        }).setDirection(10,2)
+                        .addTo(map_8ee54d70a0383aed2a36fa42b3e5f105);
+                } else if (0 || 0) {
+                    var semi_circle_569d4a855bdc472d2daf48cd1327925e = L.semiCircle(
+                        [50.970416,3.731723],
+                        {radius:330,
+                        fill: true,
+                        fillColor:'red',
+                        fillOpacity: 0.5,
+                        color: 'red',
+                        opacity: 0.5,
+                        startAngle:0, 
+                        stopAngle:0
+                        })
+                        .addTo(map_8ee54d70a0383aed2a36fa42b3e5f105);
+                }
+            
+    
+            var marker_5f53b019bdbe138c5af2521ba3b57f79 = L.marker(
+                [50.971764, 3.729686],
+                {}
+            ).addTo(map_8ee54d70a0383aed2a36fa42b3e5f105);
+        
+    
+        var popup_6943875c1a50b6d8a9f87cce9fc085e1 = L.popup({"maxWidth": "100%"});
+
+        
+            var html_e08664228d9c4aff5e6207bdff4bb8c5 = $(`<div id="html_e08664228d9c4aff5e6207bdff4bb8c5" style="width: 100.0%; height: 100.0%;">JarName:lokpot3  NrSightings:4</div>`)[0];
+            popup_6943875c1a50b6d8a9f87cce9fc085e1.setContent(html_e08664228d9c4aff5e6207bdff4bb8c5);
+        
+
+        marker_5f53b019bdbe138c5af2521ba3b57f79.bindPopup(popup_6943875c1a50b6d8a9f87cce9fc085e1)
+        ;
+
+        
+    
+    
+            var circle_78b2d17446fb51bf3b733f8639733782 = L.circle(
+                [50.971764, 3.729686],
+                {"bubblingMouseEvents": true, "color": "#3388ff", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#3388ff", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 200, "stroke": true, "weight": 3}
+            ).addTo(map_8ee54d70a0383aed2a36fa42b3e5f105);
+        
+    
+                if (70 || 2) {
+                    var semi_circle_d54e4b98edf0a5965ab5e5a67c17fd5b = L.semiCircle(
+                        [50.971764,3.729686],
+                        {radius:200,
+                        fill: true,
+                        fillColor:'red',
+                        fillOpacity: 0.5,
+                        color: 'red',
+                        opacity: 0.5
+                        }).setDirection(70,2)
+                        .addTo(map_8ee54d70a0383aed2a36fa42b3e5f105);
+                } else if (0 || 0) {
+                    var semi_circle_d54e4b98edf0a5965ab5e5a67c17fd5b = L.semiCircle(
+                        [50.971764,3.729686],
+                        {radius:200,
+                        fill: true,
+                        fillColor:'red',
+                        fillOpacity: 0.5,
+                        color: 'red',
+                        opacity: 0.5,
+                        startAngle:0, 
+                        stopAngle:0
+                        })
+                        .addTo(map_8ee54d70a0383aed2a36fa42b3e5f105);
+                }
+            
+    
+            var marker_2dcdad8fa7a22c251abcb7d267956b8a = L.marker(
+                [50.973534, 3.732647],
+                {}
+            ).addTo(map_8ee54d70a0383aed2a36fa42b3e5f105);
+        
+    
+        var popup_eeeb5c3f13d0b9d34a6e53ed68c561e2 = L.popup({"maxWidth": "100%"});
+
+        
+            var html_6bf1aa338598eb7b24e9bc5d06785cdf = $(`<div id="html_6bf1aa338598eb7b24e9bc5d06785cdf" style="width: 100.0%; height: 100.0%;">JarName:lokpot4  NrSightings:1</div>`)[0];
+            popup_eeeb5c3f13d0b9d34a6e53ed68c561e2.setContent(html_6bf1aa338598eb7b24e9bc5d06785cdf);
+        
+
+        marker_2dcdad8fa7a22c251abcb7d267956b8a.bindPopup(popup_eeeb5c3f13d0b9d34a6e53ed68c561e2)
+        ;
+
+        
+    
+    
+            var circle_47a1df18d8fc003fe2dc1ac7507f5d48 = L.circle(
+                [50.973534, 3.732647],
+                {"bubblingMouseEvents": true, "color": "#3388ff", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#3388ff", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 100, "stroke": true, "weight": 3}
+            ).addTo(map_8ee54d70a0383aed2a36fa42b3e5f105);
+        
+    
+                if (170 || 2) {
+                    var semi_circle_a941b9ebbf329dbf43bed1a638d31909 = L.semiCircle(
+                        [50.973534,3.732647],
+                        {radius:100,
+                        fill: true,
+                        fillColor:'red',
+                        fillOpacity: 0.5,
+                        color: 'red',
+                        opacity: 0.5
+                        }).setDirection(170,2)
+                        .addTo(map_8ee54d70a0383aed2a36fa42b3e5f105);
+                } else if (0 || 0) {
+                    var semi_circle_a941b9ebbf329dbf43bed1a638d31909 = L.semiCircle(
+                        [50.973534,3.732647],
+                        {radius:100,
+                        fill: true,
+                        fillColor:'red',
+                        fillOpacity: 0.5,
+                        color: 'red',
+                        opacity: 0.5,
+                        startAngle:0, 
+                        stopAngle:0
+                        })
+                        .addTo(map_8ee54d70a0383aed2a36fa42b3e5f105);
+                }
+            
+</script>
