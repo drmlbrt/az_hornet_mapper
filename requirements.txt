@@ -1,3 +1,8 @@
 folium~=0.12.1.post1
 pandas~=1.4.3
 Flask~=2.2.0
+SQLAlchemy~=1.4.39
+branca~=0.5.0
+Jinja2~=3.1.2
+marshmallow~=3.17.0
+WTForms~=3.0.1

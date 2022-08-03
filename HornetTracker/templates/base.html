@@ -18,19 +18,25 @@
               <div class="position-sticky pt-3">
                 <ul class="nav flex-column" >
                   <li class="nav-item" style="background-color: #F0F6FB">
-                    <a class="nav-link active" aria-current="page" href="{{url_for('home')}}" style="color:#080808">
+                    <a class="nav-link active" aria-current="page" href="{{url_for('index')}}" style="color:#080808">
                       Home
                     </a>
                   </li>
-                  <li class="nav-item" style="background-color: #F0F6FB">
-                    <a class="nav-link" href="{{url_for('mapper')}}" style="color:#080808">
-                      Mapper
-                    </a>
-                      <li class="nav-item" style="background-color: #F0F6FB">
-                    <a class="nav-link" href="{{url_for('csv_changer')}}" style="color:#080808">
-                      CSV File editor
+                    </li>
+                    <li class="nav-item" style="background-color: #F0F6FB">
+                    <a class="nav-link" href="{{url_for('map.map_forms')}}" style="color:#080808">
+                      Add Map 'site'  Form
                     </a>
                   </li>
+
+                    <li class="nav-item" style="background-color: #F0F6FB">
+                    <a class="nav-link" href="{{url_for('hornet.hornet_forms')}}" style="color:#080808">
+                       Add Jar Form
+                    </a>
+                    <li class="nav-item" style="background-color: #F0F6FB">
+                    <a class="nav-link" href="{{url_for('map.generate_new_map')}}" style="color:#080808">
+                      Generate Map
+                    </a>
                   </li>
                 </ul>
               </div>
@@ -49,6 +55,7 @@
 
 
                     {%block body%}
+
                     {%endblock%}
 
             </div>

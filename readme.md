@@ -3,11 +3,16 @@
 </p>
 
 
+
 #Welcome to the Asian Hornet Tracker tool
 
 This project started as a necessity to track, monitor and create a 'tracking' map with the necessary data.
-Monitoring information is now sorted in a csv file. This is in fact your data. 
-Then the Python is importing the information and uses the folium solution to create a map with the csv data.
+
+### Changes
+- dropped support for csv
+- added SQL Lite database
+- added KISS frontend
+- basic data CRUD operations (Add, Delete , Update)
 
 ## How does it work? 
 
@@ -18,9 +23,9 @@ Basically the following Python projects are in use:
 - Pandas
 - Folium Plugins SemiCircle
 
-And some modding is perfomed using a nice guys work : https://stackoverflow.com/questions/57227249/folium-how-can-i-change-fill-color-in-semicircle-plugin
+And some modding is performed using a nice guys work : https://stackoverflow.com/questions/57227249/folium-how-can-i-change-fill-color-in-semicircle-plugin
 
-The data is in a csv file. This means it is a comma seperated set of data. You need to keep the order ;-).
+The data is in a csv file. This means it is a comma separated set of data. You need to keep the order ;-).
 Only then the program can read and understand the input. 
 
 
@@ -43,9 +48,11 @@ terminal:python main.py
 > open the http://127.0.0.1:5000
 
 
-### CSV Data
+### Database Data
 
-The CSV file is hidden in the folder **Tracking Data**. Just open the file and add your information.
+The Database is hidden. So booting the system requires a new database. Should be tested. It is a lite sql solution.
+
+---
 
 **jar** :  the name of the jar , can be a string (Just give it a name to remember)
 
@@ -59,8 +66,9 @@ The CSV file is hidden in the folder **Tracking Data**. Just open the file and a
 
 **heading_direction**: for this you need a compass. :-) just add it in degrees.
 
-Basically: If you have your own data, for now, change the csv file manually. I'll try to add an editor later.
-If you change data inside the web page you need to click on "mapper" to load the new data. 
+---
+
+With the forms you can edit and add information. Deleten is only possible with api.
 
 ### For now
 Then you run the program and a local 'web interface' is created.
@@ -74,12 +82,21 @@ Well, be my guest.
 I intend to add a form to the interface, so you can add and change the csv file. If someone has better knowledge
 of Flask or HTML and who can/will generate a front end. Please do so. It will be greatly appreciated.
 
+planned:
+- Nicer Frontend
+- Listing of information within frontend
+- Someone to help with frontend
+- Testing crowd
+- putting it online
 
 ### Images
 
-![sample map](images/map_sample.jpg)
+![sample map](HornetTracker/images/map_sample.jpg)
 
-![with information tags](images/map_sample_informationtags.jpg)
+![with information tags](HornetTracker/images/map_sample_informationtags.jpg)
+
+![frontend](HornetTracker/images/frontend_example.jpg)
+
 
 
 ### Probably some issues
@@ -88,6 +105,6 @@ of Flask or HTML and who can/will generate a front end. Please do so. It will be
 - Is the use of a local web server allowed on your machine? 
 - Check if your firewall is not blocking port 5000
 
-### Special Care for semicircle: !!! Do not forget this !!!
+### Special Care for semicircle.py: !!! Do not forget this !!!
 I copied the information from the URL and replaced the main file of folium plugins.
 After installation of the folium with pip, find the original semicircle.py and replace it with this one.
