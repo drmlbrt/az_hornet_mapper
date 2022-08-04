@@ -1,25 +1,27 @@
 {% extends "base.html" %}
 
-    {%block flash%}
-        {% with messages=get_flashed_messages(with_categories=true) %}
+{%block flash%}
+    {% with messages=get_flashed_messages(with_categories=true) %}
          {% for category, message in messages %}
           <div class="alert alert-warning alert-dismissible fade show" role="alert">
             <strong>{{ category }}</strong><p>{{ message }}</p>
               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
            </div>
          {% endfor %}
-{% endwith %}
+    {% endwith %}
 
-    {% endblock %}
+{% endblock %}
 
 {%block title_bar%}
 
 <div class="mb-3 p-2" >
    <h1 class="display-5 fw-bold">AZ Hornet Mapping  - Plot your data on a map with heading, distance information</h1>
 </div>
+
 {%endblock%}
 
 {%block form%}
+
 <div class="jumbotron" >
     <div class="mb-3 p-2">
     <h2>Welcome.</h2>
@@ -29,9 +31,4 @@
 </div>
 
 
-{%endblock%}
-
-
-{%block body%}
-{% include "map.html" %}
 {%endblock%}

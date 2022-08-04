@@ -71,10 +71,19 @@ The Database is hidden. So booting the system requires a new database. Should be
 With the forms you can edit and add information. Deleten is only possible with api.
 
 ### For now
-Then you run the program and a local 'web interface' is created.
-Open the url = > http://127.0.0.1:5000
-This generates the map and plots the csv data. 
-Then you can use the information and interpret the location of the nest. 
+> After installation of the requirements file. 
+> 
+> Run the python main.py.
+> 
+> A local 'web interface' is created.
+> 
+> Open the url = > http://127.0.0.1:5000
+> 
+> On the left is the menu to jump between jars and maps. The generator generates the map :-)
+> 
+> Every Jar or Map is a form where you can perform CRUD operations. 
+> This means, that you can add, read, update and read information in the database. 
+> I think that the "blocks" in the form are understandable. 
 
 
 ### Improvements?
@@ -83,7 +92,7 @@ I intend to add a form to the interface, so you can add and change the csv file.
 of Flask or HTML and who can/will generate a front end. Please do so. It will be greatly appreciated.
 
 planned:
-- Nicer Frontend
+- Nicer Frontend - done
 - Listing of information within frontend
 - Someone to help with frontend
 - Testing crowd

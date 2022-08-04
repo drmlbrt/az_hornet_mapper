@@ -36,7 +36,7 @@ app.register_blueprint(map_blueprint)
 
 @app.route('/', methods=["GET", "POST"])
 def index():
-    return render_template("index.html")
+    return render_template("base.html")
 
 
 @app.route('/.well-known/host-meta', methods=["GET"])
