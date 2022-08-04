@@ -6,13 +6,12 @@ from folium import plugins
 from marshmallow import ValidationError
 from HornetTracker.map.models.map import Map
 from HornetTracker.map.schemas.s_map import Map_D, Map_L
-from HornetTracker.map.forms.f_map import AddMapForm, UpdateMap, ShowMap, GenerateMap
+from HornetTracker.map.forms.f_map import AddMapForm, UpdateMap, ShowMap, GenerateMap, DeleteMap
 from HornetTracker.generator.map_generator import generate_map
 
 map_bp = Blueprint('map', __name__,
                    url_prefix='/map',
-                   template_folder="templates",
-                   static_folder='/static/css')
+                   template_folder="templates")
 
 schema_hornet_dump = Map_D()
 schema_hornet_load = Map_L()
@@ -132,10 +131,24 @@ def map_forms():
 
             flash(f"Updated {update_map['map_name']}")
 
+    form5 = DeleteMap()
+
+    if form5.submit.data and form5.validate_on_submit():
+        map = Map.find_one_by_name(form5.map_name.data)
+        if map:
+            update = Map.delete(map)
+            if update:
+                flash(f"Delete for item {form5.map_name.data} OK")
+            else:
+                flash(f"Delete for item {form5.map_name.data} FAILED - Does it exist?")
+        else:
+            flash("Something went wrong with the update"), 400
+
     return render_template("/map/add_map.html",
                            addform=form1,
                            updateform=form2,
-                           showmap=form3)
+                           showmap=form3,
+                           delete=form5)
 
 
 @map_bp.route("/generate_map", methods=["GET", "POST"])

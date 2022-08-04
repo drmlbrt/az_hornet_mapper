@@ -29,7 +29,7 @@ The data is in a csv file. This means it is a comma separated set of data. You n
 Only then the program can read and understand the input. 
 
 
-> Install latest version of Python
+> Install the latest version of Python
 
 > In terminal pip install the requirements file
 > '''

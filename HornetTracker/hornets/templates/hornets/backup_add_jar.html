@@ -21,7 +21,7 @@
     <div class="mb-3 p-2">
     <h2>Adding a New JAR</h2>
     <p>Add first your new JAR to database! </p>
-    <p>Then you can read, modify you JAR data. <strong>Remember</strong> to put your jar on a map that you have created </p>
+    <p>Only then you can select the created JAR from the database.</p>
     </div>
 </div>
 <div class="jumbotron" >
@@ -36,31 +36,44 @@
           <div class="accordion-body">
             <form class="row g-3" method="POST">
               {{addform.hidden_tag()}}
-                <div class="col-md-3">
+
+                <div class="col-auto">
                     {{addform.jar_name.label(class="form-label")}}
+                </div>
+                <div class="col-auto">
                     {{addform.jar_name(class="form-control", placeholder="jar_name")}}
                 </div>
-                <div class="col-md-3">
+                <div class="col-auto">
                     {{addform.latitude.label(class="form-label")}}
+                </div>
+                <div class="col-auto">
                     {{addform.latitude(class="form-control", placeholder="latitude")}}
                 </div>
-                <div class="col-md-3">
+                <div class="col-auto">
                     {{addform.longitude.label(class="form-label")}}
+                </div>
+                <div class="col-auto">
                     {{addform.longitude(class="form-control", placeholder="longitude")}}
                 </div>
-                <div class="col-md-3">
+                <div class="col-auto">
                     {{addform.nr_of_sightings.label(class="form-label")}}
+                </div>
+                <div class="col-auto">
                     {{addform.nr_of_sightings(class="form-control", placeholder="nr_of_sightings")}}
                 </div>
-                <div class="col-md-3">
+                <div class="col-auto">
                     {{addform.average_distance.label(class="form-label")}}
+                </div>
+                <div class="col-auto">
                     {{addform.average_distance(class="form-control", placeholder="average_distance")}}
                 </div>
-                <div class="col-md-3">
+                <div class="col-auto">
                     {{addform.heading.label(class="form-label")}}
+                </div>
+                <div class="col-auto">
                     {{addform.heading(class="form-control", placeholder="heading")}}
                 </div>
-                <div class="col-md-3">
+                <div class="col-auto">
                     {{addform.submit(class="btn btn-primary mb-3")}}
                 </div>
             </form>
@@ -77,9 +90,11 @@
           <div class="accordion-body">
             <form class="row g-3" method="POST">
               {{showjar.hidden_tag()}}
-                <div class="col-sm-7">
+                <div class="col-auto">
                     {{showjar.jar_name.label(class="form-label")}}
-                    {{showjar.jar_name(class="form-select", placeholder="jar_name")}}
+                </div>
+                <div class="col-auto">
+                    {{showjar.jar_name(class="form-control", placeholder="jar_name")}}
                 </div>
                 <div class="col-auto">
                     {{showjar.submit(class="btn btn-primary mb-3")}}
@@ -88,36 +103,42 @@
               <div class="accordion-body">
               <form class="row g-3" method="POST">
                 {{updateform.hidden_tag()}}
-                <div class="col-md-3">
+                <div class="col-auto">
                     {{updateform.jar_name.label(class="form-label")}}
+                </div>
+                <div class="col-auto">
                     {{updateform.jar_name(class="form-control", placeholder="jar_name")}}
                 </div>
-
-                <div class="col-md-3">
+                <div class="col-auto">
                     {{updateform.latitude.label(class="form-label")}}
+                </div>
+                <div class="col-auto">
                     {{updateform.latitude(class="form-control", placeholder="latitude")}}
                 </div>
-
-                <div class="col-md-3">
+                <div class="col-auto">
                     {{updateform.longitude.label(class="form-label")}}
+                </div>
+                <div class="col-auto">
                     {{updateform.longitude(class="form-control", placeholder="longitude")}}
                 </div>
-
-                <div class="col-md-3">
+                <div class="col-auto">
                     {{updateform.nr_of_sightings.label(class="form-label")}}
+                </div>
+                <div class="col-auto">
                     {{updateform.nr_of_sightings(class="form-control", placeholder="nr_of_sightings")}}
                 </div>
-
-                <div class="col-md-3">
+                <div class="col-auto">
                     {{updateform.average_distance.label(class="form-label")}}
+                </div>
+                <div class="col-auto">
                     {{updateform.average_distance(class="form-control", placeholder="average_distance")}}
                 </div>
-
-                <div class="col-md-3">
+                <div class="col-auto">
                     {{updateform.heading.label(class="form-label")}}
+                </div>
+                <div class="col-auto">
                     {{updateform.heading(class="form-control", placeholder="heading")}}
                 </div>
-
                 <div class="col-auto">
                     {{updateform.submit(class="btn btn-primary mb-3")}}
                 </div>
@@ -136,16 +157,18 @@
           <div class="accordion-body">
               <form class="row g-3" method="POST">
                 {{binder.hidden_tag()}}
-                <div class="col">
+                <div class="col-auto">
                     {{binder.jar_name.label(class="form-label")}}
-                    {{showjar.jar_name(class="form-select", placeholder="jar_name")}}
                 </div>
-
-                <div class="col">
+                <div class="col-auto">
+                    {{binder.jar_name(class="form-control", placeholder="jar_name")}}
+                </div>
+                <div class="col-auto">
                     {{binder.map_name.label(class="form-label")}}
-                    {{binder.map_name(class="form-select", placeholder="map_name")}}
                 </div>
-
+                <div class="col-auto">
+                    {{binder.map_name(class="form-control", placeholder="map_name")}}
+                </div>
                 <div class="col-auto">
                     {{binder.submit(class="btn btn-primary mb-3")}}
                 </div>
@@ -163,9 +186,11 @@
           <div class="accordion-body">
               <form class="row g-3" method="POST">
                 {{delete.hidden_tag()}}
-                <div class="col">
+                <div class="col-auto">
                     {{delete.jar_name.label(class="form-label")}}
-                    {{delete.jar_name(class="form-select", placeholder="jar_name")}}
+                </div>
+                <div class="col-auto">
+                    {{delete.jar_name(class="form-control", placeholder="jar_name")}}
                 </div>
                 <div class="col-auto">
                     {{delete.submit(class="btn btn-primary mb-3")}}

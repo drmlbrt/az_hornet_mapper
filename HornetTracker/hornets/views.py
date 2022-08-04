@@ -6,12 +6,11 @@ from folium import plugins
 from marshmallow import ValidationError
 from HornetTracker.hornets.models.hornet import Hornet
 from HornetTracker.hornets.schemas.s_hornet import Hornet_D, Hornet_L
-from HornetTracker.hornets.forms.f_hornet import AddJar, UpdateJar, ShowJar, BindMapToJar
+from HornetTracker.hornets.forms.f_hornet import AddJar, UpdateJar, ShowJar, BindMapToJar, DeleteJar
 
 hornet_bp = Blueprint('hornet', __name__,
                       url_prefix='/hornet/',
-                      template_folder="templates",
-                      static_folder='/static/css')
+                      template_folder="templates")
 
 schema_hornet_dump = Hornet_D()
 schema_hornet_load = Hornet_L
@@ -171,6 +170,7 @@ def hornet_forms():
     form2 = UpdateJar()
     form3 = ShowJar()
     form4 = BindMapToJar()
+    form5 = DeleteJar()
 
     if form1.submit.data and form1.validate_on_submit():
         new_jar = {"jar_name": form1.jar_name.data,
@@ -186,7 +186,6 @@ def hornet_forms():
 
     if form3.submit.data and form3.validate_on_submit():
         selected_jar = form3.jar_name.data
-        print(f"************************* {selected_jar}")
 
         _jar = Hornet.find_one_by_name(jar_name=selected_jar)
 
@@ -222,8 +221,21 @@ def hornet_forms():
         flash(f"Map '{binding['map_name']}' and Jar '{binding['jar_name']}' are related")
 
 
+
+    if form5.submit.data and form5.validate_on_submit():
+        jar = Hornet.find_one_by_name(form5.jar_name.data)
+        if jar:
+            delete = Hornet.delete(jar)
+            if delete:
+                flash(f"Delete for item {form5.jar_name.data} OK")
+            else:
+                flash(f"Delete for item {form5.jar_name.data} FAILED - Does it exist?")
+        else:
+            flash("Something went wrong with the update"), 400
+
     return render_template("/hornets/add_jar.html",
                            addform=form1,
                            updateform=form2,
                            showjar=form3,
-                           binder=form4)
+                           binder=form4,
+                           delete=form5)

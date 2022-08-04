@@ -43,3 +43,9 @@ class BindMapToJar(FlaskForm):
                            choices=[map.map_name for map in Map.query.all()])
 
     submit = SubmitField("Bind Jar To Map")
+
+class DeleteJar(FlaskForm):
+    jar_name = SelectField("Jar Name",
+                           choices=[jar.jar_name for jar in Hornet.query.all()])
+
+    submit = SubmitField("Delete Jar Data")

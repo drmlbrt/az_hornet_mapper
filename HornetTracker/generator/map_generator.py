@@ -11,7 +11,7 @@ def generate_map(map_data: dict):
     print(new_map)
     center = [new_map.latitude, new_map.longitude]
 
-    m = folium.Map(location=center, zoom_start=16)
+    m = folium.Map(location=center, zoom_start=13)
 
     for jar in new_map.jar_id:
         print(jar)

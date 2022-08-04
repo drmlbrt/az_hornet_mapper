@@ -8,7 +8,9 @@
            </div>
          {% endfor %}
 {% endwith %}
+
     {% endblock %}
+
     {% block title_bar %}
         <div class="mb-3 p-2" >
            <h1 class="display-5 fw-bold">Generate A Map for you</h1>
@@ -34,11 +36,11 @@
                       <div class="accordion-body">
                         <form class="row g-3" method="POST">
                           {{showmap.hidden_tag()}}
-                            <div class="col-auto">
+                            <div class="col">
                                 {{showmap.map_name.label(class="form-label")}}
                             </div>
-                            <div class="col-auto">
-                                {{showmap.map_name(class="form-control", placeholder="map_name")}}
+                            <div class="col">
+                                {{showmap.map_name(class="form-select", placeholder="map_name")}}
                             </div>
                             <div class="col-auto">
                                 {{showmap.submit(class="btn btn-primary mb-3")}}

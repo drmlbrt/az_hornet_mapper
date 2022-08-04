@@ -12,118 +12,131 @@
     {% endblock %}
 
     {% block title_bar %}
-        <div class="mb-3 p-2" >
-           <h1 class="display-5 fw-bold">Add a Map form</h1>
-        </div>
+    <h2 class="sub-header">Map Form</h2>
     {% endblock %}
 
     {% block form %}
 
-            <div class="jumbotron" >
-                <div class="mb-3 p-2">
-                <h2>Adding or Editing Map information</h2>
-                <p>Add first your site to the database! </p>
-                <p>You can get information of Longitude and Latitude on the Google Maps page.</p>
-                </div>
-            </div>
-            <div class="jumbotron" >
-                <div class="accordion" id="accordionExample">
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingOne">
-                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                        Add Map
-                      </button>
-                    </h2>
-                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                      <div class="accordion-body">
-                        <form class="row g-3" method="POST">
-                          {{addform.hidden_tag()}}
+    <div class="jumbotron" >
+        <div class="mb-3 p-2">
+        <h2>Adding a New Map</Ma></h2>
+        <p>Add first a new map in the database. This is where you are placing the jars. You can find geo information on google maps or other. The system needs longitude and latitude. This is the data that is the anker point for your map. </p>
+        <p>Then you can read, modify and delete your MAP data. <strong>Remember</strong> To see 'Jars' on the map, go to jar forms and add a jar to your MAP. </p>
+        </div>
+    </div>
+    <div class="jumbotron" >
+        <div class="accordion" id="accordionExample">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                Add Map
+              </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <form class="row g-3" method="POST">
+                  {{addform.hidden_tag()}}
 
-                            <div class="col-auto">
-                                {{addform.map_name.label(class="form-label")}}
-                            </div>
-                            <div class="col-auto">
-                                {{addform.map_name(class="form-control", placeholder="map_name")}}
-                            </div>
-                            <div class="col-auto">
-                                {{addform.latitude.label(class="form-label")}}
-                            </div>
-                            <div class="col-auto">
-                                {{addform.latitude(class="form-control", placeholder="latitude")}}
-                            </div>
-                            <div class="col-auto">
-                                {{addform.longitude.label(class="form-label")}}
-                            </div>
-                            <div class="col-auto">
-                                {{addform.longitude(class="form-control", placeholder="longitude")}}
-                            </div>
-                            <div class="col-auto">
-                                {{addform.submit(class="btn btn-primary mb-3")}}
-                            </div>
-                        </form>
-                      </div>
+                    <div class="col-sm">
+                        {{addform.map_name.label(class="form-label")}}
                     </div>
-                  </div>
-                    <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingThree">
-                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                        Show Map [on next form after submit]
-                      </button>
-                    </h2>
-                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                      <div class="accordion-body">
-                        <form class="row g-3" method="POST">
-                          {{showmap.hidden_tag()}}
-                            <div class="col-auto">
-                                {{showmap.map_name.label(class="form-label")}}
-                            </div>
-                            <div class="col-auto">
-                                {{showmap.map_name(class="form-control", placeholder="map_name")}}
-                            </div>
-                            <div class="col-auto">
-                                {{showmap.submit(class="btn btn-primary mb-3")}}
-                            </div>
-                        </form>
-                      </div>
+                    <div class="col-sm">
+                        {{addform.map_name(class="form-control", placeholder="jar_name")}}
                     </div>
-                  </div>
-                  <div class="accordion-item" >
-                    <h2 class="accordion-header" id="headingTwo">
-                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        Update Single Map Information
-                      </button>
-                    </h2>
-                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                      <div class="accordion-body">
-                          <form class="row g-3" method="POST">
-                            {{updateform.hidden_tag()}}
-                            <div class="col-auto">
-                                {{updateform.map_name.label(class="form-label")}}
-                            </div>
-                            <div class="col-auto">
-                                {{updateform.map_name(class="form-control", placeholder="map_name")}}
-                            </div>
-                            <div class="col-auto">
-                                {{updateform.latitude.label(class="form-label")}}
-                            </div>
-                            <div class="col-auto">
-                                {{updateform.latitude(class="form-control", placeholder="latitude")}}
-                            </div>
-                            <div class="col-auto">
-                                {{updateform.longitude.label(class="form-label")}}
-                            </div>
-                            <div class="col-auto">
-                                {{updateform.longitude(class="form-control", placeholder="longitude")}}
-                            </div>
-                              <div class="col-auto">
-                                {{updateform.submit(class="btn btn-primary mb-3")}}
-                            </div>
-                          </form>
-                      </div>
+                    <div class="col-sm">
+                        {{addform.latitude.label(class="form-label")}}
                     </div>
-                  </div>
-                </div>
+                    <div class="col-sm">
+                        {{addform.latitude(class="form-control", placeholder="latitude")}}
+                    </div>
+                    <div class="col-sm">
+                        {{addform.longitude.label(class="form-label")}}
+                    </div>
+                    <div class="col-sm">
+                        {{addform.longitude(class="form-control", placeholder="longitude")}}
+                    </div>
+                    <div class="col-sm">
+                        {{addform.submit(class="btn btn-primary mb-3")}}
+                    </div>
+                </form>
+              </div>
             </div>
+          </div>
+            <div class="accordion-item">
+            <h2 class="accordion-header" id="headingThree">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                Show Map Data
+              </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <form class="row g-3" method="POST">
+                  {{showmap.hidden_tag()}}
+                    <div class="col-sm">
+                        {{showmap.map_name.label(class="form-label")}}
+                    </div>
+                    <div class="col-sm">
+                        {{showmap.map_name(class="form-control", placeholder="map_name")}}
+                    </div>
+                    <div class="col-sm">
+                        {{showmap.submit(class="btn btn-primary mb-3")}}
+                    </div>
+                </form>
+                  <div class="accordion-body">
+                  <form class="row g-3" method="POST">
+                    {{updateform.hidden_tag()}}
+                    <div class="col">
+                        {{updateform.map_name.label(class="form-label")}}
+                    </div>
+                    <div class="col">
+                        {{updateform.map_name(class="form-control", placeholder="map_name")}}
+                    </div>
+                    <div class="col">
+                        {{updateform.latitude.label(class="form-label")}}
+                    </div>
+                    <div class="col">
+                        {{updateform.latitude(class="form-control", placeholder="latitude")}}
+                    </div>
+                    <div class="col">
+                        {{updateform.longitude.label(class="form-label")}}
+                    </div>
+                    <div class="col">
+                        {{updateform.longitude(class="form-control", placeholder="longitude")}}
+                    </div>
+                    <div class="col">
+                        {{updateform.submit(class="btn btn-primary mb-3")}}
+                    </div>
+                  </form>
+              </div>
+              </div>
+            </div>
+          </div>
+            <div class="accordion-item" >
+            <h2 class="accordion-header" id="headingFive">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                Delete Map Data
+              </button>
+            </h2>
+            <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                  <form class="row g-3" method="POST">
+                    {{delete.hidden_tag()}}
+                    <div class="col">
+                        {{delete.map_name.label(class="form-label")}}
+                    </div>
+                    <div class="col">
+                        {{delete.map_name(class="form-control", placeholder="map_name")}}
+                    </div>
+                    <div class="col">
+                        {{delete.submit(class="btn btn-primary mb-3")}}
+                    </div>
+                  </form>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
 
     {% endblock %}
 
