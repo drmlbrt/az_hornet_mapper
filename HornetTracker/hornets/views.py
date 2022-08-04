@@ -184,7 +184,7 @@ def hornet_forms():
 
         flash(f"Added {new_jar['jar_name']} information to db")
 
-    if form3.submit.data and form3.validate_on_submit():
+    elif form3.submit.data and form3.validate_on_submit():
         selected_jar = form3.jar_name.data
 
         _jar = Hornet.find_one_by_name(jar_name=selected_jar)
@@ -209,7 +209,7 @@ def hornet_forms():
 
             flash(f"Updated {update_jar['jar_name']}")
 
-    if form4.submit.data and form4.validate_on_submit():
+    elif form4.submit.data and form4.validate_on_submit():
         binding = {"jar_name": form4.jar_name.data,
                    "map_name": form4.map_name.data}
 
@@ -220,18 +220,17 @@ def hornet_forms():
 
         flash(f"Map '{binding['map_name']}' and Jar '{binding['jar_name']}' are related")
 
-
-
-    if form5.submit.data and form5.validate_on_submit():
-        jar = Hornet.find_one_by_name(form5.jar_name.data)
-        if jar:
-            delete = Hornet.delete(jar)
-            if delete:
-                flash(f"Delete for item {form5.jar_name.data} OK")
+    else:
+        if form5.submit.data and form5.validate_on_submit():
+            jar = Hornet.find_one_by_name(form5.jar_name.data)
+            if jar:
+                delete = Hornet.delete(jar)
+                if delete:
+                    flash(f"Delete for item {form5.jar_name.data} OK")
+                else:
+                    flash(f"Delete for item {form5.jar_name.data} FAILED - Does it exist?")
             else:
-                flash(f"Delete for item {form5.jar_name.data} FAILED - Does it exist?")
-        else:
-            flash("Something went wrong with the update"), 400
+                flash("Something went wrong with the update"), 400
 
     return render_template("/hornets/add_jar.html",
                            addform=form1,
@@ -239,3 +238,9 @@ def hornet_forms():
                            showjar=form3,
                            binder=form4,
                            delete=form5)
+
+@hornet_bp.route("/table", methods=["GET", "POST"])
+def table_jars():
+    all_jars = Hornet.query.all()
+    return render_template("/hornets/table.html",
+                           jars=all_jars)

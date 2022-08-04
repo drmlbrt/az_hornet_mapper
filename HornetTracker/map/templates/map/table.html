@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+    {%block flash%}
+        {% with messages=get_flashed_messages(with_categories=true) %}
+         {% for category, message in messages %}
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>{{ category }}</strong><p>{{ message }}</p>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+           </div>
+         {% endfor %}
+
+    {% endwith %}
+    {% endblock %}
+
+    {% block title_bar %}
+    <h2 class="sub-header">Map Table</h2>
+    {% endblock %}
+
+    {% block table %}
+    <table id="data" class="table table-striped">
+    <thead>
+      <tr>
+          <th>Name</th>
+          <th>Latitude</th>
+          <th>Longitude</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for map in maps %}
+        <tr>
+          <td>{{ map.map_name }}</td>
+          <td>{{ map.latitude }}</td>
+          <td>{{ map.longitude }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+    {% endblock %}

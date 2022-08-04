@@ -21,18 +21,47 @@
 
   </div>
     <div class="row">
-    <div class="col-3 bg-light p-3 border">
-      <div class="col-sm-3 col-md-2 sidebar">
-          <ul class="nav nav-sidebar">
-            <li class="nav-item"><a class="nav-link" href="{{url_for('index')}}">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{url_for('hornet.hornet_forms')}}">Jars</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{url_for('map.map_forms')}}">Maps</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{url_for('map.generate_new_map')}}">MapGenerator</a></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li class="nav-item"><a class="nav-link" href="">VespaWatch</a></li>
-          </ul>
+    <div class="col-3 bg-light p-2 border">
+        <main>
+            <div class="d-flex flex-column flex-shrink-1 p-1 text-bg-dark" >
+            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+              <span class="fs-4">Menu</span>
+            </a>
+            <ul class="nav nav-pills flex-column mb-auto">
+              <li class="nav-item">
+                <a href="{{ url_for('index') }}" class="nav-link active" aria-current="page">
+                  Home
+                </a>
+              </li>
+              <li>
+                <a href="{{ url_for('map.maps_forms') }}" class="nav-link text-white">
+                  Maps
+                </a>
+              </li>
+              <li>
+                <a href="{{ url_for('map.table_maps') }}" class="nav-link text-white">
+                  Maps Table
+                </a>
+              </li>
+              <li>
+                <a href="{{ url_for('hornet.hornet_forms') }}" class="nav-link text-white">
+                  Jars
+                </a>
+              </li>
+              <li>
+                <a href="{{ url_for('hornet.table_jars') }}" class="nav-link text-white">
+                  Jars Table
+                </a>
+              </li>
+                <li>
+                <a href="{{ url_for('map.generate_new_map') }}" class="nav-link text-white">
+                  Maps Generator
+                </a>
+              </li>
+            </ul>
         </div>
+        </main>
+
     </div>
     <div class="col-sm-9 bg-light">
       <h1 class="page-header">Asian Hornet Mapping Tool</h1>
@@ -50,7 +79,9 @@
 
 
                     {%block body%}
+                    {%endblock%}
 
+                    {%block table%}
                     {%endblock%}
           </div>
     </div>

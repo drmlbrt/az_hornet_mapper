@@ -94,7 +94,7 @@ def delete_map():
 
 
 @map_bp.route("/forms", methods=["GET", "POST"])
-def map_forms():
+def maps_forms():
     form1 = AddMapForm()
     form2 = UpdateMap()
     form3 = ShowMap()
@@ -168,3 +168,10 @@ def generate_new_map():
 
     return render_template("/map/generate_map.html",
                            showmap=generate_map_form)
+
+
+@map_bp.route("/table", methods=["GET", "POST"])
+def table_maps():
+    all_maps = Map.query.all()
+    return render_template("/map/table.html",
+                           maps=all_maps)

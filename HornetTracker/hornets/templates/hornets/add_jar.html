@@ -11,25 +11,24 @@
 {% endblock %}
 
 {% block title_bar %}
-       <h1 class="display-5 fw-bold">Add a Jar form</h1>
+
+    <h2 class="sub-header">Add a Jar Form</h2>
 
 {% endblock %}
 
 {% block form %}
 
-<div class="jumbotron" >
-    <div class="mb-3 p-2">
-    <h2>Adding a New JAR</h2>
-    <p>Add first your new JAR to database! </p>
-    <p>Then you can read, modify you JAR data. <strong>Remember</strong> to put your jar on a map that you have created </p>
-    </div>
-</div>
-<div class="jumbotron" >
+      <div class="container-fluid py-2">
+          <p>Add first your new JAR to database! </p>
+        <p>Then you can read, modify you JAR data. <strong>Remember</strong> to put your jar on a map that you have created.</p>
+      </div>
+
+<div class="p-5 mb-4 bg-light rounded-3">
     <div class="accordion" id="accordionExample">
       <div class="accordion-item">
         <h2 class="accordion-header" id="headingOne">
           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-            Add Jar
+            Add Jar Data
           </button>
         </h2>
         <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
@@ -69,8 +68,8 @@
       </div>
         <div class="accordion-item">
         <h2 class="accordion-header" id="headingThree">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-            Show Jar
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+            Show Jar Data
           </button>
         </h2>
         <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
