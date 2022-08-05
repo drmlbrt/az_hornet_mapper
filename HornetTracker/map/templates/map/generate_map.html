@@ -17,19 +17,19 @@
         </div>
     {% endblock %}
     {% block form %}
-            <div class="jumbotron" >
+            <div class="container-fluid py-2">
                 <div class="mb-3 p-2">
                 <h2>This Generates a map that reads the database data.</h2>
                 <p>Remember : Add first your site to the database! </p>
                 <p>Select your 'site' name and hit the button 'generate'</p>
                 </div>
             </div>
-            <div class="jumbotron" >
+            <div class="container-fluid py-2">
                 <div class="accordion" id="accordionExample">
                     <div class="accordion-item">
                     <h2 class="accordion-header" id="headingThree">
                       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                        Show Jar
+                        Show Map
                       </button>
                     </h2>
                     <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
@@ -37,13 +37,11 @@
                         <form class="row g-3" method="POST">
                           {{showmap.hidden_tag()}}
                             <div class="col">
-                                {{showmap.map_name.label(class="form-label")}}
-                            </div>
-                            <div class="col">
+<!--                                {{showmap.map_name.label(class="form-label")}}-->
                                 {{showmap.map_name(class="form-select", placeholder="map_name")}}
                             </div>
                             <div class="col-auto">
-                                {{showmap.submit(class="btn btn-primary mb-3")}}
+                                {{showmap.submit4(class="btn btn-primary mb-3")}}
                             </div>
                         </form>
                       </div>
@@ -55,8 +53,8 @@
     {% endblock %}
 
     {%block body%}
-            <div class="jumbotron" >
-                <div class="mb-3 p-2">
+
+                <div class="container-fluid py-2">
                 <h2>Generated Map</h2>
                 <p>If it is not the result you think. Then check your data input. Is the longitude and latitude correct? </p>
                 <p>You can get information of Longitude and Latitude on the Google Maps page.</p>
@@ -64,5 +62,5 @@
                       {{map | safe}}
                     </div>
                 </div>
-            </div>
+
     {% endblock %}

@@ -6,7 +6,8 @@ from folium import plugins
 from marshmallow import ValidationError
 from HornetTracker.hornets.models.hornet import Hornet
 from HornetTracker.hornets.schemas.s_hornet import Hornet_D, Hornet_L
-from HornetTracker.hornets.forms.f_hornet import AddJar, UpdateJar, ShowJar, BindMapToJar, DeleteJar
+from HornetTracker.hornets.forms.f_hornet import AddJar, UpdateJar, ShowJar, BindMapToJar, DeleteJar, CsvReadData
+from HornetTracker.generator.csv_reader import csv_reader
 
 hornet_bp = Blueprint('hornet', __name__,
                       url_prefix='/hornet/',
@@ -151,9 +152,7 @@ def _jar_name_delete(jar_name):
         else:
             flash(f"Delete for item {jar_name} FAILED - Does it exist?")
 
-        all_jars = Hornet.query.all()
-        return render_template("/hornets/table.html",
-                               jars=all_jars)
+        return redirect(url_for(".table_jars"))
     else:
         return {"message": "Something went wrong with the update"}, 400
 
@@ -168,9 +167,9 @@ def add_jar_to_map():
         return {"message": "No Valid JSON input data provided"}, 400
 
     for item in json_data["bind_jar_to_map"]:
-        print(item)
+
         jar = Hornet.find_one_by_name(jar_name=item["jar_name"])
-        print(jar)
+
         if jar:
             update = Hornet.bind_to_map(bind_jar_to_map=item)
             if update:
@@ -204,12 +203,12 @@ def hornet_forms():
     if form3.submit2.data and form3.validate_on_submit():
         selected_jar = form3.jar_name.data
 
-        _jar = Hornet.find_one_by_name(jar_name=selected_jar)
+        _jar = Hornet.find_one_by_name(jar_name=selected_jar.__dict__["jar_name"])
 
         form2 = UpdateJar(obj=_jar)
 
     if form2.submit3.data and form2.validate_on_submit():
-        print("***************************************************")
+
         update_jar = {"jar_name": form2.jar_name.data,
                       "latitude": form2.latitude.data,
                       "longitude": form2.longitude.data,
@@ -226,20 +225,21 @@ def hornet_forms():
                    "map_name": form4.map_name.data}
 
         jar = Hornet.find_one_by_name(jar_name=binding["jar_name"])
-        print(jar)
+
         if jar:
             Hornet.bind_to_map(bind_jar_to_map=binding)
 
         flash(f"Map '{binding['map_name']}' and Jar '{binding['jar_name']}' are related")
 
     if form5.submit5.data and form5.validate_on_submit():
-        jar = Hornet.find_one_by_name(form5.jar_name.data)
+        selected_jar = form5.jar_name.data
+        jar = Hornet.find_one_by_name(jar_name=selected_jar.__dict__["jar_name"])
         if jar:
             delete = Hornet.delete(jar)
             if delete:
-                flash(f"Delete for item {form5.jar_name.data} OK")
+                flash(f"Delete for item {selected_jar.__dict__['jar_name']} OK")
             else:
-                flash(f"Delete for item {form5.jar_name.data} FAILED - Does it exist?")
+                flash(f"Delete for item {selected_jar.__dict__['jar_name']} FAILED - Does it exist?")
         else:
             flash("Something went wrong with the update"), 400
 
@@ -254,5 +254,46 @@ def hornet_forms():
 @hornet_bp.route("/table", methods=["GET", "POST"])
 def table_jars():
     all_jars = Hornet.query.all()
+
+    form4 = BindMapToJar()
+
+    if form4.submit4.data and form4.validate_on_submit():
+        jar_name = form4.jar_name.data.__dict__
+        map_name = form4.map_name.data.__dict__
+        binding = {"jar_name": jar_name["jar_name"],
+                   "map_name": map_name["map_name"]}
+
+        jar = Hornet.find_one_by_name(jar_name=binding["jar_name"])
+
+        if jar:
+            Hornet.bind_to_map(bind_jar_to_map=binding)
+
+        flash(f"Map '{binding['map_name']}' and Jar '{binding['jar_name']}' are related")
+
     return render_template("/hornets/table.html",
-                           jars=all_jars)
+                           jars=all_jars,
+                           binder=form4)
+
+
+@hornet_bp.route("/csv_uploader", methods=["GET", "POST"])
+def csv_upload():
+    csv_form = CsvReadData()
+
+    if csv_form.submit_csv_data.data and csv_form.validate_on_submit():
+
+        csv_data = csv_reader(data=csv_form.csv_text.data)
+
+        if csv_data:
+            if isinstance(csv_data, list):
+                for item in csv_data:
+                    try:
+                        Hornet(**item).create()
+                    except TypeError as err:
+                        flash(f"Error with data keyword : {err}")
+            flash("Upload of data has finished")
+        if csv_data is False:
+            flash("The CSV data can't be processed")
+
+        return redirect(url_for(".table_jars"))
+
+    return render_template("/hornets/csv_uploader.html", csv_form=csv_form)

@@ -37,8 +37,9 @@
           <td>{{ jar.nr_of_sightings }} </td>
           <td>{{ jar.average_distance }} </td>
           <td>{{ jar.heading }} </td>
-          <td><!-- Button trigger modal -->
-            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          <td><!-- Button trigger modal - delete -->
+
+            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
             Delete
             </button>
 
@@ -60,7 +61,44 @@
                         </div>
                     </div>
                 </div>
-            </div></td>
+            </div>
+              <!-- Button trigger modal - add to a map -->
+
+            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#AddToMapModal" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+            Add On Map
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="AddToMapModal" tabindex="-1" aria-labelledby="AddToMapLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="AddToMapModalLabel">Add on a Map</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Do you want to add {{ jar.jar_name }} Jar to Map :
+                            <form class="row g-3" method="POST">
+                                {{binder.hidden_tag()}}
+                                <div class="col">
+<!--                                    {{binder.jar_name.label(class="form-label")}}-->
+                                    {{binder.jar_name(class="form-select", placeholder="jar_name")}}
+                                </div>
+
+                                <div class="col">
+<!--                                    {{binder.map_name.label(class="form-label")}}-->
+                                    {{binder.map_name(class="form-select", placeholder="map_name")}}
+                                </div>
+
+                                <div class="col-auto">
+                                    {{binder.submit4(class="btn btn-primary mb-3")}}
+                                </div>
+                              </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </td>
         </tr>
       {% endfor %}
     </tbody>

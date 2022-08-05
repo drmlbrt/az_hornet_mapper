@@ -3,6 +3,7 @@ from wtforms import (SelectField, SubmitField, StringField,
                      BooleanField, DateTimeField, RadioField,
                      TextAreaField, IntegerField, ValidationError, EmailField, validators, FloatField)
 from wtforms.validators import InputRequired, Length, DataRequired
+from wtforms_sqlalchemy.fields import QuerySelectField
 from HornetTracker.hornets.models.hornet import Hornet
 from HornetTracker.map.models.map import Map
 
@@ -19,8 +20,8 @@ class AddJar(FlaskForm):
 
 
 class ShowJar(FlaskForm):
-    jar_name = SelectField("Jar Name",
-                           choices=[jar.jar_name for jar in Hornet.query.all()])
+    jar_name = QuerySelectField(get_label="jar_name",
+                                query_factory=lambda: Hornet.query.all())
 
     submit2 = SubmitField("Show Jar Data")
 
@@ -37,15 +38,21 @@ class UpdateJar(FlaskForm):
 
 
 class BindMapToJar(FlaskForm):
-    jar_name = SelectField("Jar Name",
-                           choices=[jar.jar_name for jar in Hornet.query.all()])
-    map_name = SelectField("Map Name",
-                           choices=[map.map_name for map in Map.query.all()])
+    jar_name = QuerySelectField(get_label="jar_name",
+                                query_factory=lambda: Hornet.query.all())
+    map_name = QuerySelectField(get_label="map_name",
+                                query_factory=lambda: Map.query.all())
 
     submit4 = SubmitField("Bind Jar To Map")
 
+
 class DeleteJar(FlaskForm):
-    jar_name = SelectField("Jar Name",
-                           choices=[jar.jar_name for jar in Hornet.query.all()])
+    jar_name = QuerySelectField(get_label="jar_name",
+                                query_factory=lambda: Hornet.query.all())
 
     submit5 = SubmitField("Delete Jar Data")
+
+
+class CsvReadData(FlaskForm):
+    csv_text = TextAreaField()
+    submit_csv_data = SubmitField("Submit CSV")

@@ -36,27 +36,27 @@
             <form class="row g-3" method="POST">
               {{addform.hidden_tag()}}
                 <div class="col-md-3">
-                    {{addform.jar_name.label(class="form-label")}}
+<!--                    {{addform.jar_name.label(class="form-label")}}-->
                     {{addform.jar_name(class="form-control", placeholder="jar_name")}}
                 </div>
                 <div class="col-md-3">
-                    {{addform.latitude.label(class="form-label")}}
+<!--                    {{addform.latitude.label(class="form-label")}}-->
                     {{addform.latitude(class="form-control", placeholder="latitude")}}
                 </div>
                 <div class="col-md-3">
-                    {{addform.longitude.label(class="form-label")}}
+<!--                    {{addform.longitude.label(class="form-label")}}-->
                     {{addform.longitude(class="form-control", placeholder="longitude")}}
                 </div>
                 <div class="col-md-3">
-                    {{addform.nr_of_sightings.label(class="form-label")}}
+<!--                    {{addform.nr_of_sightings.label(class="form-label")}}-->
                     {{addform.nr_of_sightings(class="form-control", placeholder="nr_of_sightings")}}
                 </div>
                 <div class="col-md-3">
-                    {{addform.average_distance.label(class="form-label")}}
+<!--                    {{addform.average_distance.label(class="form-label")}}-->
                     {{addform.average_distance(class="form-control", placeholder="average_distance")}}
                 </div>
                 <div class="col-md-3">
-                    {{addform.heading.label(class="form-label")}}
+<!--                    {{addform.heading.label(class="form-label")}}-->
                     {{addform.heading(class="form-control", placeholder="heading")}}
                 </div>
                 <div class="col-md-3">
@@ -136,12 +136,12 @@
               <form class="row g-3" method="POST">
                 {{binder.hidden_tag()}}
                 <div class="col">
-                    {{binder.jar_name.label(class="form-label")}}
-                    {{showjar.jar_name(class="form-select", placeholder="jar_name")}}
+<!--                    {{binder.jar_name.label(class="form-label")}}-->
+                    {{binder.jar_name(class="form-select", placeholder="jar_name")}}
                 </div>
 
                 <div class="col">
-                    {{binder.map_name.label(class="form-label")}}
+<!--                    {{binder.map_name.label(class="form-label")}}-->
                     {{binder.map_name(class="form-select", placeholder="map_name")}}
                 </div>
 
@@ -163,7 +163,7 @@
               <form class="row g-3" method="POST">
                 {{delete.hidden_tag()}}
                 <div class="col">
-                    {{delete.jar_name.label(class="form-label")}}
+<!--                    {{delete.jar_name.label(class="form-label")}}-->
                     {{delete.jar_name(class="form-select", placeholder="jar_name")}}
                 </div>
                 <div class="col-auto">
@@ -175,6 +175,5 @@
       </div>
     </div>
 </div>
-
 {% endblock %}
 

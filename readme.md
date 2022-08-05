@@ -68,7 +68,12 @@ The Database is hidden. So booting the system requires a new database. Should be
 
 ---
 
-With the forms you can edit and add information. Deleten is only possible with api.
+With the forms you can edit and add information. 
+
+### CSV Bulk data upload
+
+You can now upload CSV data as long string. It saves you a lot of time.
+An Example of the data is inside the text field visible. You can use that example for your own upload.
 
 ### For now
 > After installation of the requirements file. 
@@ -90,6 +95,9 @@ With the forms you can edit and add information. Deleten is only possible with a
 Well, be my guest. 
 I intend to add a form to the interface, so you can add and change the csv file. If someone has better knowledge
 of Flask or HTML and who can/will generate a front end. Please do so. It will be greatly appreciated.
+- added table buttons to upload directly information on a map. 
+- added table buttons to delete data -> **it still has an error**
+- better formatting of the frontend with bootstrap.
 
 planned:
 - Nicer Frontend - done

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{%block flash%}
+    {% with messages=get_flashed_messages(with_categories=true) %}
+         {% for category, message in messages %}
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>{{ category }}</strong><p>{{ message }}</p>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+           </div>
+         {% endfor %}
+    {% endwith %}
+{% endblock %}
+
+{% block title_bar %}
+       <h1 class="display-5 fw-bold">Jar Bulk upload - csv file</h1>
+
+{% endblock %}
+
+{% block form %}
+<form class="row g-3" method="POST">
+  <div class="form-group">
+    <label for="exampleFormControlTextarea1">Example csv data</label>
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="">
+jar_name,latitude,longitude,nr_of_sightings,average_distance,heading
+lokpot1,50.969463,3.733954,4,430,344
+lokpot2,50.970416,3.731723,1,330,10
+lokpot3,50.971764,3.729686,4,200,70
+lokpot4,50.973534,3.732647,1,100,170</textarea>
+                {{csv_form.hidden_tag()}}
+                <div class="col">
+                {{csv_form.csv_text(class="form-control", id="exampleFormControlTextarea1", rows="10", placeholder="Paste Here")}}
+                    </div>
+                <div class="col">
+                    {{csv_form.submit_csv_data(class="btn btn-primary", label="Submit CSV")}}
+                </div>
+  </div>
+
+</form>
+{% endblock %}
