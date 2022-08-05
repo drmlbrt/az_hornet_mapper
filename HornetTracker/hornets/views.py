@@ -117,7 +117,7 @@ def upate_hornet_locations():
 
 
 @hornet_bp.route("/delete", methods=["DELETE"])
-def delete_hornet_locations():
+def jar_delete():
     json_data = request.get_json()
 
     results = []
@@ -125,7 +125,7 @@ def delete_hornet_locations():
     if not json_data:
         return {"message": "No Valid JSON input data provided"}, 400
 
-    for item in json_data["delete_hornets_data"]:
+    for item in json_data["delete_jar_data"]:
 
         jar = Hornet.find_one_by_name(jar_name=item["jar_name"])
 
@@ -141,8 +141,25 @@ def delete_hornet_locations():
     return {"delete_results": results}, 200
 
 
-@hornet_bp.route("/add_to_map", methods=["PATCH"])
-def add_to_map():
+@hornet_bp.route("/delete_jar_name=<string:jar_name>", methods=["DELETE", "POST", "GET"])
+def _jar_name_delete(jar_name):
+    jar = Hornet.find_one_by_name(jar_name=jar_name)
+    if jar:
+        update = Hornet.delete(jar)
+        if update:
+            flash(f"Delete for item {jar_name} OK")
+        else:
+            flash(f"Delete for item {jar_name} FAILED - Does it exist?")
+
+        all_jars = Hornet.query.all()
+        return render_template("/hornets/table.html",
+                               jars=all_jars)
+    else:
+        return {"message": "Something went wrong with the update"}, 400
+
+
+@hornet_bp.route("/add_jar_to_map", methods=["PATCH"])
+def add_jar_to_map():
     json_data = request.get_json()
 
     results = []
@@ -172,7 +189,7 @@ def hornet_forms():
     form4 = BindMapToJar()
     form5 = DeleteJar()
 
-    if form1.submit.data and form1.validate_on_submit():
+    if form1.submit1.data and form1.validate_on_submit():
         new_jar = {"jar_name": form1.jar_name.data,
                    "latitude": form1.latitude.data,
                    "longitude": form1.longitude.data,
@@ -184,32 +201,27 @@ def hornet_forms():
 
         flash(f"Added {new_jar['jar_name']} information to db")
 
-    elif form3.submit.data and form3.validate_on_submit():
+    if form3.submit2.data and form3.validate_on_submit():
         selected_jar = form3.jar_name.data
 
         _jar = Hornet.find_one_by_name(jar_name=selected_jar)
 
         form2 = UpdateJar(obj=_jar)
 
-        if form2.submit.data and form2.validate_on_submit():
-            print("UPDATED HAS BEEN CLICKED")
-            update_jar = {"jar_name": form2.jar_name.data,
-                          "latitude": form2.latitude.data,
-                          "longitude": form2.longitude.data,
-                          "nr_of_sightings": form2.nr_of_sightings.data,
-                          "average_distance": form2.average_distance.data,
-                          "heading": form2.heading.data}
+    if form2.submit3.data and form2.validate_on_submit():
+        print("***************************************************")
+        update_jar = {"jar_name": form2.jar_name.data,
+                      "latitude": form2.latitude.data,
+                      "longitude": form2.longitude.data,
+                      "nr_of_sightings": form2.nr_of_sightings.data,
+                      "average_distance": form2.average_distance.data,
+                      "heading": form2.heading.data}
+        jar = Hornet.find_one_by_name(jar_name=update_jar["jar_name"])
+        if jar:
+            jar.update(jar=update_jar)
+        flash(f"Updated {update_jar['jar_name']}")
 
-            print(f"Update Jar information is = {update_jar}")
-
-            jar = Hornet.find_one_by_name(jar_name=update_jar["jar_name"])
-
-            if jar:
-                jar.update(jar=update_jar)
-
-            flash(f"Updated {update_jar['jar_name']}")
-
-    elif form4.submit.data and form4.validate_on_submit():
+    if form4.submit4.data and form4.validate_on_submit():
         binding = {"jar_name": form4.jar_name.data,
                    "map_name": form4.map_name.data}
 
@@ -220,17 +232,16 @@ def hornet_forms():
 
         flash(f"Map '{binding['map_name']}' and Jar '{binding['jar_name']}' are related")
 
-    else:
-        if form5.submit.data and form5.validate_on_submit():
-            jar = Hornet.find_one_by_name(form5.jar_name.data)
-            if jar:
-                delete = Hornet.delete(jar)
-                if delete:
-                    flash(f"Delete for item {form5.jar_name.data} OK")
-                else:
-                    flash(f"Delete for item {form5.jar_name.data} FAILED - Does it exist?")
+    if form5.submit5.data and form5.validate_on_submit():
+        jar = Hornet.find_one_by_name(form5.jar_name.data)
+        if jar:
+            delete = Hornet.delete(jar)
+            if delete:
+                flash(f"Delete for item {form5.jar_name.data} OK")
             else:
-                flash("Something went wrong with the update"), 400
+                flash(f"Delete for item {form5.jar_name.data} FAILED - Does it exist?")
+        else:
+            flash("Something went wrong with the update"), 400
 
     return render_template("/hornets/add_jar.html",
                            addform=form1,
@@ -238,6 +249,7 @@ def hornet_forms():
                            showjar=form3,
                            binder=form4,
                            delete=form5)
+
 
 @hornet_bp.route("/table", methods=["GET", "POST"])
 def table_jars():

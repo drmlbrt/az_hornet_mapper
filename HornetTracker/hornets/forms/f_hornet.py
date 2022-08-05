@@ -15,14 +15,14 @@ class AddJar(FlaskForm):
     average_distance = StringField("Average Distance", [InputRequired()])
     heading = StringField("Heading", [InputRequired()])
 
-    submit = SubmitField("Add Jar", [InputRequired()])
+    submit1 = SubmitField("Add Jar", [InputRequired()])
 
 
 class ShowJar(FlaskForm):
     jar_name = SelectField("Jar Name",
                            choices=[jar.jar_name for jar in Hornet.query.all()])
 
-    submit = SubmitField("Show Jar Data")
+    submit2 = SubmitField("Show Jar Data")
 
 
 class UpdateJar(FlaskForm):
@@ -33,7 +33,7 @@ class UpdateJar(FlaskForm):
     average_distance = StringField('Average Distance', [InputRequired()])
     heading = StringField('Heading', [InputRequired()])
 
-    submit = SubmitField("Update Jar Data")
+    submit3 = SubmitField("Update Jar Data")
 
 
 class BindMapToJar(FlaskForm):
@@ -42,10 +42,10 @@ class BindMapToJar(FlaskForm):
     map_name = SelectField("Map Name",
                            choices=[map.map_name for map in Map.query.all()])
 
-    submit = SubmitField("Bind Jar To Map")
+    submit4 = SubmitField("Bind Jar To Map")
 
 class DeleteJar(FlaskForm):
     jar_name = SelectField("Jar Name",
                            choices=[jar.jar_name for jar in Hornet.query.all()])
 
-    submit = SubmitField("Delete Jar Data")
+    submit5 = SubmitField("Delete Jar Data")

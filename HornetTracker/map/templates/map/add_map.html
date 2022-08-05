@@ -26,33 +26,30 @@
         <div class="accordion" id="accordionExample">
           <div class="accordion-item">
             <h2 class="accordion-header" id="headingOne">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                 Add Map Data
               </button>
             </h2>
-            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+            <div id="collapseOne" class="accordion-collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
               <div class="accordion-body">
                 <form class="row g-3" method="POST">
                   {{addform.hidden_tag()}}
 
                     <div class="col-sm">
-                        {{addform.map_name.label(class="form-label")}}
-                    </div>
-                    <div class="col-sm">
+<!--                        {{addform.map_name.label(class="form-label")}}-->
                         {{addform.map_name(class="form-control", placeholder="map_name")}}
                     </div>
+
                     <div class="col-sm">
-                        {{addform.latitude.label(class="form-label")}}
-                    </div>
-                    <div class="col-sm">
+<!--                        {{addform.latitude.label(class="form-label")}}-->
                         {{addform.latitude(class="form-control", placeholder="latitude")}}
                     </div>
+
                     <div class="col-sm">
-                        {{addform.longitude.label(class="form-label")}}
-                    </div>
-                    <div class="col-sm">
+<!--                        {{addform.longitude.label(class="form-label")}}-->
                         {{addform.longitude(class="form-control", placeholder="longitude")}}
                     </div>
+
                     <div class="col-sm">
                         {{addform.submit(class="btn btn-primary mb-3")}}
                     </div>
@@ -66,14 +63,12 @@
                 Show Map Data
               </button>
             </h2>
-            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree">
+            <div id="collapseThree" class="accordion-collapse" aria-labelledby="headingThree">
               <div class="accordion-body">
                 <form class="row g-3" method="POST">
                   {{showmap.hidden_tag()}}
                     <div class="col-sm">
-                        {{showmap.map_name.label(class="form-label")}}
-                    </div>
-                    <div class="col-sm">
+<!--                        {{showmap.map_name.label(class="form-label")}}-->
                         {{showmap.map_name(class="form-control", placeholder="map_name")}}
                     </div>
                     <div class="col-sm">
@@ -84,23 +79,20 @@
                   <form class="row g-3" method="POST">
                     {{updateform.hidden_tag()}}
                     <div class="col">
-                        {{updateform.map_name.label(class="form-label")}}
-                    </div>
-                    <div class="col">
+<!--                        {{updateform.map_name.label(class="form-label")}}-->
                         {{updateform.map_name(class="form-control", placeholder="map_name")}}
                     </div>
+
                     <div class="col">
-                        {{updateform.latitude.label(class="form-label")}}
-                    </div>
-                    <div class="col">
+<!--                        {{updateform.latitude.label(class="form-label")}}-->
                         {{updateform.latitude(class="form-control", placeholder="latitude")}}
                     </div>
+
                     <div class="col">
-                        {{updateform.longitude.label(class="form-label")}}
-                    </div>
-                    <div class="col">
+<!--                        {{updateform.longitude.label(class="form-label")}}-->
                         {{updateform.longitude(class="form-control", placeholder="longitude")}}
                     </div>
+
                     <div class="col">
                         {{updateform.submit(class="btn btn-primary mb-3")}}
                     </div>
@@ -120,9 +112,7 @@
                   <form class="row g-3" method="POST">
                     {{delete.hidden_tag()}}
                     <div class="col">
-                        {{delete.map_name.label(class="form-label")}}
-                    </div>
-                    <div class="col">
+<!--                        {{delete.map_name.label(class="form-label")}}-->
                         {{delete.map_name(class="form-control", placeholder="map_name")}}
                     </div>
                     <div class="col">

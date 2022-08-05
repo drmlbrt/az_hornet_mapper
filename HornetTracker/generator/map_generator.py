@@ -14,10 +14,12 @@ def generate_map(map_data: dict):
     m = folium.Map(location=center, zoom_start=13)
 
     for jar in new_map.jar_id:
-        print(jar)
+
         myjar = copy.deepcopy(jar.__dict__)
         location = [myjar['latitude'], myjar['longitude']]
+
         tooltip = "Click For information"
+
         folium.Marker(location,
                       popup=f'<b>JarName:{myjar["jar_name"]}'f'\n NrSightings:{myjar["nr_of_sightings"]}</b>',
                       tooltip=tooltip,
@@ -26,8 +28,8 @@ def generate_map(map_data: dict):
         folium.Circle(location=tuple(location),
                       radius=myjar["average_distance"],
                       color="#3186cc",
-                      fill=True,
-                      fill_color="#3186cc"
+                      # fill=False,
+                      # fill_color="#3186cc"
                       ).add_to(m)
 
         plugins.SemiCircle(location=tuple(location),

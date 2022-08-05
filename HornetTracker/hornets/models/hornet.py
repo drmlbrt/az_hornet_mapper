@@ -79,6 +79,7 @@ class Hornet(db.Model):
             _jar.nr_of_sightings = jar["nr_of_sightings"]
             _jar.average_distance = jar["average_distance"]
             _jar.heading = jar["heading"]
+            db.session.add(_jar)
             db.session.commit()
             return True
         else:

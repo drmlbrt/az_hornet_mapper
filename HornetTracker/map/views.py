@@ -110,26 +110,25 @@ def maps_forms():
 
     if form3.submit.data and form3.validate_on_submit():
         selected_map = form3.map_name.data
-        print(f"************************* {selected_map}")
 
         _jar = Map.find_one_by_name(map_name=selected_map)
 
         form2 = UpdateMap(obj=_jar)
 
-        if form2.submit.data and form2.validate_on_submit():
-            print("UPDATED HAS BEEN CLICKED")
-            update_map = {"map_name": form2.map_name.data,
-                          "latitude": form2.latitude.data,
-                          "longitude": form2.longitude.data}
+    if form2.submit.data and form2.validate_on_submit():
+        print("UPDATED HAS BEEN CLICKED")
+        update_map = {"map_name": form2.map_name.data,
+                      "latitude": form2.latitude.data,
+                      "longitude": form2.longitude.data}
 
-            print(f"Update Map information is = {update_map}")
+        print(f"Update Map information is = {update_map}")
 
-            map = Map.find_one_by_name(map_name=update_map["map_name"])
+        map = Map.find_one_by_name(map_name=update_map["map_name"])
 
-            if map:
-                map.update(map=update_map)
+        if map:
+            map.update(map=update_map)
 
-            flash(f"Updated {update_map['map_name']}")
+        flash(f"Updated {update_map['map_name']}")
 
     form5 = DeleteMap()
 
@@ -175,3 +174,20 @@ def table_maps():
     all_maps = Map.query.all()
     return render_template("/map/table.html",
                            maps=all_maps)
+
+
+@map_bp.route("/delete_map_name=<string:map_name>", methods=["DELETE", "POST", "GET"])
+def _map_name_delete(map_name):
+    jar = Map.find_one_by_name(map_name=map_name)
+    if jar:
+        update = Map.delete(jar)
+        if update:
+            flash(f"Delete for item {map_name} OK")
+        else:
+            flash(f"Delete for item {map_name} FAILED - Does it exist?")
+
+        all_maps = Map.query.all()
+        return render_template("/map/table.html",
+                               maps=all_maps)
+    else:
+        return {"message": "Something went wrong with the update"}, 400

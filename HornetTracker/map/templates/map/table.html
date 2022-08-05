@@ -19,9 +19,11 @@
     <table id="data" class="table table-striped">
     <thead>
       <tr>
-          <th>Name</th>
-          <th>Latitude</th>
-          <th>Longitude</th>
+          <th scope="col">Name</th>
+          <th scope="col">Latitude</th>
+          <th scope="col">Longitude</th>
+          <th scope="col">Jars</th>
+          <th scope="col">Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -30,6 +32,34 @@
           <td>{{ map.map_name }}</td>
           <td>{{ map.latitude }}</td>
           <td>{{ map.longitude }}</td>
+          <td><span style="white-space: pre-line">{% for jar in map.jar_id %}
+                                                        {{ jar.jar_name }}
+                                                    {% endfor %}
+                </span> </td>
+
+          <td><!-- Button trigger modal -->
+            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Delete
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Do you want to permanently delete: {{map.map_name}}
+                        </div>
+                        <div class="modal-footer">
+                                <a href="{{ url_for('map._map_name_delete', map_name=map.map_name) }}" class="btn btn-secondary" tabindex="-1" role="button">Yes</a>
+                                <a href="{{ url_for('map.table_maps') }}" class="btn btn-primary" tabindex="-1" role="button">No</a>
+                        </div>
+                    </div>
+                </div>
+            </div></td>
         </tr>
       {% endfor %}
     </tbody>
