@@ -109,8 +109,6 @@ def maps_forms():
         flash(f"Added {new_map['map_name']} information to db")
 
     if form3.submit2.data and form3.validate_on_submit():
-
-
         selected_map = form3.map_name.data
 
         print(f"*************************** selected : {selected_map}")
@@ -160,7 +158,6 @@ def maps_forms():
 
 @map_bp.route("/generate_map", methods=["GET", "POST"])
 def generate_new_map():
-
     generate_map_form = GenerateMap()
 
     if generate_map_form.submit4.data and generate_map_form.validate_on_submit():

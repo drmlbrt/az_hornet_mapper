@@ -221,8 +221,11 @@ def hornet_forms():
         flash(f"Updated {update_jar['jar_name']}")
 
     if form4.submit4.data and form4.validate_on_submit():
-        binding = {"jar_name": form4.jar_name.data,
-                   "map_name": form4.map_name.data}
+        jar_name = form4.jar_name.data
+        map_name = form4.map_name.data
+
+        binding = {"jar_name": jar_name.__dict__["jar_name"],
+                   "map_name": map_name.__dict__["map_name"]}
 
         jar = Hornet.find_one_by_name(jar_name=binding["jar_name"])
 
