@@ -37,7 +37,6 @@
                         <form class="row g-3" method="POST">
                           {{showmap.hidden_tag()}}
                             <div class="col">
-<!--                                {{showmap.map_name.label(class="form-label")}}-->
                                 {{showmap.map_name(class="form-select", placeholder="map_name")}}
                             </div>
                             <div class="col-auto">
@@ -55,12 +54,12 @@
     {%block body%}
 
                 <div class="container-fluid py-2">
-                <h2>Generated Map</h2>
-                <p>If it is not the result you think. Then check your data input. Is the longitude and latitude correct? </p>
-                <p>You can get information of Longitude and Latitude on the Google Maps page.</p>
-                    <div>
-                      {{map | safe}}
-                    </div>
+                    <h2>Generated Map</h2>
+                    <p>If it is not the result you think. Then check your data input. Is the longitude and latitude correct? </p>
+                    <p>You can get information of Longitude and Latitude on the Google Maps page.</p>
+                        <div>
+                          {{map | safe}}
+                        </div>
                 </div>
 
     {% endblock %}

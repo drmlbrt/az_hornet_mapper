@@ -51,10 +51,18 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            Do you want to permanently delete: {{map.map_name}}
+                            <form class="row g-3" method="POST">
+                                {{delete.hidden_tag()}}
+                                <div class="col">
+                                    {{delete.map_name(class="form-select", placeholder="map_name")}}
+                                </div>
+                                <div class="col-auto">
+                                    {{delete.delete(class="btn btn-warning mb-3")}}
+                                </div>
+                            </form>
                         </div>
                         <div class="modal-footer">
-                                <a href="{{ url_for('map._map_name_delete', map_name=map.map_name) }}" class="btn btn-secondary" tabindex="-1" role="button">Yes</a>
+
                                 <a href="{{ url_for('map.table_maps') }}" class="btn btn-primary" tabindex="-1" role="button">No</a>
                         </div>
                     </div>

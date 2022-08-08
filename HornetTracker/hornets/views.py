@@ -6,7 +6,8 @@ from folium import plugins
 from marshmallow import ValidationError
 from HornetTracker.hornets.models.hornet import Hornet
 from HornetTracker.hornets.schemas.s_hornet import Hornet_D, Hornet_L
-from HornetTracker.hornets.forms.f_hornet import AddJar, UpdateJar, ShowJar, BindMapToJar, DeleteJar, CsvReadData
+from HornetTracker.hornets.forms.f_hornet import AddJar, UpdateJar, ShowJar, BindMapToJar, DeleteJar, CsvReadData, \
+    DeleteButtonJar
 from HornetTracker.generator.csv_reader import csv_reader
 
 hornet_bp = Blueprint('hornet', __name__,
@@ -200,12 +201,16 @@ def hornet_forms():
 
         flash(f"Added {new_jar['jar_name']} information to db")
 
+        redirect(url_for(".hornet_forms"))
+
     if form3.submit2.data and form3.validate_on_submit():
         selected_jar = form3.jar_name.data
 
         _jar = Hornet.find_one_by_name(jar_name=selected_jar.__dict__["jar_name"])
 
         form2 = UpdateJar(obj=_jar)
+
+        redirect(url_for(".hornet_forms"))
 
     if form2.submit3.data and form2.validate_on_submit():
 
@@ -219,6 +224,8 @@ def hornet_forms():
         if jar:
             jar.update(jar=update_jar)
         flash(f"Updated {update_jar['jar_name']}")
+
+        redirect(url_for(".hornet_forms"))
 
     if form4.submit4.data and form4.validate_on_submit():
         jar_name = form4.jar_name.data
@@ -234,6 +241,8 @@ def hornet_forms():
 
         flash(f"Map '{binding['map_name']}' and Jar '{binding['jar_name']}' are related")
 
+        redirect(url_for(".hornet_forms"))
+
     if form5.submit5.data and form5.validate_on_submit():
         selected_jar = form5.jar_name.data
         jar = Hornet.find_one_by_name(jar_name=selected_jar.__dict__["jar_name"])
@@ -246,6 +255,8 @@ def hornet_forms():
         else:
             flash("Something went wrong with the update"), 400
 
+        redirect(url_for(".hornet_forms"))
+
     return render_template("/hornets/add_jar.html",
                            addform=form1,
                            updateform=form2,
@@ -257,8 +268,8 @@ def hornet_forms():
 @hornet_bp.route("/table", methods=["GET", "POST"])
 def table_jars():
     all_jars = Hornet.query.all()
-
     form4 = BindMapToJar()
+    form5 = DeleteJar()
 
     if form4.submit4.data and form4.validate_on_submit():
         jar_name = form4.jar_name.data.__dict__
@@ -273,9 +284,26 @@ def table_jars():
 
         flash(f"Map '{binding['map_name']}' and Jar '{binding['jar_name']}' are related")
 
+        redirect(url_for(".table_jars"))
+
+    if form5.submit5.data and form5.validate_on_submit():
+        selected_jar = form5.jar_name.data
+        jar = Hornet.find_one_by_name(jar_name=selected_jar.__dict__["jar_name"])
+        if jar:
+            delete = Hornet.delete(jar)
+            if delete:
+                flash(f"Delete for item {selected_jar.__dict__['jar_name']} OK")
+            else:
+                flash(f"Delete for item {selected_jar.__dict__['jar_name']} FAILED - Does it exist?")
+        else:
+            flash("Something went wrong with the update"), 400
+
+        redirect(url_for(".table_jars"))
+
     return render_template("/hornets/table.html",
                            jars=all_jars,
-                           binder=form4)
+                           binder=form4,
+                           delete=form5)
 
 
 @hornet_bp.route("/csv_uploader", methods=["GET", "POST"])

@@ -52,11 +52,19 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            Do you want to permanently delete:
-                                                        {{ jar.jar_name }}
+                            <form class="row g-3" method="POST">
+                                {{delete.hidden_tag()}}
+                                <div class="col">
+                <!--                    {{delete.jar_name.label(class="form-label")}}-->
+                                    {{delete.jar_name(class="form-select", placeholder="jar_name")}}
+                                </div>
+                                <div class="col-auto">
+                                    {{delete.submit5(class="btn btn-warning mb-3")}}
+                                </div>
+                            </form>
                         </div>
                         <div class="modal-footer">
-                            <a type="button" class="btn btn-warning" href="{{ url_for('hornet._jar_name_delete', jar_name=jar.jar_name) }}">Yes</a>
+<!--                            <a type="button" class="btn btn-warning" href="{{ url_for('hornet._jar_name_delete', jar_name=jar.jar_name) }}">Yes</a>-->
                             <a type="button" class="btn btn-secondary" href="{{ url_for('hornet.table_jars') }}">No</a>
                         </div>
                     </div>
@@ -94,6 +102,10 @@
                                     {{binder.submit4(class="btn btn-primary mb-3")}}
                                 </div>
                               </form>
+                        </div>
+                        <div class="modal-footer">
+<!--                            <a type="button" class="btn btn-warning" href="{{ url_for('hornet._jar_name_delete', jar_name=jar.jar_name) }}">Yes</a>-->
+                            <a type="button" class="btn btn-secondary" href="{{ url_for('hornet.table_jars') }}">No</a>
                         </div>
                     </div>
                 </div>

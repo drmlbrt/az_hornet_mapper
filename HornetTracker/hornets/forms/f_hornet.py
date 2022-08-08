@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import (SelectField, SubmitField, StringField,
                      BooleanField, DateTimeField, RadioField,
-                     TextAreaField, IntegerField, ValidationError, EmailField, validators, FloatField)
+                     TextAreaField, IntegerField, ValidationError, EmailField, validators, FloatField, HiddenField)
 from wtforms.validators import InputRequired, Length, DataRequired
 from wtforms_sqlalchemy.fields import QuerySelectField
 from HornetTracker.hornets.models.hornet import Hornet
@@ -51,6 +51,11 @@ class DeleteJar(FlaskForm):
                                 query_factory=lambda: Hornet.query.all())
 
     submit5 = SubmitField("Delete Jar Data")
+
+
+class DeleteButtonJar(FlaskForm):
+    delete_name = HiddenField("Hidden Table Name")
+    delete = SubmitField('Delete')
 
 
 class CsvReadData(FlaskForm):

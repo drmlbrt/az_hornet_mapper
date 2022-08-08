@@ -23,7 +23,7 @@ class ShowMap(FlaskForm):
 class DeleteMap(FlaskForm):
     map_name = QuerySelectField(get_label="map_name",
                                 query_factory=lambda: Map.query.all())
-    submit3 = SubmitField("Delete Map Data")
+    delete = SubmitField("Delete Map Data")
 
 
 class GenerateMap(FlaskForm):

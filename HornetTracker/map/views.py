@@ -108,24 +108,22 @@ def maps_forms():
 
         flash(f"Added {new_map['map_name']} information to db")
 
+        redirect(url_for(".maps_forms"))
+
     if form3.submit2.data and form3.validate_on_submit():
         selected_map = form3.map_name.data
-
-        print(f"*************************** selected : {selected_map}")
 
         _jar = Map.find_one_by_name(map_name=selected_map.__dict__["map_name"])
 
         form2 = UpdateMap(obj=_jar)
-        print(f"*************************************************Form content : {form2.data}")
+
+        redirect(url_for(".maps_forms"))
 
     if form2.submit5.data and form2.validate_on_submit():
-        print("UPDATED HAS BEEN CLICKED")
 
         update_map = {"map_name": form2.map_name.data,
                       "latitude": form2.latitude.data,
                       "longitude": form2.longitude.data}
-
-        print(f"Update Map information is = {update_map}")
 
         map = Map.find_one_by_name(map_name=update_map["map_name"])
 
@@ -133,6 +131,8 @@ def maps_forms():
             map.update(map=update_map)
 
         flash(f"Updated {update_map['map_name']}")
+
+        redirect(url_for(".maps_forms"))
 
     form5 = DeleteMap()
 
@@ -148,6 +148,8 @@ def maps_forms():
                 flash(f"Delete for item {selected_map.__dict__['map_name']} FAILED - Does it exist?")
         else:
             flash("Something went wrong with the update"), 400
+
+        redirect(url_for(".maps_forms"))
 
     return render_template("/map/add_map.html",
                            addform=form1,
@@ -165,12 +167,10 @@ def generate_new_map():
 
         map = Map.find_one_by_name(map_name=selected_map.__dict__["map_name"])
 
-        print(map)
         new_map = generate_map(map_data=map.__dict__)
 
         return render_template("/map/generate_map.html",
-                               showmap=generate_map_form,
-                               map=new_map)
+                               showmap=generate_map_form, map=new_map)
 
     return render_template("/map/generate_map.html",
                            showmap=generate_map_form)
@@ -179,8 +179,27 @@ def generate_new_map():
 @map_bp.route("/table", methods=["GET", "POST"])
 def table_maps():
     all_maps = Map.query.all()
+
+    form5 = DeleteMap()
+
+    if form5.delete.data and form5.validate_on_submit():
+        selected_map = form5.map_name.data
+        map = Map.find_one_by_name(map_name=selected_map.__dict__["map_name"])
+
+        if map:
+            update = Map.delete(map)
+            if update:
+                flash(f"Delete for item {selected_map.__dict__['map_name']} OK")
+            else:
+                flash(f"Delete for item {selected_map.__dict__['map_name']} FAILED - Does it exist?")
+        else:
+            flash("Something went wrong with the update"), 400
+
+        redirect(url_for(".table_maps"))
+
     return render_template("/map/table.html",
-                           maps=all_maps)
+                           maps=all_maps,
+                           delete=form5)
 
 
 @map_bp.route("/delete_map_name=<string:map_name>", methods=["DELETE", "POST", "GET"])
