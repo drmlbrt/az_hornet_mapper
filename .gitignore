@@ -2,3 +2,5 @@
 /instance/
 /output/
 /init_db.py
+/.mypy_cache/
+/venv/
