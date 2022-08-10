@@ -9,7 +9,7 @@
 This project started as a necessity to track, monitor and create a 'tracking' map with the necessary data.
 
 ### Changes
-- dropped support for csv
+- csv upload only possible with clear text
 - added SQL Lite database
 - added KISS frontend
 - basic data CRUD operations (Add, Delete , Update)
@@ -30,23 +30,28 @@ Only then the program can read and understand the input.
 
 
 > Install the latest version of Python
+> for Windows users: go to the webpage of Python and follow the install instructions.
+> Normally your system has already pip in it. 
 
 > In terminal pip install the requirements file
 > '''
 > pip install -r requirements.txt
 > '''
 ---
-Run the code
-
-This starts the web page.
+> Run the code by opening a cmd or terminal window.
 
 [//]: <> (Inserting Code)
 ```
-terminal:python main.py
+inside the terminal: browse to your program folder.
+ For windows user probably :> c:/User/something/downloads/... 
+type:
+python main.py
+
+this should run the Flask server.
 ```
-
+> click on the URL inside the terminal window.
 > open the http://127.0.0.1:5000
-
+> This opens the webpage program.
 
 ### Database Data
 

@@ -1,2 +1,4 @@
 /venv/
 /instance/
+/output/
+/init_db.py

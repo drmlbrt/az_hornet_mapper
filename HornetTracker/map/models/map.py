@@ -1,3 +1,11 @@
+"""
+    map.py
+    This module contains classes for maps. It has a relationship with the jars. A map can contain multiple jars.
+    Jars can't be on multiple maps!
+"""
+
+__author__ = "Dermul Bart"
+
 from HornetTracker import db
 from sqlalchemy.exc import IntegrityError
 

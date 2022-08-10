@@ -1,3 +1,10 @@
+"""
+    hornet.py
+    This module contains classes for Jars
+"""
+
+__author__ = "Dermul Bart"
+
 from HornetTracker import db
 from sqlalchemy.exc import IntegrityError
 from HornetTracker.map.models.map import Map
