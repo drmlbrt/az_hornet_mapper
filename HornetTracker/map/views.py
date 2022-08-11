@@ -1,8 +1,4 @@
-import copy
-import os
 from flask import Flask, render_template, url_for, redirect, Blueprint, request, flash
-import folium
-from folium import plugins
 from marshmallow import ValidationError
 from HornetTracker.map.models.map import Map
 from HornetTracker.map.schemas.s_map import Map_D, Map_L
@@ -98,6 +94,7 @@ def maps_forms():
     form1 = AddMapForm()
     form2 = UpdateMap()
     form3 = ShowMap()
+    form5 = DeleteMap()
 
     if form1.submit1.data and form1.validate_on_submit():
         new_map = {"map_name": form1.map_name.data,
@@ -125,23 +122,21 @@ def maps_forms():
                       "latitude": form2.latitude.data,
                       "longitude": form2.longitude.data}
 
-        map = Map.find_one_by_name(map_name=update_map["map_name"])
+        _map = Map.find_one_by_name(map_name=update_map["map_name"])
 
-        if map:
-            map.update(map=update_map)
+        if _map:
+            _map.update(map=update_map)
 
         flash(f"Updated {update_map['map_name']}")
 
         redirect(url_for(".maps_forms"))
 
-    form5 = DeleteMap()
-
-    if form5.submit3.data and form5.validate_on_submit():
+    if form5.delete_map.data and form5.validate_on_submit():
         selected_map = form5.map_name.data
-        map = Map.find_one_by_name(map_name=selected_map.__dict__["map_name"])
+        _map = Map.find_one_by_name(map_name=selected_map.__dict__["map_name"])
 
-        if map:
-            update = Map.delete(map)
+        if _map:
+            update = Map.delete(_map)
             if update:
                 flash(f"Delete for item {selected_map.__dict__['map_name']} OK")
             else:
@@ -179,32 +174,15 @@ def generate_new_map():
 @map_bp.route("/table", methods=["GET", "POST"])
 def table_maps():
     all_maps = Map.query.all()
-
-    form5 = DeleteMap()
-
-    if form5.delete.data and form5.validate_on_submit():
-        selected_map = form5.map_name.data
-        map = Map.find_one_by_name(map_name=selected_map.__dict__["map_name"])
-
-        if map:
-            update = Map.delete(map)
-            if update:
-                flash(f"Delete for item {selected_map.__dict__['map_name']} OK")
-            else:
-                flash(f"Delete for item {selected_map.__dict__['map_name']} FAILED - Does it exist?")
-        else:
-            flash("Something went wrong with the update"), 400
-
-        redirect(url_for(".table_maps"))
-
     return render_template("/map/table.html",
                            maps=all_maps,
-                           delete=form5)
+                           )
 
 
 @map_bp.route("/delete_map_name=<string:map_name>", methods=["DELETE", "POST", "GET"])
 def _map_name_delete(map_name):
     jar = Map.find_one_by_name(map_name=map_name)
+
     if jar:
         update = Map.delete(jar)
         if update:
@@ -213,5 +191,6 @@ def _map_name_delete(map_name):
             flash(f"Delete for item {map_name} FAILED - Does it exist?")
 
         return redirect(url_for(".table_maps"))
+
     else:
         return {"message": "Something went wrong with the update"}, 400

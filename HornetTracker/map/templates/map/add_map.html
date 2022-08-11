@@ -110,14 +110,14 @@
             <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
               <div class="accordion-body">
                   <form class="row g-3" method="POST">
-                    {{delete.hidden_tag()}}
-                    <div class="col">
-<!--                        {{delete.map_name.label(class="form-label")}}-->
-                        {{delete.map_name(class="form-control", placeholder="map_name")}}
-                    </div>
-                    <div class="col">
-                        {{delete.delete(class="btn btn-primary mb-3")}}
-                    </div>
+                        {{delete.hidden_tag()}}
+                        <div class="col">
+    <!--                        {{delete.map_name.label(class="form-label")}}-->
+                            {{delete.map_name(class="form-control", placeholder="map_name")}}
+                        </div>
+                        <div class="col">
+                            {{delete.delete_map(class="btn btn-primary mb-3")}}
+                        </div>
                   </form>
               </div>
             </div>

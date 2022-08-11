@@ -1,7 +1,8 @@
 from flask_wtf import FlaskForm
 from wtforms import (SelectField, SubmitField, StringField,
                      BooleanField, DateTimeField, RadioField,
-                     TextAreaField, IntegerField, ValidationError, EmailField, validators, FloatField)
+                     TextAreaField, IntegerField, ValidationError,
+                     EmailField, validators, FloatField, HiddenField)
 from wtforms.validators import InputRequired, Length, DataRequired
 from wtforms_sqlalchemy.fields import QuerySelectField
 from HornetTracker.map.models.map import Map
@@ -21,9 +22,10 @@ class ShowMap(FlaskForm):
 
 
 class DeleteMap(FlaskForm):
+    delete_map_name = HiddenField("Delete Map Name")
     map_name = QuerySelectField(get_label="map_name",
                                 query_factory=lambda: Map.query.all())
-    delete = SubmitField("Delete Map Data")
+    delete_map = SubmitField("Delete Map Data")
 
 
 class GenerateMap(FlaskForm):

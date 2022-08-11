@@ -48,7 +48,7 @@ class Map(db.Model):
     def create(self):
         do_i_exist = Map.find_one_by_name(map_name=self.map_name)
         if do_i_exist:
-            print(f"The item 'Hornet' for jar name: {self.map_name} exists")
+            print(f"The item for map name: {self.map_name} exists")
             pass
         else:
             db.session.add(self)

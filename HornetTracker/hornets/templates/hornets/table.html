@@ -39,45 +39,35 @@
           <td>{{ jar.heading }} </td>
           <td><!-- Button trigger modal - delete -->
 
-            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
-            Delete
-            </button>
-
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Delete data</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form class="row g-3" method="POST">
-                                {{delete.hidden_tag()}}
-                                <div class="col">
-                <!--                    {{delete.jar_name.label(class="form-label")}}-->
-                                    {{delete.jar_name(class="form-select", placeholder="jar_name")}}
+            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#{{jar.jar_name}}Modal" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                        Delete
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="{{jar.jar_name}}Modal" tabindex="-1" aria-labelledby="{{jar.jar_name}}ModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="{{jar.jar_name}}ModalLabel">Are you sure?</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                                <div class="col-auto">
-                                    {{delete.submit5(class="btn btn-warning mb-3")}}
+                                <div class="modal-body">
+                                <p>Are you sure to delete the item : {{ jar.jar_name }}</p>
                                 </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-<!--                            <a type="button" class="btn btn-warning" href="{{ url_for('hornet._jar_name_delete', jar_name=jar.jar_name) }}">Yes</a>-->
-                            <a type="button" class="btn btn-secondary" href="{{ url_for('hornet.table_jars') }}">No</a>
+                                <div class="modal-footer">
+                                    <a href="{{ url_for('hornet._jar_name_delete', jar_name=jar.jar_name) }}" class="btn btn-danger" tabindex="-1" role="button">Yes</a>
+                                    <a href="{{ url_for('hornet.table_jars')}}" class="btn btn-secondary" tabindex="-1" role="button">No</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
               <!-- Button trigger modal - add to a map -->
 
-            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#AddToMapModal" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#{{ jar.jar_name }}" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
             Add On Map
             </button>
 
             <!-- Modal -->
-            <div class="modal fade" id="AddToMapModal" tabindex="-1" aria-labelledby="AddToMapLabel" aria-hidden="true">
+            <div class="modal fade" id="{{ jar.jar_name }}" tabindex="-1" aria-labelledby="AddToMapLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -85,27 +75,21 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            Do you want to add {{ jar.jar_name }} Jar to Map :
-                            <form class="row g-3" method="POST">
-                                {{binder.hidden_tag()}}
+                            <p>Do you want to add {{ jar.jar_name }} Jar to Map</p>
                                 <div class="col">
-<!--                                    {{binder.jar_name.label(class="form-label")}}-->
-                                    {{binder.jar_name(class="form-select", placeholder="jar_name")}}
+                                    <form action="{{ url_for('hornet._jar_on_map')}}">
+                                        <input type="hidden" value="{{jar.jar_name}}" name="jar_name"/>
+                                        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg"  name="map_name">
+                                                {% for map in maps %}
+                                              <option value='{{map.map_name}}'>{{ map.map_name }}</option>
+                                                {% endfor %}
+                                        </select>
+                                        <button type="submit" class="btn btn-secondary">Yes</button>
+                                    </form>
                                 </div>
-
-                                <div class="col">
-<!--                                    {{binder.map_name.label(class="form-label")}}-->
-                                    {{binder.map_name(class="form-select", placeholder="map_name")}}
-                                </div>
-
-                                <div class="col-auto">
-                                    {{binder.submit4(class="btn btn-primary mb-3")}}
-                                </div>
-                              </form>
                         </div>
                         <div class="modal-footer">
-<!--                            <a type="button" class="btn btn-warning" href="{{ url_for('hornet._jar_name_delete', jar_name=jar.jar_name) }}">Yes</a>-->
-                            <a type="button" class="btn btn-secondary" href="{{ url_for('hornet.table_jars') }}">No</a>
+                            <a type="button" class="btn btn-secondary" href="{{ url_for('hornet.table_jars') }}">Cancel</a>
                         </div>
                     </div>
                 </div>

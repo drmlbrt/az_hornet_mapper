@@ -5,6 +5,7 @@ import folium
 from folium import plugins
 from marshmallow import ValidationError
 from HornetTracker.hornets.models.hornet import Hornet
+from HornetTracker.map.models.map import Map
 from HornetTracker.hornets.schemas.s_hornet import Hornet_D, Hornet_L
 from HornetTracker.hornets.forms.f_hornet import AddJar, UpdateJar, ShowJar, BindMapToJar, DeleteJar, CsvReadData, \
     DeleteButtonJar
@@ -16,53 +17,6 @@ hornet_bp = Blueprint('hornet', __name__,
 
 schema_hornet_dump = Hornet_D()
 schema_hornet_load = Hornet_L
-
-
-@hornet_bp.route("/showmap", methods=["GET"])
-def get_map():
-    return render_template("index.html")
-
-
-@hornet_bp.route("/map/longitude=<float:long>&latitude=<float:lat>", methods=["GET"])
-def mapper(long, lat):
-    """
-    The function finds all inputs in the database. Probably for you not a lot.
-        jars = Hornet.list()
-    Then the location of the map is still a fixed item : the 'center' of the map. It should be dynamic and depending on your location.
-    Now the client must provide those via the route.
-    :return: render the template index.
-    """
-    jars = Hornet.list()
-
-    center = [float(long), float(lat)]
-
-    m = folium.Map(location=center, zoom_start=16)
-
-    for jar in jars:
-        myjar = copy.deepcopy(jar.__dict__)
-        location = [myjar['latitude'], myjar['longitude']]
-        tooltip = "Click For information"
-        folium.Marker(location,
-                      popup=f'<b>JarName:{myjar["jar_name"]}'f'\n NrSightings:{myjar["nr_of_sightings"]}</b>',
-                      tooltip=tooltip,
-                      icon=folium.Icon(color="red", icon="bee")).add_to(m)
-
-        folium.Circle(location=tuple(location),
-                      radius=myjar["average_distance"],
-                      color="#3186cc",
-                      fill=True,
-                      fill_color="#3186cc"
-                      ).add_to(m)
-
-        plugins.SemiCircle(location=tuple(location),
-                           radius=myjar["average_distance"],
-                           direction=myjar["heading"],
-                           arc=2,
-                           fill=True).add_to(m)
-
-        m.save("./HornetTracker/templates/map.html")
-
-    return render_template("index.html")
 
 
 @hornet_bp.route("/get_all", methods=["GET", "POST"])
@@ -141,21 +95,6 @@ def jar_delete():
             return {"message": "Something went wrong with the update"}, 400
 
     return {"delete_results": results}, 200
-
-
-@hornet_bp.route("/delete_jar_name=<string:jar_name>", methods=["DELETE", "POST", "GET"])
-def _jar_name_delete(jar_name):
-    jar = Hornet.find_one_by_name(jar_name=jar_name)
-    if jar:
-        update = Hornet.delete(jar)
-        if update:
-            flash(f"Delete for item {jar_name} OK")
-        else:
-            flash(f"Delete for item {jar_name} FAILED - Does it exist?")
-
-        return redirect(url_for(".table_jars"))
-    else:
-        return {"message": "Something went wrong with the update"}, 400
 
 
 @hornet_bp.route("/add_jar_to_map", methods=["PATCH"])
@@ -268,42 +207,54 @@ def hornet_forms():
 @hornet_bp.route("/table", methods=["GET", "POST"])
 def table_jars():
     all_jars = Hornet.query.all()
-    form4 = BindMapToJar()
-    form5 = DeleteJar()
-
-    if form4.submit4.data and form4.validate_on_submit():
-        jar_name = form4.jar_name.data.__dict__
-        map_name = form4.map_name.data.__dict__
-        binding = {"jar_name": jar_name["jar_name"],
-                   "map_name": map_name["map_name"]}
-
-        jar = Hornet.find_one_by_name(jar_name=binding["jar_name"])
-
-        if jar:
-            Hornet.bind_to_map(bind_jar_to_map=binding)
-
-        flash(f"Map '{binding['map_name']}' and Jar '{binding['jar_name']}' are related")
-
-        redirect(url_for(".table_jars"))
-
-    if form5.submit5.data and form5.validate_on_submit():
-        selected_jar = form5.jar_name.data
-        jar = Hornet.find_one_by_name(jar_name=selected_jar.__dict__["jar_name"])
-        if jar:
-            delete = Hornet.delete(jar)
-            if delete:
-                flash(f"Delete for item {selected_jar.__dict__['jar_name']} OK")
-            else:
-                flash(f"Delete for item {selected_jar.__dict__['jar_name']} FAILED - Does it exist?")
-        else:
-            flash("Something went wrong with the update"), 400
-
-        redirect(url_for(".table_jars"))
+    all_maps = Map.query.all()
+    binder = BindMapToJar()
 
     return render_template("/hornets/table.html",
-                           jars=all_jars,
-                           binder=form4,
-                           delete=form5)
+                           jars=all_jars, binder=binder, maps=all_maps)
+
+
+@hornet_bp.route("/delete_jar_name=<string:jar_name>", methods=["DELETE", "POST", "GET"])
+def _jar_name_delete(jar_name):
+    jar = Hornet.find_one_by_name(jar_name=jar_name)
+    if jar:
+        update = Hornet.delete(jar)
+        if update:
+            flash(f"Delete for item {jar_name} OK")
+        else:
+            flash(f"Delete for item {jar_name} FAILED - Does it exist?")
+
+        return redirect(url_for(".table_jars"))
+    else:
+        return {"message": "Something went wrong with the update"}, 400
+
+
+@hornet_bp.route("/add_jar_on_map", methods=["POST", "GET"])
+def _jar_on_map():
+    returneddata = {}
+
+    print(request.args)
+
+    returneddata["jar_name"] = request.args.get('jar_name')
+    returneddata["map_name"] = request.args.get('map_name')
+
+    print(f"-------------------{returneddata['jar_name']}")
+
+    print(f"-------------------{returneddata['map_name']}")
+
+    jar = Hornet.find_one_by_name(jar_name=returneddata["jar_name"])
+
+    if jar:
+        update = Hornet.bind_to_map(bind_jar_to_map=returneddata)
+        if update:
+            flash(f"Adding Map {returneddata['map_name']} for item {returneddata['jar_name']} OK")
+        else:
+            flash(f"Adding Map {returneddata['map_name']} for item {returneddata['jar_name']} FAILED - Does it exist?")
+
+        return redirect(url_for(".table_jars"))
+
+    flash("Something went wrong")
+    return redirect(url_for(".table_jars"))
 
 
 @hornet_bp.route("/csv_uploader", methods=["GET", "POST"])

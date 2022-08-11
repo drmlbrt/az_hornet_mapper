@@ -53,7 +53,7 @@ class Hornet(db.Model):
     def create(self):
         do_i_exist = Hornet.find_one_by_name(jar_name=self.jar_name)
         if do_i_exist:
-            print(f"The item 'Hornet' for jar name: {self.jar_name} exists")
+            print(f"The item for jar name: {self.jar_name} exists")
             pass
         else:
             db.session.add(self)
@@ -71,15 +71,15 @@ class Hornet(db.Model):
         return cls.query.filter_by(_id=_id).first()
 
     @classmethod
-    def find_one_by_name(cls, jar_name):
+    def find_one_by_name(cls, jar_name: str):
         return cls.query.filter_by(jar_name=jar_name).first()
 
     # UPDATE
     @classmethod
     def update(cls, jar: dict):
         _jar = cls.find_one_by_name(jar["jar_name"])
-        print("Entering Update Method in Hornet")
-        print(jar)
+        # print("Entering Update Method in Hornet")
+        # print(jar)
         if jar:
             _jar.latitude = jar["latitude"]
             _jar.longitude = jar["longitude"]
@@ -106,9 +106,9 @@ class Hornet(db.Model):
     @classmethod
     def bind_to_map(cls, bind_jar_to_map: dict):
         thejar = cls.find_one_by_name(bind_jar_to_map["jar_name"])
-        print(thejar)
+
         themap = Map.find_one_by_name(bind_jar_to_map["map_name"])
-        print(themap)
+
         if thejar and themap:
             thejar.map_id = themap._id
             db.session.commit()

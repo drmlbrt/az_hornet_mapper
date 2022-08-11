@@ -13,6 +13,8 @@ This project started as a necessity to track, monitor and create a 'tracking' ma
 - added SQL Lite database
 - added KISS frontend
 - basic data CRUD operations (Add, Delete , Update)
+- CRUD operations added to the tables - was only possible to select 
+  the item inside the pop-up screen
 
 ## How does it work? 
 
@@ -25,9 +27,7 @@ Basically the following Python projects are in use:
 
 And some modding is performed using a nice guys work : https://stackoverflow.com/questions/57227249/folium-how-can-i-change-fill-color-in-semicircle-plugin
 
-The data is in a csv file. This means it is a comma separated set of data. You need to keep the order ;-).
-Only then the program can read and understand the input. 
-
+## Install Instructions
 
 > Install the latest version of Python
 > for Windows users: go to the webpage of Python and follow the install instructions.
@@ -50,8 +50,10 @@ python main.py
 this should run the Flask server.
 ```
 > click on the URL inside the terminal window.
+> 
 > open the http://127.0.0.1:5000
-> This opens the webpage program.
+> 
+> Then the webpage program opens, and you can use the application.
 
 ### Database Data
 
@@ -75,12 +77,9 @@ The Database is hidden. So booting the system requires a new database. Should be
 
 With the forms you can edit and add information. 
 
-### CSV Bulk data upload
+---
 
-You can now upload CSV data as long string. It saves you a lot of time.
-An Example of the data is inside the text field visible. You can use that example for your own upload.
-
-### For now
+### For now Run Instructions
 > After installation of the requirements file. 
 > 
 > Run the python main.py.
@@ -94,6 +93,11 @@ An Example of the data is inside the text field visible. You can use that exampl
 > Every Jar or Map is a form where you can perform CRUD operations. 
 > This means, that you can add, read, update and read information in the database. 
 > I think that the "blocks" in the form are understandable. 
+
+### CSV Bulk data upload feature
+
+You can now upload CSV data as long string. It saves you a lot of time.
+An Example of the data is inside the text field visible. You can use that example for your own upload.
 
 
 ### Improvements?

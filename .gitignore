@@ -4,3 +4,4 @@
 /init_db.py
 /.mypy_cache/
 /venv/
+/app.log
