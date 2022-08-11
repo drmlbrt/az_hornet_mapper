@@ -171,6 +171,19 @@ def generate_new_map():
                            showmap=generate_map_form)
 
 
+@map_bp.route("/_generate_map/map_name=<string:map_name>", methods=["GET", "POST"])
+def _generate_new_map(map_name):
+
+    map = Map.find_one_by_name(map_name=map_name)
+
+    new_map = generate_map(map_data=map.__dict__)
+
+    all_maps = Map.query.all()
+    return render_template("/map/table.html",
+                           maps=all_maps,
+                           map=new_map)
+
+
 @map_bp.route("/table", methods=["GET", "POST"])
 def table_maps():
     all_maps = Map.query.all()

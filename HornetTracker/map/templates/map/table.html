@@ -59,9 +59,39 @@
                             </div>
                         </div>
                     </div>
+                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#GenerateMapModal" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                        Show Map
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="GenerateMapModal" tabindex="-1" aria-labelledby="GenerateMapModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="GenerateMapModalLabel">Are you sure?</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                <p>Generate this map : {{ map.map_name }} </p>
+                                </div>
+                                <div class="modal-footer">
+                                    <a href="{{ url_for('map._generate_new_map', map_name=map.map_name) }}" class="btn btn-primary" tabindex="-1" role="button">Yes</a>
+                                    <a href="{{ url_for('map.table_maps')}}" class="btn btn-secondary" tabindex="-1" role="button">No</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </td>
             </tr>
           {% endfor %}
         </tbody>
       </table>
+    {% endblock %}
+
+    {%block body%}
+                <div class="container-fluid py-2">
+                    <h2>Generated Map</h2>
+                        <div>
+                          {{map | safe}}
+                        </div>
+                </div>
     {% endblock %}
