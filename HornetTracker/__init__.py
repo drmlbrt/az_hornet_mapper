@@ -21,8 +21,9 @@ app.static_folder = static
 
 db = SQLAlchemy(app)
 
-db.create_all()
-db.session.commit()
+with app.app_context():
+    db.create_all()
+
 
 from HornetTracker.hornets.models.hornet import Hornet
 from HornetTracker.map.models.map import Map
@@ -39,6 +40,6 @@ def index():
     return render_template("index.html")
 
 
-@app.route('/.well-known/host-meta', methods=["GET"])
-def well_known_host_meta():
-    return render_template("well_known_host_meta.html")
+# @app.route('/.well-known/host-meta', methods=["GET"])
+# def well_known_host_meta():
+#     return render_template("well_known_host_meta.html")
