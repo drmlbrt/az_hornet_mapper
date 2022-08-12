@@ -21,8 +21,8 @@ app.static_folder = static
 
 db = SQLAlchemy(app)
 
-# db.create_all()
-# db.session.commit()
+db.create_all()
+db.session.commit()
 
 from HornetTracker.hornets.models.hornet import Hornet
 from HornetTracker.map.models.map import Map
