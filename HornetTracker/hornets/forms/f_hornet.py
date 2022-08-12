@@ -34,7 +34,7 @@ class UpdateJar(FlaskForm):
     average_distance = StringField('Average Distance', [InputRequired()])
     heading = StringField('Heading', [InputRequired()])
 
-    submit3 = SubmitField("Update Jar Data")
+    update = SubmitField("Update Jar Data")
 
 
 class BindMapToJar(FlaskForm):

@@ -147,11 +147,21 @@ def hornet_forms():
 
         _jar = Hornet.find_one_by_name(jar_name=selected_jar.__dict__["jar_name"])
 
-        form2 = UpdateJar(obj=_jar)
+        print(f"----------------------- {_jar}")
+
+        form2 = UpdateJar()
+        form2.jar_name.data = _jar.jar_name
+        form2.latitude.data = _jar.latitude
+        form2.longitude.data = _jar.longitude
+        form2.nr_of_sightings.data = _jar.nr_of_sightings
+        form2.average_distance.data = _jar.average_distance
+        form2.heading.data = _jar.heading
+
+        print(f"----------------------- {form2.data}")
 
         redirect(url_for(".hornet_forms"))
 
-    if form2.submit3.data and form2.validate_on_submit():
+    if form2.update.data and form2.validate_on_submit():
 
         update_jar = {"jar_name": form2.jar_name.data,
                       "latitude": form2.latitude.data,
@@ -159,10 +169,24 @@ def hornet_forms():
                       "nr_of_sightings": form2.nr_of_sightings.data,
                       "average_distance": form2.average_distance.data,
                       "heading": form2.heading.data}
+
+        print(f"----------------------- {update_jar}")
+
+
+
         jar = Hornet.find_one_by_name(jar_name=update_jar["jar_name"])
-        if jar:
-            jar.update(jar=update_jar)
-        flash(f"Updated {update_jar['jar_name']}")
+
+        print(f"----------------------- {jar}")
+
+        try:
+
+            if jar:
+                jar.update(jar=update_jar)
+
+                flash(f"Updated {update_jar['jar_name']}")
+        except Exception:
+            print(f"----------------------- {Exception}")
+            flash("Something went wrong with the update.")
 
         redirect(url_for(".hornet_forms"))
 
