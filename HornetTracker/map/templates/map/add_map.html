@@ -24,6 +24,32 @@
 
     <div class="p-5 mb-4 bg-light rounded-3">
         <div class="accordion" id="accordionExample">
+            <div class="accordion-item" >
+            <h2 class="accordion-header" id="findMap">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#findMap" aria-expanded="true" aria-controls="collapsefindMap">
+                  Search Map - interactive
+              </button>
+            </h2>
+            <div id="collapsefindMap" class="accordion-collapse" aria-labelledby="headingfindMap" data-bs-parent="#findMap">
+              <div class="accordion-body">
+                  <h2>Location</h2>
+                        <form class="row g-3" method="POST">
+                            {{finder.hidden_tag()}}
+                            <div class="col">
+        <!--                        {{delete.map_name.label(class="form-label")}}-->
+                                {{finder.address(class="form-control", placeholder="map_name")}}
+                            </div>
+                            <div class="col">
+                                {{finder.find(class="btn btn-primary mb-3")}}
+                            </div>
+                        </form>
+                        <p>Enter your address ton generate your base map. [e.g.: merelbeke,hoorndriesstraat]</p>
+
+                          {{map | safe}}
+
+              </div>
+            </div>
+          </div>
           <div class="accordion-item">
             <h2 class="accordion-header" id="headingOne">
               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -129,4 +155,7 @@
     {% endblock %}
 
     {% block list %}
+                <div class="container-fluid py-2">
+
+                </div>
     {% endblock %}

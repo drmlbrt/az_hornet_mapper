@@ -59,23 +59,26 @@
                             </div>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#GenerateMapModal" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#{{ map.map_name }}ShowMapModal" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
                         Show Map
                     </button>
                     <!-- Modal -->
-                    <div class="modal fade" id="GenerateMapModal" tabindex="-1" aria-labelledby="GenerateMapModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="{{ map.map_name }}ShowMapModal" tabindex="-1" aria-labelledby="{{ map.map_name }}ShowMapModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="GenerateMapModalLabel">Are you sure?</h5>
+                                    <h5 class="modal-title" id="ShowMapModalLabel">Are you sure?</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
                                 <p>Generate this map : {{ map.map_name }} </p>
+                                    <form action="{{ url_for('map._generate_new_map')}}">
+                                        <input type="hidden" value="{{ map.map_name }}" name="map_name"/>
+                                        <button type="submit" class="btn btn-primary" tabindex="-1">Yes</button>
+                                    </form>
                                 </div>
                                 <div class="modal-footer">
-                                    <a href="{{ url_for('map._generate_new_map', map_name=map.map_name) }}" class="btn btn-primary" tabindex="-1" role="button">Yes</a>
-                                    <a href="{{ url_for('map.table_maps')}}" class="btn btn-secondary" tabindex="-1" role="button">No</a>
+                                    <a href="{{ url_for('map.table_maps')}}" class="btn btn-secondary" tabindex="-1" role="button">Cancel</a>
                                 </div>
                             </div>
                         </div>

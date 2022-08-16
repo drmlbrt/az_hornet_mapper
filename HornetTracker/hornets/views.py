@@ -16,7 +16,7 @@ hornet_bp = Blueprint('hornet', __name__,
                       template_folder="templates")
 
 schema_hornet_dump = Hornet_D()
-schema_hornet_load = Hornet_L
+schema_hornet_load = Hornet_L()
 
 
 @hornet_bp.route("/get_all", methods=["GET", "POST"])

@@ -40,3 +40,6 @@ class UpdateMap(FlaskForm):
     latitude = FloatField("Latitude")
     submit5 = SubmitField("Update Map Data")
 
+class FindMap(FlaskForm):
+    address = StringField("Map name", [validators.DataRequired(), validators.Length(min=3, max=60)])
+    find = SubmitField("Search")

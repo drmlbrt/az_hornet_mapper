@@ -2,8 +2,9 @@ from flask import Flask, render_template, url_for, redirect, Blueprint, request,
 from marshmallow import ValidationError
 from HornetTracker.map.models.map import Map
 from HornetTracker.map.schemas.s_map import Map_D, Map_L
-from HornetTracker.map.forms.f_map import AddMapForm, UpdateMap, ShowMap, GenerateMap, DeleteMap
-from HornetTracker.generator.map_generator import generate_map
+from HornetTracker.map.forms.f_map import AddMapForm, UpdateMap, ShowMap, GenerateMap, DeleteMap, FindMap
+from HornetTracker.generator.map_generator import generate_map, find_map_by_address, base_map
+from HornetTracker.generator.api_map_finder import mapfinder
 
 map_bp = Blueprint('map', __name__,
                    url_prefix='/map',
@@ -12,6 +13,7 @@ map_bp = Blueprint('map', __name__,
 schema_hornet_dump = Map_D()
 schema_hornet_load = Map_L()
 
+base_map = base_map()
 
 @map_bp.route("/get_all", methods=["GET", "POST"])
 def get_all_maps():
@@ -91,10 +93,12 @@ def delete_map():
 
 @map_bp.route("/forms", methods=["GET", "POST"])
 def maps_forms():
+
     form1 = AddMapForm()
     form2 = UpdateMap()
     form3 = ShowMap()
     form5 = DeleteMap()
+    finder = FindMap()
 
     if form1.submit1.data and form1.validate_on_submit():
         new_map = {"map_name": form1.map_name.data,
@@ -146,11 +150,29 @@ def maps_forms():
 
         redirect(url_for(".maps_forms"))
 
+    if finder.find.data and finder.validate_on_submit():
+        address = finder.address.data
+        find_address = mapfinder(address)
+        new_map = find_map_by_address(find_address_response=find_address)
+        if new_map:
+            return render_template("/map/add_map.html",
+                                   addform=form1,
+                                   updateform=form2,
+                                   showmap=form3,
+                                   delete=form5,
+                                   finder=finder,
+                                   map=new_map)
+
+        else:
+            redirect(url_for(".maps_forms"))
+
     return render_template("/map/add_map.html",
                            addform=form1,
                            updateform=form2,
                            showmap=form3,
-                           delete=form5)
+                           delete=form5,
+                           finder=finder,
+                           map=base_map)
 
 
 @map_bp.route("/generate_map", methods=["GET", "POST"])
@@ -171,14 +193,18 @@ def generate_new_map():
                            showmap=generate_map_form)
 
 
-@map_bp.route("/_generate_map/map_name=<string:map_name>", methods=["GET", "POST"])
-def _generate_new_map(map_name):
+@map_bp.route("/_generate_map/", methods=["GET", "POST"])
+def _generate_new_map():
+    returneddata = {}
 
-    map = Map.find_one_by_name(map_name=map_name)
+    returneddata["map_name"] = request.args.get('map_name')
+
+    map = Map.find_one_by_name(map_name=returneddata["map_name"])
 
     new_map = generate_map(map_data=map.__dict__)
 
     all_maps = Map.query.all()
+
     return render_template("/map/table.html",
                            maps=all_maps,
                            map=new_map)

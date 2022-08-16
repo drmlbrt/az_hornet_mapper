@@ -8,17 +8,17 @@ import os
 # basedir = os.path.abspath(os.path.dirname(__file__))
 PROJECT_ROOT = os.path.dirname(os.path.realpath(__file__))
 
-
-
-
 SECRET_KEY = "thisisasecretkey"
 SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(PROJECT_ROOT, "hornets.sqlite")
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 JSON_SORT_KEYS = False
-
 
 RAW_URI = True
 REQUEST_URI = True
 
 # MINOR ENVIRONMENT BASED CONFIG
 DEBUG = True
+
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SAMESITE = 'Lax'

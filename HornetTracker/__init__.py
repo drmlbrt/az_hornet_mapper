@@ -3,6 +3,7 @@ import json
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_statistics import Statistics
+from flask_wtf.csrf import CSRFProtect
 
 import datetime
 
@@ -58,6 +59,10 @@ from HornetTracker.map.views import map_bp as map_blueprint
 
 app.register_blueprint(hornet_blueprint)
 app.register_blueprint(map_blueprint)
+
+# SECURITY
+app.jinja_options["autoescape"] = lambda _: True
+csrf = CSRFProtect(app)
 
 
 @app.route('/', methods=["GET", "POST"])
