@@ -19,6 +19,7 @@ def base_map():
 
     minimap = plugins.MiniMap(toggle_display=True)
     m.add_child(minimap)
+    m.add_child(features.LatLngPopup())
 
     m.save("./HornetTracker/templates/base_map.html")
 

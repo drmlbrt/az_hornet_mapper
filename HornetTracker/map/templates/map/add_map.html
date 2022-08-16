@@ -22,7 +22,7 @@
         <p>Then you can read, modify and delete your MAP data. <strong>Remember</strong> To see 'Jars' on the map, go to jar forms and add a jar to your MAP. </p>
     </div>
 
-    <div class="p-5 mb-4 bg-light rounded-3">
+    <div class="p-2 mb-2 bg-light rounded-3">
         <div class="accordion" id="accordionExample">
             <div class="accordion-item" >
             <h2 class="accordion-header" id="findMap">
@@ -35,17 +35,17 @@
                   <h2>Location</h2>
                         <form class="row g-3" method="POST">
                             {{finder.hidden_tag()}}
-                            <div class="col">
+                            <div class="col-sm">
         <!--                        {{delete.map_name.label(class="form-label")}}-->
                                 {{finder.address(class="form-control", placeholder="map_name")}}
                             </div>
-                            <div class="col">
+                            <div class="col-auto">
                                 {{finder.find(class="btn btn-primary mb-3")}}
                             </div>
                         </form>
                         <p>Enter your address ton generate your base map. [e.g.: merelbeke,hoorndriesstraat]</p>
-
-                          {{map | safe}}
+                        <div class="col-sm">
+                            {{map | safe}}</div>
 
               </div>
             </div>
@@ -97,7 +97,7 @@
 <!--                        {{showmap.map_name.label(class="form-label")}}-->
                         {{showmap.map_name(class="form-control", placeholder="map_name")}}
                     </div>
-                    <div class="col-sm">
+                    <div class="col-auto">
                         {{showmap.submit2(class="btn btn-primary mb-3")}}
                     </div>
                 </form>

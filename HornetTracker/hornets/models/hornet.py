@@ -14,7 +14,7 @@ class Hornet(db.Model):
     __tablename__ = "hornet"
 
     _id = db.Column(db.Integer, primary_key=True)
-    jar_name = db.Column(db.String(20), unique=True, nullable=False)
+    jar_name = db.Column(db.String(60), unique=True, nullable=False)
     latitude = db.Column(db.Float(15), unique=True, nullable=False)
     longitude = db.Column(db.Float(15), unique=True, nullable=False)
     nr_of_sightings = db.Column(db.Integer, unique=False, nullable=False)

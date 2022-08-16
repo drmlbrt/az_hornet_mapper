@@ -108,6 +108,10 @@ of Flask or HTML and who can/will generate a front end. Please do so. It will be
 - added table buttons to delete data -> **it still has an error**
 - better formatting of the frontend with bootstrap.
 
+"[160822]" added interactive map with geo location finder for Belgium. Works with API
+
+"[160822]" added interactive popup on the interactive map - click for popup with geo information - no copy off the data 
+
 planned:
 - Nicer Frontend - done
 - Listing of information within frontend
