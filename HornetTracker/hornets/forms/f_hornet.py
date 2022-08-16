@@ -9,7 +9,7 @@ from HornetTracker.map.models.map import Map
 
 
 class AddJar(FlaskForm):
-    jar_name = StringField("Jar Name", [validators.DataRequired(), validators.Length(min=3, max=8)])
+    jar_name = StringField("Jar Name", [validators.DataRequired(), validators.Length(min=3, max=60)])
     longitude = FloatField("Longitude", [InputRequired()])
     latitude = FloatField("Latitude", [InputRequired()])
     nr_of_sightings = StringField("Nr Of Sightings", [InputRequired()])
