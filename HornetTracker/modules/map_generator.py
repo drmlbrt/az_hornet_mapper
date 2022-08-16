@@ -19,7 +19,25 @@ def base_map():
 
     minimap = plugins.MiniMap(toggle_display=True)
     m.add_child(minimap)
-    m.add_child(features.LatLngPopup())
+    mypersonal_popup = features.LatLngPopup()
+    mypersonal_popup._template = jinja2.Template(u"""
+                {% macro script(this, kwargs) %}
+                    var {{this.get_name()}} = L.popup();
+                    function latLngPop(e) {
+                        data = e.latlng.lat.toFixed(4) + "," + e.latlng.lng.toFixed(4);
+                        {{this.get_name()}}
+                            .setLatLng(e.latlng)
+                            .setContent("" + e.latlng.lat.toFixed(4) +
+                                        ", " + e.latlng.lng.toFixed(4) +
+                                        "<br /><a href="+data+"> AddMap </a>" +
+                                        "<br /><a href="+data+"> AddJar </a>")
+                            .openOn({{this._parent.get_name()}});
+                        }
+                    {{this._parent.get_name()}}.on('click', latLngPop);
+                {% endmacro %}
+                """)
+
+    m.add_child(mypersonal_popup)
 
     m.save("./HornetTracker/templates/base_map.html")
 
@@ -39,7 +57,25 @@ def generate_map(map_data: dict):
     minimap = plugins.MiniMap(toggle_display=True)
     m.add_child(minimap)
 
-    m.add_child(features.LatLngPopup())
+    mypersonal_popup = features.LatLngPopup()
+    mypersonal_popup._template = jinja2.Template(u"""
+                    {% macro script(this, kwargs) %}
+                        var {{this.get_name()}} = L.popup();
+                        function latLngPop(e) {
+                            data = e.latlng.lat.toFixed(4) + "," + e.latlng.lng.toFixed(4);
+                            {{this.get_name()}}
+                                .setLatLng(e.latlng)
+                                .setContent("" + e.latlng.lat.toFixed(4) +
+                                            ", " + e.latlng.lng.toFixed(4) +
+                                            "<br /><a href="+data+"> AddMap </a>" +
+                                            "<br /><a href="+data+"> AddJar </a>")
+                                .openOn({{this._parent.get_name()}});
+                            }
+                        {{this._parent.get_name()}}.on('click', latLngPop);
+                    {% endmacro %}
+                    """)
+
+    m.add_child(mypersonal_popup)
 
     for jar in new_map.jar_id:
         myjar = copy.deepcopy(jar.__dict__)
@@ -81,7 +117,25 @@ def find_map_by_address(find_address_response: dict):
     minimap = plugins.MiniMap(toggle_display=True)
     m.add_child(minimap)
 
-    m.add_child(features.LatLngPopup())
+    mypersonal_popup = features.LatLngPopup()
+    mypersonal_popup._template = jinja2.Template(u"""
+                    {% macro script(this, kwargs) %}
+                        var {{this.get_name()}} = L.popup();
+                        function latLngPop(e) {
+                            data = e.latlng.lat.toFixed(4) + "," + e.latlng.lng.toFixed(4);
+                            {{this.get_name()}}
+                                .setLatLng(e.latlng)
+                                .setContent("" + e.latlng.lat.toFixed(4) +
+                                            ", " + e.latlng.lng.toFixed(4) +
+                                            "<br /><a href="+data+"> AddMap </a>" +
+                                            "<br /><a href="+data+"> AddJar </a>")
+                                .openOn({{this._parent.get_name()}});
+                            }
+                        {{this._parent.get_name()}}.on('click', latLngPop);
+                    {% endmacro %}
+                    """)
+
+    m.add_child(mypersonal_popup)
 
     m.save("./HornetTracker/templates/map.html")
 

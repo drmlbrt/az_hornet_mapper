@@ -23,7 +23,7 @@
             <meta name="viewport" content="width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
             <style>
-                #map_9b854b22dc62dd52f9edf8f9726958fc {
+                #map_c70b46239ef7020589db0345dd15cbb6 {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -37,15 +37,15 @@
 </head>
 <body>    
     
-            <div class="folium-map" id="map_9b854b22dc62dd52f9edf8f9726958fc" ></div>
+            <div class="folium-map" id="map_c70b46239ef7020589db0345dd15cbb6" ></div>
         
 </body>
 <script>    
     
-            var map_9b854b22dc62dd52f9edf8f9726958fc = L.map(
-                "map_9b854b22dc62dd52f9edf8f9726958fc",
+            var map_c70b46239ef7020589db0345dd15cbb6 = L.map(
+                "map_c70b46239ef7020589db0345dd15cbb6",
                 {
-                    center: [51.08353200464957, 3.714475104444717],
+                    center: [50.98041587853252, 3.7367748660024493],
                     crs: L.CRS.EPSG3857,
                     zoom: 15,
                     zoomControl: true,
@@ -57,34 +57,34 @@
 
         
     
-            var tile_layer_5c80043f9d33674f3259df5fd7610853 = L.tileLayer(
+            var tile_layer_31a409aa1251b598894fa739d9fb6be1 = L.tileLayer(
                 "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
                 {"attribution": "Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
-            ).addTo(map_9b854b22dc62dd52f9edf8f9726958fc);
+            ).addTo(map_c70b46239ef7020589db0345dd15cbb6);
         
     
-            var tile_layer_178c3b1a2f513f368d0cdd420b715c83 = L.tileLayer(
+            var tile_layer_35e5d48d414e5b1432846a11673ce7c5 = L.tileLayer(
                 "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
                 {"attribution": "Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
             );
-            var mini_map_16098875bd4f128fff936cec61c1bb5e = new L.Control.MiniMap(
-                tile_layer_178c3b1a2f513f368d0cdd420b715c83,
+            var mini_map_445a791cc28e118ffd4c2be5a45c777d = new L.Control.MiniMap(
+                tile_layer_35e5d48d414e5b1432846a11673ce7c5,
                 {"autoToggleDisplay": false, "centerFixed": false, "collapsedHeight": 25, "collapsedWidth": 25, "height": 150, "minimized": false, "position": "bottomright", "toggleDisplay": true, "width": 150, "zoomAnimation": false, "zoomLevelOffset": -5}
             );
-            map_9b854b22dc62dd52f9edf8f9726958fc.addControl(mini_map_16098875bd4f128fff936cec61c1bb5e);
+            map_c70b46239ef7020589db0345dd15cbb6.addControl(mini_map_445a791cc28e118ffd4c2be5a45c777d);
         
     
-                var lat_lng_popup_69475f3f13e56e8375fd80b4329dcdf6 = L.popup();
+                var lat_lng_popup_3708d0637aaeaa025bdcafb5d0db64f2 = L.popup();
                 function latLngPop(e) {
-                    data = e.latlng.lat.toFixed(4) + "," + e.latlng.lng.toFixed(4);
-                    lat_lng_popup_69475f3f13e56e8375fd80b4329dcdf6
+                    data = e.latlng.lat.toFixed(4) + "+" + e.latlng.lng.toFixed(4);
+                    lat_lng_popup_3708d0637aaeaa025bdcafb5d0db64f2
                         .setLatLng(e.latlng)
                         .setContent("" + e.latlng.lat.toFixed(4) +
                                     ", " + e.latlng.lng.toFixed(4) +
                                     "<br /><a href="+data+"> AddMap </a>" +
                                     "<br /><a href="+data+"> AddJar </a>")
-                        .openOn(map_9b854b22dc62dd52f9edf8f9726958fc);
+                        .openOn(map_c70b46239ef7020589db0345dd15cbb6);
                     }
-                map_9b854b22dc62dd52f9edf8f9726958fc.on('click', latLngPop);
+                map_c70b46239ef7020589db0345dd15cbb6.on('click', latLngPop);
             
 </script>
