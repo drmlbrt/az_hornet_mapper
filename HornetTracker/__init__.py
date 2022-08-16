@@ -82,7 +82,7 @@ def handle_csrf_error():
     flash("There is a csrf token issue")
     return render_template("index.html")
 
-@app.route('/', methods=["GET", "POST"])
+@app.route('/', methods=["GET"])
 def index():
     return render_template("index.html")
 
