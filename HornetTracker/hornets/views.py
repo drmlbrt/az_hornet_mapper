@@ -9,7 +9,7 @@ from HornetTracker.map.models.map import Map
 from HornetTracker.hornets.schemas.s_hornet import Hornet_D, Hornet_L
 from HornetTracker.hornets.forms.f_hornet import AddJar, UpdateJar, ShowJar, BindMapToJar, DeleteJar, CsvReadData, \
     DeleteButtonJar
-from HornetTracker.generator.csv_reader import csv_reader
+from HornetTracker.modules.csv_reader import csv_reader
 
 hornet_bp = Blueprint('hornet', __name__,
                       url_prefix='/hornet/',

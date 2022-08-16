@@ -3,8 +3,8 @@ from marshmallow import ValidationError
 from HornetTracker.map.models.map import Map
 from HornetTracker.map.schemas.s_map import Map_D, Map_L
 from HornetTracker.map.forms.f_map import AddMapForm, UpdateMap, ShowMap, GenerateMap, DeleteMap, FindMap
-from HornetTracker.generator.map_generator import generate_map, find_map_by_address, base_map
-from HornetTracker.generator.api_map_finder import mapfinder
+from HornetTracker.modules.map_generator import generate_map, find_map_by_address, base_map
+from HornetTracker.modules.api_map_finder import mapfinder
 
 map_bp = Blueprint('map', __name__,
                    url_prefix='/map',

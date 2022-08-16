@@ -1,9 +1,9 @@
 import json
 
-from flask import Flask, render_template
+from flask import Flask, render_template, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_statistics import Statistics
-from flask_wtf.csrf import CSRFProtect
+from HornetTracker.modules.csrf import csrf, CSRFError
 
 import datetime
 
@@ -22,6 +22,7 @@ app.config.from_pyfile('config.py')
 app.static_folder = static
 
 db = SQLAlchemy(app)
+
 
 
 ##### STATISTICS COLLECTOR
@@ -61,9 +62,25 @@ app.register_blueprint(hornet_blueprint)
 app.register_blueprint(map_blueprint)
 
 # SECURITY
-app.jinja_options["autoescape"] = lambda _: True
-csrf = CSRFProtect(app)
+# Have cookie sent
+app.config["SECURITY_CSRF_COOKIE_NAME"] = "XSRF-TOKEN"
 
+# Don't have csrf tokens expire (they are invalid after logout)
+app.config["WTF_CSRF_TIME_LIMIT"] = None
+
+# You can't get the cookie until you are logged in.
+app.config["SECURITY_CSRF_IGNORE_UNAUTH_ENDPOINTS"] = True
+
+# JINJA protection
+app.jinja_options["autoescape"] = lambda _: True
+
+csrf.init_app(app)
+
+
+@app.errorhandler(CSRFError)
+def handle_csrf_error():
+    flash("There is a csrf token issue")
+    return render_template("index.html")
 
 @app.route('/', methods=["GET", "POST"])
 def index():
