@@ -78,6 +78,7 @@
                             <p>Do you want to add {{ jar.jar_name }} Jar to Map</p>
                                 <div class="col">
                                     <form action="{{ url_for('hornet._jar_on_map')}}">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                                         <input type="hidden" value="{{jar.jar_name}}" name="jar_name"/>
                                         <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg"  name="map_name">
                                                 {% for map in maps %}

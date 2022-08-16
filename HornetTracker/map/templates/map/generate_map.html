@@ -36,6 +36,7 @@
                       <div class="accordion-body">
                         <form class="row g-3" method="POST">
                           {{showmap.hidden_tag()}}
+                            {{ showmap.csrf_token }}
                             <div class="col">
                                 {{showmap.map_name(class="form-select", placeholder="map_name")}}
                             </div>

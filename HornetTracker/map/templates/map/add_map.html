@@ -35,6 +35,7 @@
                   <h2>Location</h2>
                         <form class="row g-3" method="POST">
                             {{finder.hidden_tag()}}
+                            {{ finder.csrf_token }}
                             <div class="col-sm">
         <!--                        {{delete.map_name.label(class="form-label")}}-->
                                 {{finder.address(class="form-control", placeholder="map_name")}}
@@ -60,6 +61,7 @@
               <div class="accordion-body">
                 <form class="row g-3" method="POST">
                   {{addform.hidden_tag()}}
+                    {{ addform.csrf_token }}
 
                     <div class="col-sm">
 <!--                        {{addform.map_name.label(class="form-label")}}-->
@@ -93,6 +95,7 @@
               <div class="accordion-body">
                 <form class="row g-3" method="POST">
                   {{showmap.hidden_tag()}}
+                    {{ showmap.csrf_token }}
                     <div class="col-sm">
 <!--                        {{showmap.map_name.label(class="form-label")}}-->
                         {{showmap.map_name(class="form-control", placeholder="map_name")}}
@@ -104,6 +107,7 @@
                 <div class="accordion-body">
                   <form class="row g-3" method="POST">
                     {{updateform.hidden_tag()}}
+                      {{ updateform.csrf_token }}
                     <div class="col">
 <!--                        {{updateform.map_name.label(class="form-label")}}-->
                         {{updateform.map_name(class="form-control", placeholder="map_name")}}
@@ -137,6 +141,7 @@
               <div class="accordion-body">
                   <form class="row g-3" method="POST">
                         {{delete.hidden_tag()}}
+                      {{ delete.csrf_token }}
                         <div class="col">
     <!--                        {{delete.map_name.label(class="form-label")}}-->
                             {{delete.map_name(class="form-control", placeholder="map_name")}}

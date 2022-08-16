@@ -26,6 +26,7 @@ lokpot2,50.970416,3.731723,1,330,10
 lokpot3,50.971764,3.729686,4,200,70
 lokpot4,50.973534,3.732647,1,100,170</textarea>
                 {{csv_form.hidden_tag()}}
+                {{ csv_form.csrf_token }}
                 <div class="col">
                 {{csv_form.csv_text(class="form-control", id="exampleFormControlTextarea1", rows="10", placeholder="Paste Here")}}
                     </div>
