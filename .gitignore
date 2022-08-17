@@ -5,4 +5,8 @@
 /.mypy_cache/
 /venv/
 /app.log
+*.pem
+/*.pem
+privkey.pem
+*.exe
 
