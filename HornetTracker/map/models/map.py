@@ -58,7 +58,7 @@ class Map(db.Model):
     # READ
     @classmethod
     def list(cls):
-        return cls.query.all()
+        return cls.query.order_by(cls.map_name).all()
 
     # FIND ONE
     @classmethod

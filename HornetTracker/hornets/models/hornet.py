@@ -24,8 +24,8 @@ class Hornet(db.Model):
 
     # __init__
     def __init__(self, jar_name: str,
-                 latitude: int,
-                 longitude: int,
+                 latitude: float,
+                 longitude: float,
                  nr_of_sightings: int,
                  average_distance: int,
                  heading: int):
@@ -63,7 +63,7 @@ class Hornet(db.Model):
     # READ
     @classmethod
     def list(cls):
-        return cls.query.all()
+        return cls.query.order_by(cls.jar_name).all()
 
     # FIND ONE
     @classmethod

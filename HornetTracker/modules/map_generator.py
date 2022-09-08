@@ -7,20 +7,7 @@ from folium import features
 import jinja2
 
 
-def markergetgedata(function):
-    print(function.__dict__)
-    return function
-
-
-def base_map():
-    center = [50.800097891802515, 4.423601625815788]
-
-    m = folium.Map(location=center, zoom_start=9)
-
-    minimap = plugins.MiniMap(toggle_display=True)
-    m.add_child(minimap)
-    mypersonal_popup = features.LatLngPopup()
-    mypersonal_popup._template = jinja2.Template(u"""
+template_jinja = u"""
                 {% macro script(this, kwargs) %}
                     var {{this.get_name()}} = L.popup();
                     function latLngPop(e) {
@@ -35,7 +22,22 @@ def base_map():
                         }
                     {{this._parent.get_name()}}.on('click', latLngPop);
                 {% endmacro %}
-                """)
+                """
+
+def markergetgedata(function):
+    print(function.__dict__)
+    return function
+
+
+def base_map():
+    center = [50.800097891802515, 4.423601625815788]
+
+    m = folium.Map(location=center, zoom_start=9)
+
+    minimap = plugins.MiniMap(toggle_display=True)
+    m.add_child(minimap)
+    mypersonal_popup = features.LatLngPopup()
+    mypersonal_popup._template = jinja2.Template(template_jinja)
 
     m.add_child(mypersonal_popup)
 
@@ -58,22 +60,7 @@ def generate_map(map_data: dict):
     m.add_child(minimap)
 
     mypersonal_popup = features.LatLngPopup()
-    mypersonal_popup._template = jinja2.Template(u"""
-                    {% macro script(this, kwargs) %}
-                        var {{this.get_name()}} = L.popup();
-                        function latLngPop(e) {
-                            data = e.latlng.lat.toFixed(4) + "," + e.latlng.lng.toFixed(4);
-                            {{this.get_name()}}
-                                .setLatLng(e.latlng)
-                                .setContent("" + e.latlng.lat.toFixed(4) +
-                                            ", " + e.latlng.lng.toFixed(4) +
-                                            "<br /><a href="+data+"> AddMap </a>" +
-                                            "<br /><a href="+data+"> AddJar </a>")
-                                .openOn({{this._parent.get_name()}});
-                            }
-                        {{this._parent.get_name()}}.on('click', latLngPop);
-                    {% endmacro %}
-                    """)
+    mypersonal_popup._template = jinja2.Template(template_jinja)
 
     m.add_child(mypersonal_popup)
 
@@ -118,22 +105,7 @@ def find_map_by_address(find_address_response: dict):
     m.add_child(minimap)
 
     mypersonal_popup = features.LatLngPopup()
-    mypersonal_popup._template = jinja2.Template(u"""
-                    {% macro script(this, kwargs) %}
-                        var {{this.get_name()}} = L.popup();
-                        function latLngPop(e) {
-                            data = e.latlng.lat.toFixed(4) + "," + e.latlng.lng.toFixed(4);
-                            {{this.get_name()}}
-                                .setLatLng(e.latlng)
-                                .setContent("" + e.latlng.lat.toFixed(4) +
-                                            ", " + e.latlng.lng.toFixed(4) +
-                                            "<br /><a href="+data+"> AddMap </a>" +
-                                            "<br /><a href="+data+"> AddJar </a>")
-                                .openOn({{this._parent.get_name()}});
-                            }
-                        {{this._parent.get_name()}}.on('click', latLngPop);
-                    {% endmacro %}
-                    """)
+    mypersonal_popup._template = jinja2.Template(template_jinja)
 
     m.add_child(mypersonal_popup)
 

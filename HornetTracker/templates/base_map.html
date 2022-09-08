@@ -23,7 +23,7 @@
             <meta name="viewport" content="width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
             <style>
-                #map_2caeec1bd93b74d196edc847c32df855 {
+                #map_1bd39dff542bbd6238c8c3d621632270 {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -37,13 +37,13 @@
 </head>
 <body>    
     
-            <div class="folium-map" id="map_2caeec1bd93b74d196edc847c32df855" ></div>
+            <div class="folium-map" id="map_1bd39dff542bbd6238c8c3d621632270" ></div>
         
 </body>
 <script>    
     
-            var map_2caeec1bd93b74d196edc847c32df855 = L.map(
-                "map_2caeec1bd93b74d196edc847c32df855",
+            var map_1bd39dff542bbd6238c8c3d621632270 = L.map(
+                "map_1bd39dff542bbd6238c8c3d621632270",
                 {
                     center: [50.800097891802515, 4.423601625815788],
                     crs: L.CRS.EPSG3857,
@@ -57,34 +57,34 @@
 
         
     
-            var tile_layer_189886acb9c3fde15d7d4c033a4324e9 = L.tileLayer(
+            var tile_layer_d27f789f6284b1d0522a213dbeb9809f = L.tileLayer(
                 "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
                 {"attribution": "Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
-            ).addTo(map_2caeec1bd93b74d196edc847c32df855);
+            ).addTo(map_1bd39dff542bbd6238c8c3d621632270);
         
     
-            var tile_layer_5def80aadcbb0e06448e9a22f58b0e1c = L.tileLayer(
+            var tile_layer_f39ea8d0cbe1b61fd02023d6a3835a8d = L.tileLayer(
                 "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
                 {"attribution": "Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
             );
-            var mini_map_84e5407064d0cbbe15fd271cc348ad25 = new L.Control.MiniMap(
-                tile_layer_5def80aadcbb0e06448e9a22f58b0e1c,
+            var mini_map_9cb39054ff8607d052221320cc42829e = new L.Control.MiniMap(
+                tile_layer_f39ea8d0cbe1b61fd02023d6a3835a8d,
                 {"autoToggleDisplay": false, "centerFixed": false, "collapsedHeight": 25, "collapsedWidth": 25, "height": 150, "minimized": false, "position": "bottomright", "toggleDisplay": true, "width": 150, "zoomAnimation": false, "zoomLevelOffset": -5}
             );
-            map_2caeec1bd93b74d196edc847c32df855.addControl(mini_map_84e5407064d0cbbe15fd271cc348ad25);
+            map_1bd39dff542bbd6238c8c3d621632270.addControl(mini_map_9cb39054ff8607d052221320cc42829e);
         
     
-                    var lat_lng_popup_aea3102a213a3358c6cd5946a26e0626 = L.popup();
+                    var lat_lng_popup_30fdf45ded8d8dc5f66546bbf3067a1a = L.popup();
                     function latLngPop(e) {
                         data = e.latlng.lat.toFixed(4) + "," + e.latlng.lng.toFixed(4);
-                        lat_lng_popup_aea3102a213a3358c6cd5946a26e0626
+                        lat_lng_popup_30fdf45ded8d8dc5f66546bbf3067a1a
                             .setLatLng(e.latlng)
                             .setContent("" + e.latlng.lat.toFixed(4) +
                                         ", " + e.latlng.lng.toFixed(4) +
                                         "<br /><a href="+data+"> AddMap </a>" +
                                         "<br /><a href="+data+"> AddJar </a>")
-                            .openOn(map_2caeec1bd93b74d196edc847c32df855);
+                            .openOn(map_1bd39dff542bbd6238c8c3d621632270);
                         }
-                    map_2caeec1bd93b74d196edc847c32df855.on('click', latLngPop);
+                    map_1bd39dff542bbd6238c8c3d621632270.on('click', latLngPop);
                 
 </script>

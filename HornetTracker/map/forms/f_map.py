@@ -10,27 +10,27 @@ from HornetTracker.map.models.map import Map
 
 class AddMapForm(FlaskForm):
     map_name = StringField("Map name", [validators.DataRequired(), validators.Length(min=3, max=25)])
-    longitude = FloatField("Longitude")
-    latitude = FloatField("Latitude")
+    longitude = StringField("Longitude")
+    latitude = StringField("Latitude")
     submit1 = SubmitField("Add Map")
 
 
 class ShowMap(FlaskForm):
     map_name = QuerySelectField(get_label="map_name",
-                                query_factory=lambda: Map.query.all())
+                                query_factory=lambda: Map.list())
     submit2 = SubmitField("Show Map Data")
 
 
 class DeleteMap(FlaskForm):
     delete_map_name = HiddenField("Delete Map Name")
     map_name = QuerySelectField(get_label="map_name",
-                                query_factory=lambda: Map.query.all())
+                                query_factory=lambda: Map.list())
     delete_map = SubmitField("Delete Map Data")
 
 
 class GenerateMap(FlaskForm):
     map_name = QuerySelectField(get_label="map_name",
-                                query_factory=lambda: Map.query.all())
+                                query_factory=lambda: Map.list())
     submit4 = SubmitField("Generate Map Data")
 
 

@@ -5,6 +5,7 @@ from HornetTracker.map.schemas.s_map import Map_D, Map_L
 from HornetTracker.map.forms.f_map import AddMapForm, UpdateMap, ShowMap, GenerateMap, DeleteMap, FindMap
 from HornetTracker.modules.map_generator import generate_map, find_map_by_address, base_map
 from HornetTracker.modules.api_map_finder import mapfinder
+from HornetTracker.modules.workers import longlatformatter
 
 map_bp = Blueprint('map', __name__,
                    url_prefix='/map',
@@ -17,7 +18,7 @@ base_map = base_map()
 
 @map_bp.route("/get_all", methods=["GET", "POST"])
 def get_all_maps():
-    all_hornets = Map.query.all()
+    all_hornets = Map.list()
     results = []
     for item in all_hornets:
         try:
@@ -101,9 +102,15 @@ def maps_forms():
     finder = FindMap()
 
     if form1.submit1.data and form1.validate_on_submit():
+
+        print(type(form1.latitude.data))
+
+        goodlat = longlatformatter(form1.latitude.data)
+        goodlong = longlatformatter(form1.longitude.data)
+
         new_map = {"map_name": form1.map_name.data,
-                   "latitude": form1.latitude.data,
-                   "longitude": form1.longitude.data}
+                   "latitude": goodlat,
+                   "longitude": goodlong}
 
         Map(**new_map).create()
 
@@ -203,7 +210,7 @@ def _generate_new_map():
 
     new_map = generate_map(map_data=map.__dict__)
 
-    all_maps = Map.query.all()
+    all_maps = Map.list()
 
     return render_template("/map/table.html",
                            maps=all_maps,
@@ -212,7 +219,7 @@ def _generate_new_map():
 
 @map_bp.route("/table", methods=["GET", "POST"])
 def table_maps():
-    all_maps = Map.query.all()
+    all_maps = Map.list()
     return render_template("/map/table.html",
                            maps=all_maps,
                            )

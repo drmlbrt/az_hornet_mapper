@@ -10,6 +10,7 @@ from HornetTracker.hornets.schemas.s_hornet import Hornet_D, Hornet_L
 from HornetTracker.hornets.forms.f_hornet import AddJar, UpdateJar, ShowJar, BindMapToJar, DeleteJar, CsvReadData, \
     DeleteButtonJar
 from HornetTracker.modules.csv_reader import csv_reader
+from HornetTracker.modules.workers import longlatformatter
 
 hornet_bp = Blueprint('hornet', __name__,
                       url_prefix='/hornet/',
@@ -129,25 +130,32 @@ def hornet_forms():
     form5 = DeleteJar()
 
     if form1.submit1.data and form1.validate_on_submit():
+
+        print(type(form1.latitude.data))
+        goodlat = longlatformatter(form1.latitude.data)
+        goodlong = longlatformatter(form1.longitude.data)
+
         new_jar = {"jar_name": form1.jar_name.data,
-                   "latitude": form1.latitude.data,
-                   "longitude": form1.longitude.data,
+                   "latitude": goodlat,
+                   "longitude": goodlong,
                    "nr_of_sightings": form1.nr_of_sightings.data,
                    "average_distance": form1.average_distance.data,
                    "heading": form1.heading.data}
 
+        print(new_jar)
+        print(type(new_jar["latitude"]))
         Hornet(**new_jar).create()
 
         flash(f"Added {new_jar['jar_name']} information to db")
 
         redirect(url_for(".hornet_forms"))
+    else:
+        print(form1.errors)
 
     if form3.submit2.data and form3.validate_on_submit():
         selected_jar = form3.jar_name.data
 
         _jar = Hornet.find_one_by_name(jar_name=selected_jar.__dict__["jar_name"])
-
-        print(f"----------------------- {_jar}")
 
         form2 = UpdateJar()
         form2.jar_name.data = _jar.jar_name
@@ -156,8 +164,6 @@ def hornet_forms():
         form2.nr_of_sightings.data = _jar.nr_of_sightings
         form2.average_distance.data = _jar.average_distance
         form2.heading.data = _jar.heading
-
-        print(f"----------------------- {form2.data}")
 
         redirect(url_for(".hornet_forms"))
 
@@ -170,13 +176,7 @@ def hornet_forms():
                       "average_distance": form2.average_distance.data,
                       "heading": form2.heading.data}
 
-        print(f"----------------------- {update_jar}")
-
-
-
         jar = Hornet.find_one_by_name(jar_name=update_jar["jar_name"])
-
-        print(f"----------------------- {jar}")
 
         try:
 
@@ -230,8 +230,8 @@ def hornet_forms():
 
 @hornet_bp.route("/table", methods=["GET", "POST"])
 def table_jars():
-    all_jars = Hornet.query.all()
-    all_maps = Map.query.all()
+    all_jars = Hornet.list()
+    all_maps = Map.list()
     binder = BindMapToJar()
 
     return render_template("/hornets/table.html",
