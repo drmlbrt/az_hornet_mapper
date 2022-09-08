@@ -32,8 +32,8 @@
               <td>{{ map.map_name }}</td>
               <td>{{ map.latitude }}</td>
               <td>{{ map.longitude }}</td>
-              <td><span style="white-space: pre-line">{% for jar in map.jar_id %}
-                                                            {{ jar.jar_name }}
+              <td><span>{% for jar in map.jar_id %}
+                                                            {{ jar.jar_name }}</br>
                                                         {% endfor %}
                     </span>
                 </td>
