@@ -1,4 +1,5 @@
 from marshmallow import Schema, fields, post_dump, pre_load, post_load, pre_dump
+from HornetTracker.observations.schemas.s_observation import Observation_D
 
 class Hornet_D(Schema):
     class Meta:
@@ -8,10 +9,8 @@ class Hornet_D(Schema):
     jar_name = fields.Str()
     latitude = fields.Float()
     longitude = fields.Float()
-    nr_of_sightings = fields.Int()
-    average_distance = fields.Int()
-    heading = fields.Int()
     map_id = fields.Int()
+    observation_id = fields.List(fields.Nested(Observation_D()))
 
 
     @pre_dump
@@ -22,14 +21,12 @@ class Hornet_D(Schema):
 
     @post_dump
     def dump_hornet(self, data, **kwargs):
-        # print(f"********************POST DUMP DATA : HORNETS  : {data}")
+        print(f"********************POST DUMP DATA : HORNETS  : {data}")
         data = {"jar_name": data["jar_name"],
                 "latitude": data["latitude"],
                 "longitude": data["longitude"],
-                "nr_of_sightings": data["nr_of_sightings"],
-                "average_distance": data["average_distance"],
-                "heading": data["heading"],
-                "map": data["map_id"]}
+                "map": data["map_id"],
+                "observations": data["observation_id"]}
         return data
 
 
@@ -41,9 +38,6 @@ class Hornet_L(Schema):
     jar_name = fields.Str()
     latitude = fields.Int()
     longitude = fields.Int()
-    nr_of_sightings = fields.Int()
-    average_distance = fields.Int()
-    heading = fields.Int()
 
     @pre_load
     def serialize_metadata(self, data, **kwargs):

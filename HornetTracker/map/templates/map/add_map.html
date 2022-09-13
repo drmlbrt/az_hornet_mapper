@@ -1,15 +1,16 @@
 {% extends "base.html" %}
-    {%block flash%}
-        {% with messages=get_flashed_messages(with_categories=true) %}
+{%block flash%}
+    {% with messages=get_flashed_messages(with_categories=true) %}
          {% for category, message in messages %}
-          <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <strong>{{ category }}</strong><p>{{ message }}</p>
-              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-           </div>
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+              <div>
+                  <strong>{{ category | capitalize}}</strong><p>{{ message | capitalize}}</p>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+          </div>
          {% endfor %}
-
-{% endwith %}
-    {% endblock %}
+    {% endwith %}
+{% endblock %}
 
     {% block title_bar %}
     <h2 class="sub-header">Add a Map Form</h2>
@@ -18,8 +19,10 @@
     {% block form %}
 
     <div class="container-fluid py-2">
-        <p>Add first a new map in the database. This is where you are placing the jars. You can find geo information on google maps or other. The system needs longitude and latitude. This is the data that is the anker point for your map. </p>
-        <p>Then you can read, modify and delete your MAP data. <strong>Remember</strong> To see 'Jars' on the map, go to jar forms and add a jar to your MAP. </p>
+        <p>First Find your geo location - left top of map click and it finds your current location</p>
+        <p>Secondly, click on the map to see a popup. CLick the button to copy the location lat and long.</p>
+        <p>Third, add your map to the database with the map form</p>
+        <p>Finally: <strong>Remember</strong> To see 'Jars' on the map, go to jar forms and add a jar to your MAP. </p>
     </div>
 
     <div class="p-2 mb-2 bg-light rounded-3">
@@ -37,7 +40,6 @@
                             {{finder.hidden_tag()}}
                             {{ finder.csrf_token }}
                             <div class="col-sm">
-        <!--                        {{delete.map_name.label(class="form-label")}}-->
                                 {{finder.address(class="form-control", placeholder="map_name")}}
                             </div>
                             <div class="col-auto">
@@ -45,12 +47,13 @@
                             </div>
                         </form>
                         <p>Enter your address ton generate your base map. [e.g.: merelbeke,hoorndriesstraat]</p>
-                        <div class="col-sm">
-                            {{map | safe}}</div>
-
-              </div>
+                        <div class="container">
+                                <div class="col md">
+                                        {{ map | safe }}
+                                </div>
+                        </div>
+                </div>
             </div>
-          </div>
           <div class="accordion-item">
             <h2 class="accordion-header" id="headingOne">
               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -70,12 +73,12 @@
 
                     <div class="col-sm">
 <!--                        {{addform.latitude.label(class="form-label")}}-->
-                        {{addform.latitude(class="form-control", placeholder="latitude")}}
+                        {{addform.latitude(class="form-control", placeholder="latitude", id="data")}}
                     </div>
 
                     <div class="col-sm">
 <!--                        {{addform.longitude.label(class="form-label")}}-->
-                        {{addform.longitude(class="form-control", placeholder="longitude")}}
+                        {{addform.longitude(class="form-control", placeholder="longitude", id="data")}}
                     </div>
 
                     <div class="col-sm">
@@ -164,3 +167,22 @@
 
                 </div>
     {% endblock %}
+
+    {%block script%}
+    <script>
+        function myFunction() {
+          // Get the text field
+          var copyText = document.getElementById("mylatlong");
+
+          // Select the text field
+          copyText.select();
+          copyText.setSelectionRange(0, 99999); // For mobile devices
+
+          // Copy the text inside the text field
+          navigator.clipboard.writeText(copyText.value);
+
+          // Alert the copied text
+          alert("Copied the text: " + copyText.value);
+        }
+        </script>
+    {%endblock%}

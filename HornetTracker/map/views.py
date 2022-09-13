@@ -3,7 +3,7 @@ from marshmallow import ValidationError
 from HornetTracker.map.models.map import Map
 from HornetTracker.map.schemas.s_map import Map_D, Map_L
 from HornetTracker.map.forms.f_map import AddMapForm, UpdateMap, ShowMap, GenerateMap, DeleteMap, FindMap
-from HornetTracker.modules.map_generator import generate_map, find_map_by_address, base_map
+from HornetTracker.modules.map_generator import generate_map, base_map
 from HornetTracker.modules.api_map_finder import mapfinder
 from HornetTracker.modules.workers import longlatformatter
 
@@ -15,6 +15,7 @@ schema_hornet_dump = Map_D()
 schema_hornet_load = Map_L()
 
 base_map = base_map()
+
 
 @map_bp.route("/get_all", methods=["GET", "POST"])
 def get_all_maps():
@@ -94,7 +95,6 @@ def delete_map():
 
 @map_bp.route("/forms", methods=["GET", "POST"])
 def maps_forms():
-
     form1 = AddMapForm()
     form2 = UpdateMap()
     form3 = ShowMap()
@@ -103,8 +103,6 @@ def maps_forms():
 
     if form1.submit1.data and form1.validate_on_submit():
 
-        print(type(form1.latitude.data))
-
         goodlat = longlatformatter(form1.latitude.data)
         goodlong = longlatformatter(form1.longitude.data)
 
@@ -112,11 +110,14 @@ def maps_forms():
                    "latitude": goodlat,
                    "longitude": goodlong}
 
-        Map(**new_map).create()
+        _new_map =  Map(**new_map).create()
 
-        flash(f"Added {new_map['map_name']} information to db")
-
-        redirect(url_for(".maps_forms"))
+        if _new_map is True:
+            flash(f"Added {new_map['map_name']} information to db", "success")
+            redirect(url_for(".maps_forms"))
+        else:
+            flash(f"{new_map['map_name']} ALREAdY EXISTS", "danger")
+            redirect(url_for(".maps_forms"))
 
     if form3.submit2.data and form3.validate_on_submit():
         selected_map = form3.map_name.data
@@ -138,7 +139,7 @@ def maps_forms():
         if _map:
             _map.update(map=update_map)
 
-        flash(f"Updated {update_map['map_name']}")
+        flash(f"Updated {update_map['map_name']}", "success")
 
         redirect(url_for(".maps_forms"))
 
@@ -149,29 +150,53 @@ def maps_forms():
         if _map:
             update = Map.delete(_map)
             if update:
-                flash(f"Delete for item {selected_map.__dict__['map_name']} OK")
+                flash(f"Delete for item {selected_map.__dict__['map_name']} OK", "success")
             else:
-                flash(f"Delete for item {selected_map.__dict__['map_name']} FAILED - Does it exist?")
+                flash(f"Delete for item {selected_map.__dict__['map_name']} FAILED - Does it exist?", "danger")
         else:
-            flash("Something went wrong with the update"), 400
+            flash("Something went wrong with the update", "danger"), 400
 
         redirect(url_for(".maps_forms"))
 
     if finder.find.data and finder.validate_on_submit():
         address = finder.address.data
+
         find_address = mapfinder(address)
-        new_map = find_map_by_address(find_address_response=find_address)
-        if new_map:
-            return render_template("/map/add_map.html",
-                                   addform=form1,
-                                   updateform=form2,
-                                   showmap=form3,
-                                   delete=form5,
-                                   finder=finder,
-                                   map=new_map)
+        print("****************************************BACK FROM THE FORM AND MAPFINDER")
+        print(type(find_address))
+        print(f"We have found : {find_address}")
+
+        if isinstance(find_address, object): # the object should only be a flash message
+            if find_address.__repr__() is None:
+                print("this is an object, should be a flash message for flask")
+                find_address
+                return redirect(url_for(".maps_forms"))
+            else:
+                pass
+
+        print(f"------------------------------------------FOUND ADDRESS-----{find_address}")
+
+        if find_address is False:
+            flash(f"No results for {str(find_address).upper()} input", "warning")
+            return redirect(url_for(".maps_forms"))
+
+        elif isinstance(find_address, list):
+            print("=========================================================== Found a list of items")
+            flash(f"{find_address}", "warning")
+            return redirect(url_for(".maps_forms"))
 
         else:
-            redirect(url_for(".maps_forms"))
+            print("Arrived at the else after one address found!!!")
+            if isinstance(find_address, dict):
+                new_map = generate_map(map_data=find_address)
+
+                return render_template("/map/add_map.html",
+                           addform=form1,
+                           updateform=form2,
+                           showmap=form3,
+                           delete=form5,
+                           finder=finder,
+                           map=new_map)
 
     return render_template("/map/add_map.html",
                            addform=form1,
@@ -232,9 +257,9 @@ def _map_name_delete(map_name):
     if jar:
         update = Map.delete(jar)
         if update:
-            flash(f"Delete for item {map_name} OK")
+            flash(f"Delete for item {map_name} OK", "success")
         else:
-            flash(f"Delete for item {map_name} FAILED - Does it exist?")
+            flash(f"Delete for item {map_name} FAILED - Does it exist?", "danger")
 
         return redirect(url_for(".table_maps"))
 

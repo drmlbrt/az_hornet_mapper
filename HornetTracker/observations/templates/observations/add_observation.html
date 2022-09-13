@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{%block flash%}
+    {% with messages=get_flashed_messages(with_categories=true) %}
+         {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+              <div>
+                  <strong>{{ category | capitalize}}</strong><p>{{ message | capitalize}}</p>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+          </div>
+         {% endfor %}
+    {% endwith %}
+{% endblock %}
+
+{% block title_bar %}
+
+    <h2 class="sub-header">Add an Observation Form</h2>
+
+{% endblock %}
+
+{% block form %}
+
+<div class="container-fluid py-2">
+  <p>Add first your new JAR to database! </p>
+<p>Then you add observations to your Jar</p>
+</div>
+
+<div class="p-5 mb-4 bg-light rounded-3">
+    <div class="accordion" id="accordionExample">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingOne">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            Add Observation Data
+          </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <form class="row g-3" method="POST">
+                {{ addform.csrf_token }}
+                {{ addform.state }}
+                <div class="col-md-3">
+                    {{addform.jar_name(class="form-control", placeholder="jar_name", value="single")}}
+                </div>
+                <div class="col-md-3">
+<!--                    {{addform.latitude.label(class="form-label")}}-->
+                    {{addform.latitude(class="form-control", placeholder="latitude")}}
+                </div>
+                <div class="col-md-3">
+<!--                    {{addform.longitude.label(class="form-label")}}-->
+                    {{addform.longitude(class="form-control", placeholder="longitude")}}
+                </div>
+                <div></div>
+                <div class="row">
+                        <div class="col-md-3">
+<!--                    {{addform.average_distance.label(class="form-label")}}-->
+                        {{addform.average_distance(class="form-control", placeholder="average_distance")}}
+                        </div>
+                        <div class="col-md-3">
+        <!--                    {{addform.heading.label(class="form-label")}}-->
+                            {{addform.heading(class="form-control", placeholder="heading")}}
+                        </div>
+                </div>
+
+                <div class="col-md-3">
+                    {{addform.submit1(class="btn btn-primary mb-3")}}
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+    let jar_select = document.getElementById('jar_name');
+    let jar_lat = document.getElementById('latitude');
+    let jar_lon = document.getElementById('longitude');
+
+    console.log(jar_select);
+    jar_select.onchange = function () {
+        jar = jar_select.value;
+<!--        alert(jar);-->
+        fetch('/observation/get_geo_data/' + jar).then(function(response) {
+
+            response.json().then(function(data) {
+                console.table(data);
+                console.log(data.jars);
+                jar_lat.value = data.jars.latitude;
+                jar_lon.value = data.jars.longitude;
+            });
+        });
+    }
+
+</script>
+{%endblock%}

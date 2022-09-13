@@ -1,10 +1,10 @@
 import json
 
-from flask import Flask, render_template, flash
+from flask import Flask, render_template, flash, json
 from flask_sqlalchemy import SQLAlchemy
 from flask_statistics import Statistics
 from HornetTracker.modules.csrf import csrf, CSRFError
-
+from werkzeug.exceptions import HTTPException
 import datetime
 
 import os
@@ -22,7 +22,6 @@ app.config.from_pyfile('config.py')
 app.static_folder = static
 
 db = SQLAlchemy(app)
-
 
 
 ##### STATISTICS COLLECTOR
@@ -54,12 +53,15 @@ with app.app_context():
 
 from HornetTracker.hornets.models.hornet import Hornet
 from HornetTracker.map.models.map import Map
+from HornetTracker.observations.models.observation import Observation
 
 from HornetTracker.hornets.views import hornet_bp as hornet_blueprint
 from HornetTracker.map.views import map_bp as map_blueprint
+from HornetTracker.observations.views import observation_bp as observation_blueprint
 
 app.register_blueprint(hornet_blueprint)
 app.register_blueprint(map_blueprint)
+app.register_blueprint(observation_blueprint)
 
 # SECURITY
 # Have cookie sent
@@ -81,6 +83,27 @@ csrf.init_app(app)
 def handle_csrf_error():
     flash("There is a csrf token issue")
     return render_template("index.html")
+
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('404.html', title='404'), 404
+
+
+@app.errorhandler(HTTPException)
+def handle_exception(e):
+    """Return JSON instead of HTML for HTTP errors."""
+    # start with the correct headers and status code from the error
+    response = e.get_response()
+    # replace the body with JSON
+    response.data = json.dumps({
+        "code": e.code,
+        "name": e.name,
+        "description": e.description,
+    })
+    response.content_type = "application/json"
+    return response
+
 
 @app.route('/', methods=["GET"])
 def index():

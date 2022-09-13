@@ -13,10 +13,6 @@ class AddJar(FlaskForm):
     jar_name = StringField("Jar Name", [validators.DataRequired(), validators.Length(min=3, max=60)])
     longitude = StringField("Longitude", [InputRequired()])
     latitude = StringField("Latitude", [InputRequired()])
-    nr_of_sightings = StringField("Nr Of Sightings", [InputRequired()])
-    average_distance = StringField("Average Distance", [InputRequired()])
-    heading = StringField("Heading", [InputRequired()])
-
     submit1 = SubmitField("Add Jar", [InputRequired()])
 
 
@@ -30,15 +26,9 @@ class ShowJar(FlaskForm):
 
 class UpdateJar(FlaskForm):
     jar_name = StringField("Jar Name")
-    longitude = FloatField("Longitude - dot notation!")
-    latitude = FloatField("Latitude - dot notation!")
-    nr_of_sightings = StringField('Nr Of Sightings', [InputRequired()])
-    average_distance = StringField('Average Distance', [InputRequired()])
-    heading = StringField('Heading', [InputRequired()])
-
+    longitude = FloatField("Longitude")
+    latitude = FloatField("Latitude")
     update = SubmitField("Update Jar Data")
-
-
 
 
 class BindMapToJar(FlaskForm):

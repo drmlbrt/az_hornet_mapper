@@ -1,5 +1,5 @@
 """
-    hornet.py
+    observation.py
     This module contains classes for Jars
 """
 
@@ -17,24 +17,20 @@ class Hornet(db.Model):
     jar_name = db.Column(db.String(60), unique=True, nullable=False)
     latitude = db.Column(db.Float(15), unique=True, nullable=False)
     longitude = db.Column(db.Float(15), unique=True, nullable=False)
-    nr_of_sightings = db.Column(db.Integer, unique=False, nullable=False)
-    average_distance = db.Column(db.Integer, unique=False, nullable=False)
-    heading = db.Column(db.Integer, unique=False, nullable=False)
     map_id = db.Column(db.Integer, db.ForeignKey("map._id"))
+    observation_id = db.relationship(
+        'Observation',
+        backref='jar',
+        cascade="all, delete"
+    )
 
     # __init__
     def __init__(self, jar_name: str,
                  latitude: float,
-                 longitude: float,
-                 nr_of_sightings: int,
-                 average_distance: int,
-                 heading: int):
+                 longitude: float):
         self.jar_name = jar_name
         self.latitude = latitude
         self.longitude = longitude
-        self.nr_of_sightings = nr_of_sightings
-        self.average_distance = average_distance
-        self.heading = heading
 
     # REPR
     def __repr__(self):
@@ -42,10 +38,8 @@ class Hornet(db.Model):
                f"jar_name:{self.jar_name}," \
                f"latitude:{self.latitude}," \
                f"longitude:{self.longitude}," \
-               f"nr_of_sightings:{self.nr_of_sightings}," \
-               f"average_distance:{self.average_distance}," \
-               f"heading:{self.heading}," \
-               f"map_id:{self.map_id})"
+               f"map_id:{self.map_id}," \
+               f"observation_id: {self.observation_id})"
 
     # GLOBAL var for this class
 
@@ -54,11 +48,11 @@ class Hornet(db.Model):
         do_i_exist = Hornet.find_one_by_name(jar_name=self.jar_name)
         if do_i_exist:
             print(f"The item for jar name: {self.jar_name} exists")
-            pass
+            return False
         else:
             db.session.add(self)
             db.session.commit()
-        return
+            return True
 
     # READ
     @classmethod
@@ -83,9 +77,6 @@ class Hornet(db.Model):
         if jar:
             _jar.latitude = jar["latitude"]
             _jar.longitude = jar["longitude"]
-            _jar.nr_of_sightings = jar["nr_of_sightings"]
-            _jar.average_distance = jar["average_distance"]
-            _jar.heading = jar["heading"]
             db.session.add(_jar)
             db.session.commit()
             return True

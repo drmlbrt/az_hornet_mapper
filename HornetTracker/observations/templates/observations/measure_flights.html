@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{%block flash%}
+    {% with messages=get_flashed_messages(with_categories=true) %}
+         {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+              <div>
+                  <strong>{{ category | capitalize}}</strong><p>{{ message | capitalize}}</p>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+          </div>
+         {% endfor %}
+    {% endwith %}
+{% endblock %}
+
+
+<!doctype html>
+<head>
+    <title>Title</title>
+</head>
+<body>
+    <h2> counter </h2>
+    <div>
+        <iframe frameborder="0" noresize="noresize"
+     style='background: transparent; width: 100%; height:100%;' src="{{ url_for('hornet.counter_test')}}"></iframe>
+    </div>
+</body>

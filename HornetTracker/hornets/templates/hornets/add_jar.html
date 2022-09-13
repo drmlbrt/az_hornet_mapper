@@ -2,10 +2,12 @@
 {%block flash%}
     {% with messages=get_flashed_messages(with_categories=true) %}
          {% for category, message in messages %}
-          <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <strong>{{ category }}</strong><p>{{ message }}</p>
-              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-           </div>
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+              <div>
+                  <strong>{{ category | capitalize}}</strong><p>{{ message | capitalize}}</p>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+          </div>
          {% endfor %}
     {% endwith %}
 {% endblock %}
@@ -47,18 +49,6 @@
                 <div class="col-md-3">
 <!--                    {{addform.longitude.label(class="form-label")}}-->
                     {{addform.longitude(class="form-control", placeholder="longitude")}}
-                </div>
-                <div class="col-md-3">
-<!--                    {{addform.nr_of_sightings.label(class="form-label")}}-->
-                    {{addform.nr_of_sightings(class="form-control", placeholder="nr_of_sightings")}}
-                </div>
-                <div class="col-md-3">
-<!--                    {{addform.average_distance.label(class="form-label")}}-->
-                    {{addform.average_distance(class="form-control", placeholder="average_distance")}}
-                </div>
-                <div class="col-md-3">
-<!--                    {{addform.heading.label(class="form-label")}}-->
-                    {{addform.heading(class="form-control", placeholder="heading")}}
                 </div>
                 <div class="col-md-3">
                     {{addform.submit1(class="btn btn-primary mb-3")}}
@@ -103,21 +93,6 @@
                 <div class="col-md-3">
 <!--                    {{updateform.longitude.label(class="form-label")}}-->
                     {{updateform.longitude(class="form-control", placeholder="longitude")}}
-                </div>
-
-                <div class="col-md-3">
-<!--                    {{updateform.nr_of_sightings.label(class="form-label")}}-->
-                    {{updateform.nr_of_sightings(class="form-control", placeholder="nr_of_sightings")}}
-                </div>
-
-                <div class="col-md-3">
-<!--                    {{updateform.average_distance.label(class="form-label")}}-->
-                    {{updateform.average_distance(class="form-control", placeholder="average_distance")}}
-                </div>
-
-                <div class="col-md-3">
-<!--                    {{updateform.heading.label(class="form-label")}}-->
-                    {{updateform.heading(class="form-control", placeholder="heading")}}
                 </div>
 
                 <div class="col-auto">

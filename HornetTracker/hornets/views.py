@@ -1,8 +1,7 @@
 import copy
 import os
-from flask import Flask, render_template, url_for, redirect, Blueprint, flash, request
-import folium
-from folium import plugins
+from flask import Flask, render_template, url_for, redirect, Blueprint, flash, request, Response
+import time
 from marshmallow import ValidationError
 from HornetTracker.hornets.models.hornet import Hornet
 from HornetTracker.map.models.map import Map
@@ -131,28 +130,26 @@ def hornet_forms():
 
     if form1.submit1.data and form1.validate_on_submit():
 
-        print(type(form1.latitude.data))
         goodlat = longlatformatter(form1.latitude.data)
+
         goodlong = longlatformatter(form1.longitude.data)
 
         new_jar = {"jar_name": form1.jar_name.data,
                    "latitude": goodlat,
-                   "longitude": goodlong,
-                   "nr_of_sightings": form1.nr_of_sightings.data,
-                   "average_distance": form1.average_distance.data,
-                   "heading": form1.heading.data}
+                   "longitude": goodlong}
 
-        print(new_jar)
-        print(type(new_jar["latitude"]))
-        Hornet(**new_jar).create()
-
-        flash(f"Added {new_jar['jar_name']} information to db")
-
-        redirect(url_for(".hornet_forms"))
+        _new_jar = Hornet(**new_jar).create()
+        if _new_jar is True:
+            flash(f"Added {new_jar['jar_name']} information to db", "success")
+            redirect(url_for(".hornet_forms"))
+        else:
+            flash(f"{new_jar['jar_name']} encountered an issue", "danger")
+            redirect(url_for(".hornet_forms"))
     else:
         print(form1.errors)
 
     if form3.submit2.data and form3.validate_on_submit():
+        # SELECTING A JAR
         selected_jar = form3.jar_name.data
 
         _jar = Hornet.find_one_by_name(jar_name=selected_jar.__dict__["jar_name"])
@@ -161,32 +158,27 @@ def hornet_forms():
         form2.jar_name.data = _jar.jar_name
         form2.latitude.data = _jar.latitude
         form2.longitude.data = _jar.longitude
-        form2.nr_of_sightings.data = _jar.nr_of_sightings
-        form2.average_distance.data = _jar.average_distance
-        form2.heading.data = _jar.heading
 
         redirect(url_for(".hornet_forms"))
 
     if form2.update.data and form2.validate_on_submit():
+        # UPDATING A JAR
+        goodlat = longlatformatter(form2.latitude.data)
+        goodlong = longlatformatter(form2.longitude.data)
 
         update_jar = {"jar_name": form2.jar_name.data,
-                      "latitude": form2.latitude.data,
-                      "longitude": form2.longitude.data,
-                      "nr_of_sightings": form2.nr_of_sightings.data,
-                      "average_distance": form2.average_distance.data,
-                      "heading": form2.heading.data}
+                      "latitude": goodlat,
+                      "longitude": goodlong}
 
         jar = Hornet.find_one_by_name(jar_name=update_jar["jar_name"])
 
         try:
-
             if jar:
                 jar.update(jar=update_jar)
-
-                flash(f"Updated {update_jar['jar_name']}")
+                flash(f"Updated {update_jar['jar_name']}", "success")
         except Exception:
             print(f"----------------------- {Exception}")
-            flash("Something went wrong with the update.")
+            flash("Something went wrong with the update.", "danger")
 
         redirect(url_for(".hornet_forms"))
 
@@ -202,7 +194,7 @@ def hornet_forms():
         if jar:
             Hornet.bind_to_map(bind_jar_to_map=binding)
 
-        flash(f"Map '{binding['map_name']}' and Jar '{binding['jar_name']}' are related")
+        flash(f"Map '{binding['map_name']}' and Jar '{binding['jar_name']}' are related", "success")
 
         redirect(url_for(".hornet_forms"))
 
@@ -212,11 +204,11 @@ def hornet_forms():
         if jar:
             delete = Hornet.delete(jar)
             if delete:
-                flash(f"Delete for item {selected_jar.__dict__['jar_name']} OK")
+                flash(f"Delete for item {selected_jar.__dict__['jar_name']} OK", "success")
             else:
-                flash(f"Delete for item {selected_jar.__dict__['jar_name']} FAILED - Does it exist?")
+                flash(f"Delete for item {selected_jar.__dict__['jar_name']} FAILED - Does it exist?", "danger")
         else:
-            flash("Something went wrong with the update"), 400
+            flash("Something went wrong with the update", "danger"), 400
 
         redirect(url_for(".hornet_forms"))
 
@@ -231,7 +223,9 @@ def hornet_forms():
 @hornet_bp.route("/table", methods=["GET", "POST"])
 def table_jars():
     all_jars = Hornet.list()
+
     all_maps = Map.list()
+
     binder = BindMapToJar()
 
     return render_template("/hornets/table.html",
@@ -244,9 +238,9 @@ def _jar_name_delete(jar_name):
     if jar:
         update = Hornet.delete(jar)
         if update:
-            flash(f"Delete for item {jar_name} OK")
+            flash(f"Delete for item {jar_name} OK", "success")
         else:
-            flash(f"Delete for item {jar_name} FAILED - Does it exist?")
+            flash(f"Delete for item {jar_name} FAILED - Does it exist?", "warning")
 
         return redirect(url_for(".table_jars"))
     else:
@@ -271,9 +265,9 @@ def _jar_on_map():
     if jar:
         update = Hornet.bind_to_map(bind_jar_to_map=returneddata)
         if update:
-            flash(f"Adding Map {returneddata['map_name']} for item {returneddata['jar_name']} OK")
+            flash(f"Adding Map {returneddata['map_name']} for item {returneddata['jar_name']} OK", "success")
         else:
-            flash(f"Adding Map {returneddata['map_name']} for item {returneddata['jar_name']} FAILED - Does it exist?")
+            flash(f"Adding Map {returneddata['map_name']} for item {returneddata['jar_name']} FAILED - Does it exist?", "failed")
 
         return redirect(url_for(".table_jars"))
 
@@ -302,4 +296,5 @@ def csv_upload():
 
         return redirect(url_for(".table_jars"))
 
-    return render_template("/hornets/csv_uploader.html", csv_form=csv_form)
+    return render_template("/observations/csv_uploader.html", csv_form=csv_form)
+

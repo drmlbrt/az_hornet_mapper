@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{%block flash%}
+    {% with messages=get_flashed_messages(with_categories=true) %}
+         {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+              <div>
+                  <strong>{{ category | capitalize}}</strong><p>{{ message | capitalize}}</p>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+          </div>
+         {% endfor %}
+    {% endwith %}
+{% endblock %}
+
+
+    {% block title_bar %}
+    <h2 class="sub-header">Observations Table</h2>
+    {% endblock %}
+
+    {% block table %}
+    <table id="data" class="table table-striped">
+    <thead>
+      <tr>
+          <th>Latitude</th>
+          <th>Longitude</th>
+          <th>Distance</th>
+          <th>Heading</th>
+          <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for obs in observations %}
+        <tr>
+          <td>{{ obs.latitude }} </td>
+          <td>{{ obs.longitude }} </td>
+          <td>{{ obs.average_distance }} </td>
+          <td>{{ obs.heading }} </td>
+          <td>{{ obs.date}}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+    {% endblock %}

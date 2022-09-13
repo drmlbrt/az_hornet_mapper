@@ -32,10 +32,11 @@
               <td>{{ map.map_name }}</td>
               <td>{{ map.latitude }}</td>
               <td>{{ map.longitude }}</td>
-              <td><span>{% for jar in map.jar_id %}
-                                                            {{ jar.jar_name }}</br>
-                                                        {% endfor %}
-                    </span>
+              <td>
+                  <span>{% for jar in map.jar_id %}
+                              {{ jar.jar_name }}</br>
+                          {% endfor %}
+                  </span>
                 </td>
               <td><!-- Button trigger modal -->
                     <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#{{map.map_name}}Modal" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">

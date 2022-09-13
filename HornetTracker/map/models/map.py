@@ -49,11 +49,11 @@ class Map(db.Model):
         do_i_exist = Map.find_one_by_name(map_name=self.map_name)
         if do_i_exist:
             print(f"The item for map name: {self.map_name} exists")
-            pass
+            return False
         else:
             db.session.add(self)
             db.session.commit()
-        return
+            return True
 
     # READ
     @classmethod

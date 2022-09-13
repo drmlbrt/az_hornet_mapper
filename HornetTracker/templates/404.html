@@ -1,12 +1,20 @@
 {% extends "base.html" %}
-{% block content %}
 
-<div class="jumbotron d-flex flex-md-column justify-content-md-center">
-  <h1>404 error - page not found</h1>
-  <h1>Sorry!</h1>
-  <p>Better luck next time</p>
-  <a href="{{url_for('home')}}">Go Home</a>
-  <div class="jumbotron"><img src="https://images.unsplash.com/photo-1517423568366-8b83523034fd?ixlib=rb-0.3.5&s=d68543202e54ab0235f6d1defcc4dfe7&auto=format&fit=crop&w=1575&q=80" class="d-block w-50" alt="..."></div>
+{%block title_bar%}
+
+<div class="mb-3 p-2" >
+   <h1 class="display-5 fw-bold">404</h1>
 </div>
+
+{%endblock%}
+
+{% block body %}
+<main class="px-3">
+    <h1>Whoeps</h1>
+    <p class="lead">You have found a URL that is unknown to the server....</p>
+    <p class="lead">
+      <a href="{{url_for('index')}}" class="btn btn-primary">Go Home</a>
+    </p>
+</main>
 
 {%endblock%}
