@@ -46,7 +46,7 @@ def generatormap(*args, **kwargs):
 
 def base_map():
     m = generatormap(**{"latitude":50.800097891802515, "longitude":4.423601625815788})
-    plugins.LocateControl(auto_start=False).add_to(m)
+    plugins.LocateControl(auto_start=True).add_to(m)
     return m._repr_html_()
 
 
