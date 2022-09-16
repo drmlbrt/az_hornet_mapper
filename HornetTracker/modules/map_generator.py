@@ -2,14 +2,11 @@ import copy
 
 import flask
 
-from HornetTracker.hornets.models.hornet import Hornet
+from HornetTracker.jars.models.jar import Jar
 from HornetTracker.map.models.map import Map
 import folium
 from folium import plugins
 from folium import features
-from folium.features import ClickForMarker
-from folium.features import ClickForMarker, LatLngPopup
-import clipboard
 
 import jinja2
 
@@ -27,6 +24,7 @@ template_jinja = u"""
             {% endmacro %}
             """
 
+
 def generatormap(*args, **kwargs):
     """This must receive a dict that contains at least the kwargs long and lat"""
     if isinstance(kwargs, dict):
@@ -39,14 +37,15 @@ def generatormap(*args, **kwargs):
 
     m.add_child(mypersonal_popup)
 
-
     plugins.MeasureControl().add_to(m)
 
     return m
 
+
 def base_map():
-    m = generatormap(**{"latitude":50.800097891802515, "longitude":4.423601625815788})
+    m = generatormap(**{"latitude": 50.800097891802515, "longitude": 4.423601625815788})
     plugins.LocateControl(auto_start=True).add_to(m)
+
     return m._repr_html_()
 
 
@@ -68,8 +67,6 @@ def generate_map(map_data: dict):
                           icon=folium.Icon(color="red", icon="bee")).add_to(m)
 
             for observation in jar.observation_id:
-                print(observation)
-
                 # folium.Circle(location=tuple(location),
                 #               radius=observation.average_distance,
                 #               color="#3186cc",
@@ -87,6 +84,3 @@ def generate_map(map_data: dict):
     else:
         m = generatormap(**map_data)
         return m._repr_html_()
-
-
-

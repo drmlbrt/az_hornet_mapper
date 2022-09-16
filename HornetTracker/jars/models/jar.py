@@ -8,10 +8,13 @@ __author__ = "Dermul Bart"
 from HornetTracker import db
 from sqlalchemy.exc import IntegrityError
 from HornetTracker.map.models.map import Map
+from HornetTracker.modules.workers import datetime
+import folium
+from folium import plugins
 
 
-class Hornet(db.Model):
-    __tablename__ = "hornet"
+class Jar(db.Model):
+    __tablename__ = "jar"
 
     _id = db.Column(db.Integer, primary_key=True)
     jar_name = db.Column(db.String(60), unique=True, nullable=False)
@@ -23,11 +26,17 @@ class Hornet(db.Model):
         backref='jar',
         cascade="all, delete"
     )
+    date = db.Column(db.DateTime, unique=True, nullable=False, default=datetime.utcnow)
 
     # __init__
     def __init__(self, jar_name: str,
                  latitude: float,
                  longitude: float):
+
+        assert type(jar_name) == str, "Jar Name must be string"
+        assert type(latitude) == float, "Latitude must be a float"
+        assert type(longitude) == float, "Longitude must be a float"
+
         self.jar_name = jar_name
         self.latitude = latitude
         self.longitude = longitude
@@ -39,20 +48,30 @@ class Hornet(db.Model):
                f"latitude:{self.latitude}," \
                f"longitude:{self.longitude}," \
                f"map_id:{self.map_id}," \
-               f"observation_id: {self.observation_id})"
+               f"observation_id: {self.observation_id}," \
+               f"date: {self.date})"
 
     # GLOBAL var for this class
 
     # CREATE
     def create(self):
-        do_i_exist = Hornet.find_one_by_name(jar_name=self.jar_name)
-        if do_i_exist:
-            print(f"The item for jar name: {self.jar_name} exists")
-            return False
-        else:
-            db.session.add(self)
-            db.session.commit()
-            return True
+        do_i_exist = Jar.find_one_by_name(jar_name=self.jar_name)
+        try:
+            if do_i_exist:
+                print(f"The item for jar name: {self.jar_name} exists")
+                return False
+            else:
+                try:
+                    db.session.add(self)
+                    db.session.commit()
+                    return True
+                except Exception:
+                    return False
+        except Exception:
+            db.session.rollback()
+            raise
+        finally:
+            db.session.close()
 
     # READ
     @classmethod
@@ -106,3 +125,4 @@ class Hornet(db.Model):
             return True
         else:
             return False
+

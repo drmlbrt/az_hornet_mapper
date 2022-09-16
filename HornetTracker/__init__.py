@@ -51,11 +51,11 @@ statistics = Statistics(app, db, Request)
 with app.app_context():
     db.create_all()
 
-from HornetTracker.hornets.models.hornet import Hornet
+from HornetTracker.jars.models.jar import Jar
 from HornetTracker.map.models.map import Map
 from HornetTracker.observations.models.observation import Observation
 
-from HornetTracker.hornets.views import hornet_bp as hornet_blueprint
+from HornetTracker.jars.views import hornet_bp as hornet_blueprint
 from HornetTracker.map.views import map_bp as map_blueprint
 from HornetTracker.observations.views import observation_bp as observation_blueprint
 

@@ -7,7 +7,7 @@ from HornetTracker.observations.models.observation import Observation
 from HornetTracker.observations.schemas.s_observation import Observation_D, Observation_L
 from HornetTracker.observations.forms.f_observations import AddObservation
 from HornetTracker.modules.workers import longlatformatter
-from HornetTracker.hornets.models.hornet import Hornet
+from HornetTracker.jars.models.jar import Jar
 
 observation_bp = Blueprint('observation', __name__,
                            url_prefix='/observation/',
@@ -66,15 +66,9 @@ def observation_forms():
             flash(f"Added {form1.jar_name.data.jar_name} information to db", "success")
             redirect(url_for(".observation_forms"))
 
-        except Exception:
-            flash(f"{form1.jar_name.data.jar_name} encountered an issue", "danger")
+        except Exception as e:
+            flash(f"{form1.jar_name.data.jar_name} encountered an issue : {e}", "danger")
             redirect(url_for(".observation_forms"))
-
-    #     add the observation to the selected jar
-
-
-
-
 
     else:
         print(form1.errors)
@@ -93,9 +87,9 @@ def get_geodata(jar):
 
     print(jar.isnumeric())
     if jar.isnumeric() is True:
-        jar = Hornet.find_by_db_id(jar)
+        jar = Jar.find_by_db_id(jar)
     else:
-        jar = Hornet.find_one_by_name(jar)
+        jar = Jar.find_one_by_name(jar)
 
     if jar:
         lat = jar.latitude

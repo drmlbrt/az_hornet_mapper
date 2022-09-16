@@ -210,17 +210,28 @@ def maps_forms():
 @map_bp.route("/generate_map", methods=["GET", "POST"])
 def generate_new_map():
     generate_map_form = GenerateMap()
-
     if generate_map_form.submit4.data and generate_map_form.validate_on_submit():
         selected_map = generate_map_form.map_name.data
-
         map = Map.find_one_by_name(map_name=selected_map.__dict__["map_name"])
+        new_map = map.generate_map(latitude=map.latitude,longitude=map.longitude)
+        if len(map.jar_id) > 0:
+            for jar in map.jar_id:
+                Map.generate_map_marker(parent_map=new_map,
+                                        jar=True,
+                                        latitude=jar.latitude,
+                                        longitude=jar.longitude)
 
-        new_map = generate_map(map_data=map.__dict__)
-
+                # find if there are any observations attached to that jar
+                if jar.observation_id:
+                    for observation in jar.observation_id:
+                        Map.generate_map_marker(parent_map=new_map,
+                                                observation=True,
+                                                latitude=observation.latitude,
+                                                longitude=observation.longitude,
+                                                average_distance=observation.average_distance,
+                                                heading=observation.heading)
         return render_template("/map/generate_map.html",
-                               showmap=generate_map_form, map=new_map)
-
+                               showmap=generate_map_form, map=new_map._repr_html_())
     return render_template("/map/generate_map.html",
                            showmap=generate_map_form)
 

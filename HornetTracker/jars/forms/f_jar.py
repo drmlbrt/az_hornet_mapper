@@ -4,7 +4,7 @@ from wtforms import (SelectField, SubmitField, StringField,
                      TextAreaField, IntegerField, ValidationError, EmailField, validators, FloatField, HiddenField)
 from wtforms.validators import InputRequired, Length, DataRequired
 from wtforms_sqlalchemy.fields import QuerySelectField
-from HornetTracker.hornets.models.hornet import Hornet
+from HornetTracker.jars.models.jar import Jar
 from HornetTracker.map.models.map import Map
 from HornetTracker.modules.workers import longlatformatter
 
@@ -19,7 +19,7 @@ class AddJar(FlaskForm):
 
 class ShowJar(FlaskForm):
     jar_name = QuerySelectField(get_label="jar_name",
-                                query_factory=lambda: Hornet.list())
+                                query_factory=lambda: Jar.list())
 
     submit2 = SubmitField("Show Jar Data")
 
@@ -33,7 +33,7 @@ class UpdateJar(FlaskForm):
 
 class BindMapToJar(FlaskForm):
     jar_name = QuerySelectField(get_label="jar_name",
-                                query_factory=lambda: Hornet.list())
+                                query_factory=lambda: Jar.list())
     map_name = QuerySelectField(get_label="map_name",
                                 query_factory=lambda: Map.list())
 
@@ -42,7 +42,7 @@ class BindMapToJar(FlaskForm):
 
 class DeleteJar(FlaskForm):
     jar_name = QuerySelectField(get_label="jar_name",
-                                query_factory=lambda: Hornet.list())
+                                query_factory=lambda: Jar.list())
 
     submit5 = SubmitField("Delete Jar Data")
 

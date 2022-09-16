@@ -3,10 +3,10 @@ import os
 from flask import Flask, render_template, url_for, redirect, Blueprint, flash, request, Response
 import time
 from marshmallow import ValidationError
-from HornetTracker.hornets.models.hornet import Hornet
+from HornetTracker.jars.models.jar import Jar
 from HornetTracker.map.models.map import Map
-from HornetTracker.hornets.schemas.s_hornet import Hornet_D, Hornet_L
-from HornetTracker.hornets.forms.f_hornet import AddJar, UpdateJar, ShowJar, BindMapToJar, DeleteJar, CsvReadData, \
+from HornetTracker.jars.schemas.s_jar import Hornet_D, Hornet_L
+from HornetTracker.jars.forms.f_jar import AddJar, UpdateJar, ShowJar, BindMapToJar, DeleteJar, CsvReadData, \
     DeleteButtonJar
 from HornetTracker.modules.csv_reader import csv_reader
 from HornetTracker.modules.workers import longlatformatter
@@ -21,7 +21,7 @@ schema_hornet_load = Hornet_L()
 
 @hornet_bp.route("/get_all", methods=["GET", "POST"])
 def get_all_hornet_locations():
-    all_hornets = Hornet.query.all()
+    all_hornets = Jar.query.all()
     results = []
     for item in all_hornets:
         try:
@@ -43,7 +43,7 @@ def add_hornet_locations():
     for item in json_data["add_new_hornet_site"]:
         print(item)
 
-        Hornet(**item).create()
+        Jar(**item).create()
 
     return {"message": "data uploaded"}
 
@@ -58,10 +58,10 @@ def upate_hornet_locations():
         return {"message": "No Valid JSON input data provided"}, 400
 
     for item in json_data["update_hornets_data"]:
-        jar = Hornet.find_one_by_name(jar_name=item["jar_name"])
+        jar = Jar.find_one_by_name(jar_name=item["jar_name"])
 
         if jar:
-            update = Hornet.update(jar=item)
+            update = Jar.update(jar=item)
             if update:
                 results.append(f"Update for item {item['jar_name']} OK")
             else:
@@ -83,10 +83,10 @@ def jar_delete():
 
     for item in json_data["delete_jar_data"]:
 
-        jar = Hornet.find_one_by_name(jar_name=item["jar_name"])
+        jar = Jar.find_one_by_name(jar_name=item["jar_name"])
 
         if jar:
-            update = Hornet.delete(jar)
+            update = Jar.delete(jar)
             if update:
                 results.append(f"Delete for item {item['jar_name']} OK")
             else:
@@ -108,10 +108,10 @@ def add_jar_to_map():
 
     for item in json_data["bind_jar_to_map"]:
 
-        jar = Hornet.find_one_by_name(jar_name=item["jar_name"])
+        jar = Jar.find_one_by_name(jar_name=item["jar_name"])
 
         if jar:
-            update = Hornet.bind_to_map(bind_jar_to_map=item)
+            update = Jar.bind_to_map(bind_jar_to_map=item)
             if update:
                 results.append(f"Update for item {item['jar_name']} OK")
         else:
@@ -137,14 +137,16 @@ def hornet_forms():
         new_jar = {"jar_name": form1.jar_name.data,
                    "latitude": goodlat,
                    "longitude": goodlong}
-
-        _new_jar = Hornet(**new_jar).create()
-        if _new_jar is True:
-            flash(f"Added {new_jar['jar_name']} information to db", "success")
-            redirect(url_for(".hornet_forms"))
-        else:
-            flash(f"{new_jar['jar_name']} encountered an issue", "danger")
-            redirect(url_for(".hornet_forms"))
+        try:
+            _new_jar = Jar(**new_jar).create()
+            if _new_jar is True:
+                flash(f"Added {new_jar['jar_name']} information to db", "success")
+                redirect(url_for(".hornet_forms"))
+            else:
+                flash(f"{new_jar['jar_name']} encountered an issue", "danger")
+                redirect(url_for(".hornet_forms"))
+        except Exception as e:
+            flash(f"{new_jar['jar_name']} encountered an issue : {e}", "danger")
     else:
         print(form1.errors)
 
@@ -152,7 +154,7 @@ def hornet_forms():
         # SELECTING A JAR
         selected_jar = form3.jar_name.data
 
-        _jar = Hornet.find_one_by_name(jar_name=selected_jar.__dict__["jar_name"])
+        _jar = Jar.find_one_by_name(jar_name=selected_jar.__dict__["jar_name"])
 
         form2 = UpdateJar()
         form2.jar_name.data = _jar.jar_name
@@ -170,7 +172,7 @@ def hornet_forms():
                       "latitude": goodlat,
                       "longitude": goodlong}
 
-        jar = Hornet.find_one_by_name(jar_name=update_jar["jar_name"])
+        jar = Jar.find_one_by_name(jar_name=update_jar["jar_name"])
 
         try:
             if jar:
@@ -189,10 +191,10 @@ def hornet_forms():
         binding = {"jar_name": jar_name.__dict__["jar_name"],
                    "map_name": map_name.__dict__["map_name"]}
 
-        jar = Hornet.find_one_by_name(jar_name=binding["jar_name"])
+        jar = Jar.find_one_by_name(jar_name=binding["jar_name"])
 
         if jar:
-            Hornet.bind_to_map(bind_jar_to_map=binding)
+            Jar.bind_to_map(bind_jar_to_map=binding)
 
         flash(f"Map '{binding['map_name']}' and Jar '{binding['jar_name']}' are related", "success")
 
@@ -200,9 +202,9 @@ def hornet_forms():
 
     if form5.submit5.data and form5.validate_on_submit():
         selected_jar = form5.jar_name.data
-        jar = Hornet.find_one_by_name(jar_name=selected_jar.__dict__["jar_name"])
+        jar = Jar.find_one_by_name(jar_name=selected_jar.__dict__["jar_name"])
         if jar:
-            delete = Hornet.delete(jar)
+            delete = Jar.delete(jar)
             if delete:
                 flash(f"Delete for item {selected_jar.__dict__['jar_name']} OK", "success")
             else:
@@ -212,7 +214,7 @@ def hornet_forms():
 
         redirect(url_for(".hornet_forms"))
 
-    return render_template("/hornets/add_jar.html",
+    return render_template("/jars/add_jar.html",
                            addform=form1,
                            updateform=form2,
                            showjar=form3,
@@ -222,21 +224,21 @@ def hornet_forms():
 
 @hornet_bp.route("/table", methods=["GET", "POST"])
 def table_jars():
-    all_jars = Hornet.list()
+    all_jars = Jar.list()
 
     all_maps = Map.list()
 
     binder = BindMapToJar()
 
-    return render_template("/hornets/table.html",
+    return render_template("/jars/table.html",
                            jars=all_jars, binder=binder, maps=all_maps)
 
 
 @hornet_bp.route("/delete_jar_name=<string:jar_name>", methods=["DELETE", "POST", "GET"])
 def _jar_name_delete(jar_name):
-    jar = Hornet.find_one_by_name(jar_name=jar_name)
+    jar = Jar.find_one_by_name(jar_name=jar_name)
     if jar:
-        update = Hornet.delete(jar)
+        update = Jar.delete(jar)
         if update:
             flash(f"Delete for item {jar_name} OK", "success")
         else:
@@ -260,10 +262,10 @@ def _jar_on_map():
 
     print(f"-------------------{returneddata['map_name']}")
 
-    jar = Hornet.find_one_by_name(jar_name=returneddata["jar_name"])
+    jar = Jar.find_one_by_name(jar_name=returneddata["jar_name"])
 
     if jar:
-        update = Hornet.bind_to_map(bind_jar_to_map=returneddata)
+        update = Jar.bind_to_map(bind_jar_to_map=returneddata)
         if update:
             flash(f"Adding Map {returneddata['map_name']} for item {returneddata['jar_name']} OK", "success")
         else:
@@ -287,7 +289,7 @@ def csv_upload():
             if isinstance(csv_data, list):
                 for item in csv_data:
                     try:
-                        Hornet(**item).create()
+                        Jar(**item).create()
                     except TypeError as err:
                         flash(f"Error with data keyword : {err}")
             flash("Upload of data has finished")

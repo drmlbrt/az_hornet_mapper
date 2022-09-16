@@ -1,5 +1,5 @@
 from marshmallow import Schema, fields, post_dump, pre_load, post_load, pre_dump
-from HornetTracker.hornets.schemas.s_hornet import Hornet_D
+from HornetTracker.jars.schemas.s_jar import Hornet_D
 
 class Map_D(Schema):
     class Meta:
