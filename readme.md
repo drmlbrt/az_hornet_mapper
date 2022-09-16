@@ -94,31 +94,34 @@ With the forms you can edit and add information.
 > This means, that you can add, read, update and read information in the database. 
 > I think that the "blocks" in the form are understandable. 
 
-### CSV Bulk data upload feature
+### Dummy Data generator
 
-You can now upload CSV data as long string. It saves you a lot of time.
-An Example of the data is inside the text field visible. You can use that example for your own upload.
+In the 'modules' folder you can find two scripts that help generate quickly some data around Ghent. Afterwards you can add observations to the cretaed jars. 
+
 
 
 ### Improvements?
-Well, be my guest. 
-I intend to add a form to the interface, so you can add and change the csv file. If someone has better knowledge
-of Flask or HTML and who can/will generate a front end. Please do so. It will be greatly appreciated.
-- added table buttons to upload directly information on a map. 
-- added table buttons to delete data -> **it still has an error**
-- better formatting of the frontend with bootstrap.
+There are the following improvments added:
+- One class Map that generates a folium object containing linked information (observation linked to jar, jar linked to map)
+- Better error handling and testing
+- Generator for dummy data
+- Better front-end with some Bootstrap items and minor javascripting for dynamic form filling.
+- database has 3 tables : Maps, Jars, Observations
 
-"[160822]" added interactive map with geo location finder for Belgium. Works with API
+### Planned:
+- Filtering on observations
+- Filtering on Jars
+- Nicer select for Jars or Observation - dynamically select on search field
+- Plot a range of items on a Map (multiple jars without linking on a map)(Same for observations)
+- Timelaps? Observations during a time period
+- containerized application - Docker - then perform docker run "hornettracker"
+  - Updates can be downloaded from the Docker website. Would be helpfull for CICD lines during development
 
-"[160822]" added interactive popup on the interactive map - click for popup with geo information - no copy off the data 
 
-planned:
-- Nicer Frontend - done
-- Listing of information within frontend
-- Someone to help with frontend
-- Testing crowd
-- putting it online
+Far Future: I guess it must be able to suggest a search area where two beams 'headings' cross... But this is out of my scope of knowledge today.
 
+
+ 
 ### Images
 
 ![sample map](HornetTracker/images/map_sample.jpg)
@@ -129,11 +132,12 @@ planned:
 
 
 
-### Probably some issues
+### Probably some issues for running locally
 - Do you have enough rights on your machine?
 - Have you read the installation instructions?
 - Is the use of a local web server allowed on your machine? 
 - Check if your firewall is not blocking port 5000
+- Have you installed Python 3?
 
 ### Special Care for semicircle.py: !!! Do not forget this !!!
 I copied the information from the URL and replaced the main file of folium plugins.
