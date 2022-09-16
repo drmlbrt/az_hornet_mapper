@@ -23,7 +23,6 @@ Basically the following Python projects are in use:
 - Flask
 - Folium
 - Pandas
-- Folium Plugins SemiCircle
 
 And some modding is performed using a nice guys work : https://stackoverflow.com/questions/57227249/folium-how-can-i-change-fill-color-in-semicircle-plugin
 
@@ -38,7 +37,11 @@ And some modding is performed using a nice guys work : https://stackoverflow.com
 > pip install -r requirements.txt
 > '''
 ---
-> Run the code by opening a cmd or terminal window.
+> Run the code by opening a cmd or terminal window. 
+> '''
+> python main.py 
+> '''
+> The above code should run the application locally (use the Dummy Data generators inside the folder structure to quicly start)
 
 [//]: <> (Inserting Code)
 ```
@@ -139,6 +142,4 @@ Far Future: I guess it must be able to suggest a search area where two beams 'he
 - Check if your firewall is not blocking port 5000
 - Have you installed Python 3?
 
-### Special Care for semicircle.py: !!! Do not forget this !!!
-I copied the information from the URL and replaced the main file of folium plugins.
-After installation of the folium with pip, find the original semicircle.py and replace it with this one.
+
