@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, redirect, Blueprint, request, flash
+from flask import Flask, render_template, url_for, redirect, Blueprint, request, flash, Response
 from marshmallow import ValidationError
 from HornetTracker.map.models.map import Map
 from HornetTracker.map.schemas.s_map import Map_D, Map_L
@@ -95,6 +95,8 @@ def delete_map():
 
 @map_bp.route("/forms", methods=["GET", "POST"])
 def maps_forms():
+    Response.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains'
+
     form1 = AddMapForm()
     form2 = UpdateMap()
     form3 = ShowMap()

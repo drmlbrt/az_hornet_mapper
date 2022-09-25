@@ -1,6 +1,6 @@
 import json
 
-from flask import Flask, render_template, flash, json
+from flask import Flask, render_template, flash, json, make_response
 from flask_sqlalchemy import SQLAlchemy
 from flask_statistics import Statistics
 from HornetTracker.modules.csrf import csrf, CSRFError
@@ -107,6 +107,7 @@ def handle_exception(e):
 
 @app.route('/', methods=["GET"])
 def index():
+    make_response(), {"Access-Control-Allow-Origin": "*"}
     return render_template("index.html")
 
 # @app.route('/.well-known/host-meta', methods=["GET"])
