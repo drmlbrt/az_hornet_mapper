@@ -4,10 +4,45 @@ from flask import Flask, render_template, flash, json, make_response
 from flask_sqlalchemy import SQLAlchemy
 from flask_statistics import Statistics
 from HornetTracker.modules.csrf import csrf, CSRFError
-from werkzeug.exceptions import HTTPException
-import datetime
-
+from werkzeug.exceptions import HTTPException, BadRequest
+from flask_debugtoolbar import DebugToolbarExtension
+from logging.config import dictConfig
 import os
+import logging
+from flask import has_request_context, request
+from flask.logging import default_handler
+
+class RequestFormatter(logging.Formatter):
+    def format(self, record):
+        if has_request_context():
+            record.url = request.url
+            record.remote_addr = request.remote_addr
+        else:
+            record.url = None
+            record.remote_addr = None
+
+        return super().format(record)
+
+formatter = RequestFormatter(
+    '[%(asctime)s] %(remote_addr)s requested %(url)s\n'
+    '%(levelname)s in %(module)s: %(message)s'
+)
+default_handler.setFormatter(formatter)
+dictConfig({
+    'version': 1,
+    'formatters': {'default': {
+        'format': '[%(asctime)s] %(levelname)s in %(module)s: %(message)s',
+    }},
+    'handlers': {'wsgi': {
+        'class': 'logging.StreamHandler',
+        'stream': 'ext://flask.logging.wsgi_errors_stream',
+        'formatter': 'default'
+    }},
+    'root': {
+        'level': 'INFO',
+        'handlers': ['wsgi']
+    }
+})
 
 package_dir = os.path.dirname(
     os.path.abspath(__file__)
@@ -17,18 +52,25 @@ static = os.path.join(
 )
 
 app = Flask(__name__, instance_relative_config=True)
+app.debug = False
 app.config.from_object('config')
 app.config.from_pyfile('config.py')
 app.static_folder = static
+# removing the default handler
+app.logger.removeHandler(default_handler)
 
 db = SQLAlchemy(app)
+
+toolbar = DebugToolbarExtension(app)
 
 
 ##### STATISTICS COLLECTOR
 class Request(db.Model):
     __tablename__ = "request"
 
-    index = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    index = db.Column(db.Integer,
+                      primary_key=True,
+                      autoincrement=True)
     response_time = db.Column(db.Float)
     date = db.Column(db.DateTime)
     method = db.Column(db.String)
@@ -105,9 +147,17 @@ def handle_exception(e):
     return response
 
 
+@app.errorhandler(BadRequest)
+def handle_bad_request(e):
+    return 'bad request!', 400
+
+
 @app.route('/', methods=["GET"])
 def index():
     make_response(), {"Access-Control-Allow-Origin": "*"}
+    make_response(), {"Strict-Transport-Security": "max-age=31536000; includeSubDomains"}
+    make_response(), {'Content-Security-Policy': "default-src 'self'"}
+
     return render_template("index.html")
 
 # @app.route('/.well-known/host-meta', methods=["GET"])

@@ -1,20 +1,19 @@
 from flask_wtf import FlaskForm
-from wtforms import (SelectField, SubmitField, StringField,
-                     BooleanField, DateTimeField, RadioField,
-                     TextAreaField, IntegerField, ValidationError, EmailField, validators, FloatField, HiddenField)
-from wtforms.validators import InputRequired, Length, DataRequired
+from wtforms import (SubmitField, StringField,
+                     TextAreaField, validators, FloatField, HiddenField)
+from wtforms.validators import InputRequired
 from wtforms_sqlalchemy.fields import QuerySelectField
 from HornetTracker.jars.models.jar import Jar
 from HornetTracker.map.models.map import Map
-from HornetTracker.modules.workers import longlatformatter
 
 
 class AddJar(FlaskForm):
-    jar_name = StringField("Jar Name", [validators.DataRequired(), validators.Length(min=3, max=60)])
+    jar_name = StringField("Jar Name",
+                           [validators.DataRequired(),
+                            validators.Length(min=3, max=60)])
     longitude = StringField("Longitude", [InputRequired()])
     latitude = StringField("Latitude", [InputRequired()])
     submit1 = SubmitField("Add Jar", [InputRequired()])
-
 
 
 class ShowJar(FlaskForm):

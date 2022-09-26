@@ -95,7 +95,6 @@ def delete_map():
 
 @map_bp.route("/forms", methods=["GET", "POST"])
 def maps_forms():
-    Response.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains'
 
     form1 = AddMapForm()
     form2 = UpdateMap()

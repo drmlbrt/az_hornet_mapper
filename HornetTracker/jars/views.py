@@ -1,13 +1,10 @@
-import copy
-import os
-from flask import Flask, render_template, url_for, redirect, Blueprint, flash, request, Response
-import time
+
+from flask import render_template, url_for, redirect, Blueprint, flash, request
 from marshmallow import ValidationError
 from HornetTracker.jars.models.jar import Jar
 from HornetTracker.map.models.map import Map
 from HornetTracker.jars.schemas.s_jar import Hornet_D, Hornet_L
-from HornetTracker.jars.forms.f_jar import AddJar, UpdateJar, ShowJar, BindMapToJar, DeleteJar, CsvReadData, \
-    DeleteButtonJar
+from HornetTracker.jars.forms.f_jar import AddJar, UpdateJar, ShowJar, BindMapToJar, DeleteJar, CsvReadData
 from HornetTracker.modules.csv_reader import csv_reader
 from HornetTracker.modules.workers import longlatformatter
 
@@ -88,9 +85,11 @@ def jar_delete():
         if jar:
             update = Jar.delete(jar)
             if update:
-                results.append(f"Delete for item {item['jar_name']} OK")
+                results.append(
+                    f"Delete for item {item['jar_name']} OK")
             else:
-                results.append(f"Delete for item {item['jar_name']} FAILED - Does it exist?")
+                results.append(
+                    f"Delete for item {item['jar_name']} FAILED - Does it exist?")
         else:
             return {"message": "Something went wrong with the update"}, 400
 
@@ -113,9 +112,11 @@ def add_jar_to_map():
         if jar:
             update = Jar.bind_to_map(bind_jar_to_map=item)
             if update:
-                results.append(f"Update for item {item['jar_name']} OK")
+                results.append(
+                    f"Update for item {item['jar_name']} OK")
         else:
-            results.append(f"Update for item {item['jar_name']} FAILED - there is none "), 400
+            results.append(
+                f"Update for item {item['jar_name']} FAILED - there is none "), 400
 
     return {"Update_Results": results}, 200
 
@@ -140,11 +141,15 @@ def hornet_forms():
         try:
             _new_jar = Jar(**new_jar).create()
             if _new_jar is True:
-                flash(f"Added {new_jar['jar_name']} information to db", "success")
-                redirect(url_for(".hornet_forms"))
+                flash(
+                    f"Added {new_jar['jar_name']} information to db", "success")
+                redirect(
+                    url_for(".hornet_forms"))
             else:
-                flash(f"{new_jar['jar_name']} encountered an issue", "danger")
-                redirect(url_for(".hornet_forms"))
+                flash(
+                    f"{new_jar['jar_name']} encountered an issue", "danger")
+                redirect(
+                    url_for(".hornet_forms"))
         except Exception as e:
             flash(f"{new_jar['jar_name']} encountered an issue : {e}", "danger")
     else:
@@ -196,7 +201,8 @@ def hornet_forms():
         if jar:
             Jar.bind_to_map(bind_jar_to_map=binding)
 
-        flash(f"Map '{binding['map_name']}' and Jar '{binding['jar_name']}' are related", "success")
+        flash(
+            f"Map '{binding['map_name']}' and Jar '{binding['jar_name']}' are related", "success")
 
         redirect(url_for(".hornet_forms"))
 
@@ -206,9 +212,14 @@ def hornet_forms():
         if jar:
             delete = Jar.delete(jar)
             if delete:
-                flash(f"Delete for item {selected_jar.__dict__['jar_name']} OK", "success")
+                flash(
+                    f"Delete for item {selected_jar.__dict__['jar_name']} OK",
+                    "success")
             else:
-                flash(f"Delete for item {selected_jar.__dict__['jar_name']} FAILED - Does it exist?", "danger")
+                flash(
+                    f"Delete for item {selected_jar.__dict__['jar_name']} "
+                    f"FAILED - Does it exist?",
+                    "danger")
         else:
             flash("Something went wrong with the update", "danger"), 400
 
@@ -234,7 +245,8 @@ def table_jars():
                            jars=all_jars, binder=binder, maps=all_maps)
 
 
-@hornet_bp.route("/delete_jar_name=<string:jar_name>", methods=["DELETE", "POST", "GET"])
+@hornet_bp.route("/delete_jar_name=<string:jar_name>",
+                 methods=["DELETE", "POST", "GET"])
 def _jar_name_delete(jar_name):
     jar = Jar.find_one_by_name(jar_name=jar_name)
     if jar:
@@ -249,7 +261,8 @@ def _jar_name_delete(jar_name):
         return {"message": "Something went wrong with the update"}, 400
 
 
-@hornet_bp.route("/add_jar_on_map", methods=["POST", "GET"])
+@hornet_bp.route("/add_jar_on_map",
+                 methods=["POST", "GET"])
 def _jar_on_map():
     returneddata = {}
 
@@ -267,9 +280,15 @@ def _jar_on_map():
     if jar:
         update = Jar.bind_to_map(bind_jar_to_map=returneddata)
         if update:
-            flash(f"Adding Map {returneddata['map_name']} for item {returneddata['jar_name']} OK", "success")
+            flash(
+                f"Adding Map {returneddata['map_name']} "
+                f"for item {returneddata['jar_name']} OK",
+                "success")
         else:
-            flash(f"Adding Map {returneddata['map_name']} for item {returneddata['jar_name']} FAILED - Does it exist?", "failed")
+            flash(
+                f"Adding Map {returneddata['map_name']} "
+                f"for item {returneddata['jar_name']} FAILED - Does it exist?",
+                  "failed")
 
         return redirect(url_for(".table_jars"))
 
@@ -298,5 +317,6 @@ def csv_upload():
 
         return redirect(url_for(".table_jars"))
 
-    return render_template("/observations/csv_uploader.html", csv_form=csv_form)
+    return render_template("/observations/csv_uploader.html",
+                           csv_form=csv_form)
 

@@ -49,3 +49,4 @@ WTForms-SQLAlchemy==0.3
 zipp==3.8.1
 clipboard~=0.0.4
 selenium~=4.4.0
+flask-debugtoolbar
