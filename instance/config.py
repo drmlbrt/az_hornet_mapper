@@ -8,7 +8,7 @@ import os
 # basedir = os.path.abspath(os.path.dirname(__file__))
 PROJECT_ROOT = os.path.dirname(os.path.realpath(__file__))
 
-SECRET_KEY = "thisisasecretkey"
+SECRET_KEY = "8zNsYshuo8bu8KRlzkdmOAUydRxHZ9IrRoxWwSY6Ayrh5gd87y5nEEQ9S2eQWoEoPdxNjgEzdTdvcOm41JdU_fN35K2WAQb2QVlwwNfHoFlqBUfGqMMfDJS162dVwKZKf_09shAU0tb-QHCzOglVx-mI9lQgqeC3Akkl4FrD"
 SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(PROJECT_ROOT, "hornets.sqlite")
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 JSON_SORT_KEYS = False
