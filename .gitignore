@@ -1,5 +1,6 @@
 /venv/
 /instance/
+/instance/config.py
 /output/
 /init_db.py
 /.mypy_cache/
